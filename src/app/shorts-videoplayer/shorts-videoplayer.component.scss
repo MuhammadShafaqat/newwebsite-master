@@ -1,0 +1,43 @@
+/* styles for the shorts-videoplayer component */
+.carousel {
+  display: flex;
+  justify-content: center;
+}
+.carousel-container {
+  position: relative;
+  //width: 25%; /* Set the width of the carousel container */
+
+  @media screen and (max-width: 800px) {
+    width: 100%;
+  }
+}
+
+/*Concerns everything*/
+.carousel-slide {
+  display: flex;
+  //justify-content: space-around; /* Center the carousel items horizontally */
+  //align-items: center; /* Center the carousel items vertically */
+  transition: transform 0.3s ease;
+  height: 98.6%;
+  //height: 100%; /* Ensure the carousel slide takes full height */
+}
+
+
+/*Concerns content itself*/
+.carousel-item {
+  flex: 0 0 100%; /* Ensure each carousel item takes full width */
+  display: flex;
+  justify-content: center; /* Center the content horizontally within the carousel item */
+  align-items: center; /* Center the content vertically within the carousel item */
+}
+
+/* Position arrows */
+.arrows {
+  background-color: #ed413d;
+  color: white;
+  border: none;
+  text-decoration: none;
+  font-size: 50px;
+  height: 100%;
+  width: 68px;
+}

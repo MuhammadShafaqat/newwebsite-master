@@ -1,0 +1,42 @@
+.videotitle {
+  background-color: #ed413d;
+  font-size: 20px;
+  word-wrap: break-word;
+  //border-top-right-radius: 5px;
+  //border-top-left-radius: 5px;
+  text-align: center;
+  color: white;
+  //padding-bottom: 50px;
+  width: 270px;
+  height:68px;
+  animation: fade-in-out 3s; // Use the fade-in-out animation with a duration of 5 seconds, easing, and infinite loop
+}
+
+.short-container {
+  color: rgb(232, 230, 227);
+  margin: auto;
+  //padding-top: 80px;
+  //text-align: center;
+  font-size: 200%;
+  font-weight: bold;
+  position: center;
+}
+
+.short-video {
+  //border-radius: 5px;
+  // max-height: 480px;
+  
+  height: 480px;
+  width: 270px;
+  // max-width: 270px;
+  animation: fade-in-out 3s; // Use the fade-in-out animation with a duration of 5 seconds, easing, and infinite loop
+}
+
+@keyframes fade-in-out {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

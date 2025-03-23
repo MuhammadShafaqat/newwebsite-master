@@ -1,0 +1,25 @@
+<nav class="navbar">
+  <div class="title">
+    <a routerLink="">
+      <img
+        class="pageLogo"
+        src="assets/logo/starlinelessbigger.png"
+        alt="derbuezer"
+      />
+    </a>
+
+    <h1>{{ webseitenTitel }}</h1>
+  </div>
+
+  <div class="links">
+    <a routerLink="">Home</a>
+    <a [routerLink]="['']" fragment="kontakt-anchor">Mitmachen</a>
+    <a [routerLink]="['']" fragment="werte-anchor">Werte</a>
+    <a [routerLink]="['/spenden']">Spenden</a>
+    <a [routerLink]="['/shop']">Shop</a>
+    <a [routerLink]="['/actions']">Aktionen</a>
+    <a [routerLink]="['/events']">Events</a>
+    <a [routerLink]="['/presse']">Pressemitteilung</a>
+  </div>
+</nav>
+<div class="content-area"></div>
