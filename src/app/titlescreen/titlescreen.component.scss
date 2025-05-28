@@ -1,26 +1,121 @@
-.title-screen {
+.slider-wrapper {
+  width: 100%;
+  border-top: 40px solid #f44336; // red top border
+  border-bottom: 40px solid #f44336; // red bottom border
+  box-sizing: border-box;
+  margin-top: 3rem; 
+ 
+}
+
+
+.slider-container {
+  position: relative;
+  width: 100%;
+  height: 90vh;
   overflow: hidden;
-  // background: rgba(96, 108, 131, 0.565);
 }
 
-.articles {
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  padding: 0 10rem;
+.slider-item {
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  &.active {
+    display: block;
+    animation: fade 1s ease-in-out;
+  }
 }
 
-.link {
+.media {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+   background-color: black; /* Optional: avoid white bars */
+}
+
+.image-wrapper {
+  position: relative; 
+  width: 100vw;
+  height: 100%;
+  overflow: hidden;
+}
+.image-wrapper img {
+ object-fit: fill;
+ 
+ }
+
+
+.caption {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  font-size: 2.2rem;
+  font-weight: bold;
+  text-shadow: 2px 2px 8px black;
+  // background-color: rgba(0, 0, 0, 0.3);
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+}
+
+.nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.3rem;
+  background-color: transparent;
+  color: white;
+  border: none;
+  padding: 1rem;
   cursor: pointer;
-  min-height: 5rem;
-  width: 150px; //no fixed measurements like this!
-  background-color: red;
+  z-index: 2;
+ 
+}
+.nav-button.prev {
+  left: 0;
 }
 
-.link:hover {
-  background-color: rgba(250, 27, 27, 0.559);
+.nav-button.next {
+  right: 0;
 }
 
-li {
-  margin: 10px 0;
+
+.indicator-wrapper {
+  position: absolute;
+  bottom: 15px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.indicator {
+  width: 40px;
+  height: 3px;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 5px;
+  transition: background-color 0.3s;
+
+  &.active {
+    background-color: white;
+  }
+}
+
+@media (min-width: 768px) {
+  .media {
+    object-fit: cover; /* better on desktops/tablets */
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0.5;
+  }
+  to {
+    opacity: 1;
+  }
 }
