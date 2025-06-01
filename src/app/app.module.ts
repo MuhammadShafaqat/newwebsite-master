@@ -20,6 +20,7 @@ import { ShortsVideoPlayer } from './shorts-videoplayer/shorts-videoplayer.compo
 import { TodolistComponent } from './todolist/todolist.component';
 import { HomeComponent } from './home/home.component';
 import { RouterModule } from '@angular/router';
+import { AboutComponent } from './about/about.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,6 +38,7 @@ import { RouterModule } from '@angular/router';
     ShortsVideoPlayer,
     HomeComponent,
     LangComponent,
+  
   ],
   imports: [
     //only modules
@@ -44,8 +46,9 @@ import { RouterModule } from '@angular/router';
     ShortsVideoPlayerModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    CommonModule, // Explicitly importing CommonModule
-  ],
+    CommonModule,
+    AboutComponent
+],
   providers: [],
   bootstrap: [AppComponent],
 })
