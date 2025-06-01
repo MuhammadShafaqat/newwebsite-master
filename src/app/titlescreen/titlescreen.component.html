@@ -1,5 +1,5 @@
-<div class="slider-wrapper">
-  <div class="slider-container">
+<div class="slider-wrapper" >
+  <div class="slider-container"  >
     <div
       class="slider-item"
       *ngFor="let item of items; let i = index; trackBy: trackByFn"
@@ -15,7 +15,7 @@
           (loadedmetadata)="setVideoDuration($event)"
         ></video>
       </ng-container>
-      <ng-template #imageTemplate>
+      <ng-template #imageTemplate id="image-template">
         <div class="image-wrapper">
           <img class="media" [src]="item.src" />
           <div class="caption">{{ item.caption }}</div>
