@@ -1,9 +1,3 @@
-<h2>Aufgaben für uns</h2>
-<ul>
-  <li><b>Wireframes machen</b></li>
-  <li><b>Mockups machen</b></li>
-</ul>
-<br /><br />
 <h3>Component order</h3>
 
 <h4>Home</h4>
@@ -48,7 +42,7 @@
   </li>
 </ul>
 
-<h4>Admin panel</h4>
+<h4>Admin panel / Admin Dashboard</h4>
 <ul>
   <li>
     <b></b>
@@ -100,7 +94,10 @@
         <a href="https://jungealternative.net/">[CLICK ME]</a>
         <br />
         Animation templates:
-        <a href="https://dev.to/tiaeastwood/super-simple-css-animation-for-fade-in-on-page-load-2p8m">[CLICK ME!]</a>
+        <a
+          href="https://dev.to/tiaeastwood/super-simple-css-animation-for-fade-in-on-page-load-2p8m"
+          >[CLICK ME!]</a
+        >
       </p>
     </li>
     <li>
@@ -208,16 +205,22 @@ und s Simplified BKP logo?
         inserted into the video player.
       </p>
       <p>
-        If possible, use <a href="https://github.com/LuanRT/YouTube.js">YouTube.js</a> to automatically detect the most
-        recent video from <a href="https://www.youtube.com/channel/UCiIssAwHJ33D9xT07Fmsg3w">our channel</a>.
-        Ensure that results are cached on the server for some time, to avoid our server being blocked by YouTube.
+        If possible, use
+        <a href="https://github.com/LuanRT/YouTube.js">YouTube.js</a> to
+        automatically detect the most recent video from
+        <a href="https://www.youtube.com/channel/UCiIssAwHJ33D9xT07Fmsg3w"
+          >our channel</a
+        >. Ensure that results are cached on the server for some time, to avoid
+        our server being blocked by YouTube.
       </p>
     </li>
     <li>
       <p>
         The video player needs to be styled according to our specifications. You
         can use this icon for the arrows:
-        <a href="https://fontawesome.com/icons/chevron-left?f=classic&s=solid"><br />[CLICK ME!]</a>
+        <a href="https://fontawesome.com/icons/chevron-left?f=classic&s=solid"
+          ><br />[CLICK ME!]</a
+        >
       </p>
     </li>
     <li>
@@ -227,8 +230,9 @@ und s Simplified BKP logo?
         or a normal video in the admin panel.
       </p>
       <p>
-        If you can use the YouTube.js library, you can use that to detect whether a video is a short or not.
-        In that case, there is no need to implement video handling in the admin panel.
+        If you can use the YouTube.js library, you can use that to detect
+        whether a video is a short or not. In that case, there is no need to
+        implement video handling in the admin panel.
       </p>
     </li>
     <li>
@@ -236,7 +240,10 @@ und s Simplified BKP logo?
         The video player should be in the form of a media carousel, where the
         previous video and next video are slightly tilted and visible on either
         side. This is to make it clear that one can flip through the videos.
-        <a href="https://elementor.com/help/wp-content/uploads/2024/01/coverflow-width.png">Click me</a>
+        <a
+          href="https://elementor.com/help/wp-content/uploads/2024/01/coverflow-width.png"
+          >Click me</a
+        >
       </p>
     </li>
   </ul>
@@ -311,14 +318,18 @@ Will alli drü farbe passed nöd so zu Ussepolitik und Bürgernähe....
       <p>
         In the about component you find firstly the board of directors, similar
         to here:
-        <a href="https://bkps.ch/HTML/startseite#ueberuns_vorsitzender">[CLICK ME!]</a>
+        <a href="https://bkps.ch/HTML/startseite#ueberuns_vorsitzender"
+          >[CLICK ME!]</a
+        >
       </p>
     </li>
     <li>
       <p>
         Similar to the old website we want to show who is supporting us. Styling
         is completely up to you! Here is the example:
-        <a href="https://bkps.ch/HTML/startseite#ueberuns_unterstuetzer">[CLICK ME!]</a>
+        <a href="https://bkps.ch/HTML/startseite#ueberuns_unterstuetzer"
+          >[CLICK ME!]</a
+        >
       </p>
     </li>
   </ul>
@@ -330,33 +341,46 @@ Will alli drü farbe passed nöd so zu Ussepolitik und Bürgernähe....
         We absolutely need a login option, like on the old website. Here we can
         upload posts and shorts via YouTube embed link and switch the infobanner
         on and off. Login must be secure because a hacker attack would be fatal.
-      </p>
-    </li>
-    <li>
-      <p>Add new Videos to the slider. This will not be necessary if you use the YouTube.js library.</p>
-    </li>
-    <li>
-      <p>
-        The login needs to be on a separate page, the link to which should not be shown on other places on the website.
-        We always just open the URL directly, from memory or with a bookmark.
+        <a
+          href="https://media.geeksforgeeks.org/wp-content/uploads/20221210193200/ADMIN-PANEL-768.png"
+        >
+          rough example of an admin panel / dashboard
+        </a>
       </p>
     </li>
     <li>
       <p>
-        An account has a username and password. Due to the low number of accounts we will be using in the forseeable
-        future, deletion will be manually handled with database access.
+        Add new Videos to the slider. This will not be necessary if you use the
+        YouTube.js library.
       </p>
     </li>
     <li>
       <p>
-        For account creation, it will be sufficient to have a private script which creates an account in the database,
-        using advanced hashing and salting techniques for the password (preferably Argon2id).
+        The login needs to be on a separate page, the link to which should not
+        be shown on other places on the website. We always just open the URL
+        directly, from memory or with a bookmark.
+      </p>
+    </li>
+    <li>
+      <p>
+        An account has a username and password. Due to the low number of
+        accounts we will be using in the forseeable future, deletion will be
+        manually handled with database access.
+      </p>
+    </li>
+    <li>
+      <p>
+        For account creation, it will be sufficient to have a private script
+        which creates an account in the database, using advanced hashing and
+        salting techniques for the password (preferably Argon2id).
       </p>
       <p>
-        This script should not be available to the public and only be accessible by running it on the server.
+        This script should not be available to the public and only be accessible
+        by running it on the server.
       </p>
       <p>
-        If you have a better idea to securely implement this, you are free to do so.
+        If you have a better idea to securely implement this, you are free to do
+        so.
       </p>
     </li>
     <li>
@@ -381,8 +405,8 @@ Will alli drü farbe passed nöd so zu Ussepolitik und Bürgernähe....
     </li>
     <li>
       <p>
-        Activate and deactivate Infobanner and change the message of it, as well as
-        the link it links to. (This is used for instance, when we are running
+        Activate and deactivate Infobanner and change the message of it, as well
+        as the link it links to. (This is used for instance, when we are running
         for election, or collecting signatures for a petition, which may be
         linked to another website).
       </p>
@@ -415,12 +439,15 @@ Will alli drü farbe passed nöd so zu Ussepolitik und Bürgernähe....
         The donation banner, which is floating, with the button "Jetzt Spenden",
         as well as the "Spenden" button in the navbar and on the banner should
         alll lead to:
-        <a href="https://bkps.ch/HTML/spenderschaft/formular.php">[CLICK ME!]</a>
+        <a href="https://bkps.ch/HTML/spenderschaft/formular.php"
+          >[CLICK ME!]</a
+        >
       </p>
     </li>
     <li>
       <p>
-        Additionally, the donation banner contains the button "Aktiv Werden", which should link to the join form.
+        Additionally, the donation banner contains the button "Aktiv Werden",
+        which should link to the join form.
       </p>
     </li>
   </ul>
@@ -434,7 +461,9 @@ Will alli drü farbe passed nöd so zu Ussepolitik und Bürgernähe....
       <p>
         Additionally amazon books can be directly linked with a url to amazon,
         and so you can't really order them. something like this:
-        <a href="https://bkps.ch/HTML/startseite.php#buecher">[CLICK ME!]</a>
+        <a href="https://juso-shop.ch/produktkategorie/merchandise/kleidung/"
+          >[CLICK ME!]</a
+        >
       </p>
     </li>
     <li>
@@ -475,20 +504,22 @@ Will alli drü farbe passed nöd so zu Ussepolitik und Bürgernähe....
   <ul>
     <li>
       <p>
-        A page, where we can create a press info statements. These statements should be stored in the database and shown
-        on the homepage.
+        A page, where we can create a press info statements. These statements
+        should be stored in the database and shown on the homepage.
       </p>
     </li>
     <li>
       <p>
-        Additionally, a PDF file should be created for each press statement, which can be downloaded.
-        A press statement has a title, image, text and in corners the logo and
-        contact details and the creation date.
+        Additionally, a PDF file should be created for each press statement,
+        which can be downloaded. A press statement has a title, image, text and
+        in corners the logo and contact details and the creation date.
       </p>
       <p>
-        After the PDF was generated, the page should offer us to send it to various email addresses,
-        which are stored in the database. It is important that we are able to add and remove email addresses from the
-        admin panel, as well as being able toggle certain email addresses off for a certain press statement.
+        After the PDF was generated, the page should offer us to send it to
+        various email addresses, which are stored in the database. It is
+        important that we are able to add and remove email addresses from the
+        admin panel, as well as being able toggle certain email addresses off
+        for a certain press statement.
       </p>
     </li>
   </ul>
@@ -525,11 +556,14 @@ Will alli drü farbe passed nöd so zu Ussepolitik und Bürgernähe....
         way we could automatically translate the website in any language the
         user would like. I know that you can use google translate, but can we
         limit the languages to: German, Italian, French and English?
-        <a href="https://www.w3schools.com/howto/tryit.asp?filename=tryhow_google_translate">[CLICK ME!]</a>
+        <a
+          href="https://www.w3schools.com/howto/tryit.asp?filename=tryhow_google_translate"
+          >[CLICK ME!]</a
+        >
       </p>
       <p>
-        By default, the website should be in German. You could also implement that the website tries to match a user's
-        preferred language.
+        By default, the website should be in German. You could also implement
+        that the website tries to match a user's preferred language.
       </p>
     </li>
     <li>
@@ -541,7 +575,8 @@ Will alli drü farbe passed nöd so zu Ussepolitik und Bürgernähe....
   <ul>
     <li>
       <p>
-        Questions with a arrow down, that opens and closes the answer. Similar to
+        Questions with a arrow down, that opens and closes the answer. Similar
+        to
         <a href="https://bsw-vg.de/faq/">[CLICK ME!]</a>
       </p>
     </li>
