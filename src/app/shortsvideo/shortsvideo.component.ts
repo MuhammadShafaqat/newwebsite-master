@@ -1,27 +1,25 @@
-import { Component, Input } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { Component, Input, OnChanges, ElementRef, ViewChild } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-shorts-video', // Verify the correct selector here
+  selector: 'app-shorts-video',
   templateUrl: './shortsvideo.component.html',
   styleUrls: ['./shortsvideo.component.scss'],
 })
-export class ShortsVideo {
-  @Input() videoInfo: any = '';
-  dangerousVideoUrl: string = '';
-  videoUrl: any;
+export class ShortsVideo implements OnChanges {
+  @Input() videoInfo: any;
+  @Input() isActive: boolean = false;
+
+  @ViewChild('iframeRef', { static: true }) iframeRef!: ElementRef<HTMLIFrameElement>;
+
+  videoUrl: SafeResourceUrl = '';
 
   constructor(private sanitizer: DomSanitizer) {}
 
-  ngOnInit() {
-    this.createVideoUrl();
-  }
-
-  createVideoUrl() {
-    this.dangerousVideoUrl = 'https://www.youtube.com/embed/' + this.videoInfo.videoId;
-
-    this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      this.dangerousVideoUrl
-    );
+  ngOnChanges(): void {
+    const muteParam = this.isActive ? '0' : '1';
+    const autoplayParam = this.isActive ? '1' : '0';
+    const url = `https://www.youtube.com/embed/${this.videoInfo.videoId}?autoplay=${autoplayParam}&mute=${muteParam}&enablejsapi=1&origin=http://localhost`;
+    this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 }

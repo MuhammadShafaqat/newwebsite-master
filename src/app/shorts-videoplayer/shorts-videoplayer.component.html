@@ -1,23 +1,31 @@
-<div class="carousel">
-  <div *ngIf="items.length > 0" class="carousel-container">
-    <div class="carousel-slide" [ngClass]='{ left: currentIndex > 0, right: currentIndex < items.length - 1}'>
-      <!-- Iterate over items and apply the active class to the current index -->
+<div class="carousel" *ngIf="items.length > 0">
+  <div class="carousel-container">
+    <div class="carousel-slide">
 
-      <button class="arrows" (click)="prevVideo()" [disabled]="currentIndex === 0">
-        〈
-      </button>
-
-
-      <div *ngFor="let item of items; let i = index">
-        <div class="carousel-item" *ngIf="i === currentIndex">
-          <app-shorts-video [videoInfo]="item"></app-shorts-video>
-        </div>
+      <!-- Left Video (wrap around) -->
+      <div class="carousel-item side" (click)="selectVideo(getWrappedIndex(currentIndex - 1))">
+        <app-shorts-video
+          [videoInfo]="items[getWrappedIndex(currentIndex - 1)]"
+          [isActive]="false"
+        ></app-shorts-video>
       </div>
 
-      
-      <button class="arrows" (click)="nextVideo()" [disabled]="currentIndex === items.length - 1">
-        〉
-      </button>
+      <!-- Center Video -->
+      <div class="carousel-item center">
+        <app-shorts-video
+          [videoInfo]="items[currentIndex]"
+          [isActive]="true"
+        ></app-shorts-video>
+      </div>
+
+      <!-- Right Video (wrap around) -->
+      <div class="carousel-item side" (click)="selectVideo(getWrappedIndex(currentIndex + 1))">
+        <app-shorts-video
+          [videoInfo]="items[getWrappedIndex(currentIndex + 1)]"
+          [isActive]="false"
+        ></app-shorts-video>
+      </div>
+
     </div>
   </div>
 </div>
