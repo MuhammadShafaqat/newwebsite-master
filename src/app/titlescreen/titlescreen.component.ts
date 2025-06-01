@@ -9,8 +9,8 @@ export class TitlescreenComponent implements OnInit, OnDestroy {
   items = [
     {
       id: 1,
-      type: 'image',
-      src: 'https://bkps.ch/IMG/slider/gruppenfoto2.webp',
+      type: 'video',
+      src: '/assets/videos/movie.mp4',
       caption: 'Jung, frisch bürgernah',
     },
     {
@@ -30,6 +30,12 @@ export class TitlescreenComponent implements OnInit, OnDestroy {
       type: 'image',
       src: 'https://bkps.ch/IMG/slider/gruppenfoto2.webp',
       caption: 'Für unsere Rechte',
+    },
+        {
+      id: 5,
+      type: 'image',
+      src: 'https://bkps.ch/IMG/slider/gruppenfoto2.webp',
+      caption: 'Jung, frisch bürgernah',
     },
   ];
 
