@@ -1,5 +1,31 @@
+.values-container {
+  margin-top: 2rem;
+  .top-row {
+    display: flex;
+    justify-content: center;
+     flex-wrap: wrap; // ✅ allows wrapping on small screens
+    gap: 40px;
+    margin-bottom: 20px;
+
+    .extra-box {
+      width: 430px;
+      height: 150px;
+      background-color: lightblue;
+      border-radius: 10px;
+      box-shadow: 3px 5px 10px -2px rgba(0, 0, 0, 0.3);
+      padding: 2rem;
+      text-align: center;
+
+      @media (max-width: 830px) {
+        width: 80%;
+        height: auto;
+        margin-bottom: 1rem;
+      }
+    }
+  }
+}
+
 .values {
-  // background: rgba(96, 108, 131, 0.565);
   display: flex;
   justify-content: center;
   flex-direction: row;
@@ -18,9 +44,6 @@
     border-radius: 5%;
     box-shadow: 3px 5px 10px -2px rgba(0, 0, 0, 0.48);
     height: 350px;
-
-    @media (max-width: 830px) {
-    }
   }
 
   .arbeit {

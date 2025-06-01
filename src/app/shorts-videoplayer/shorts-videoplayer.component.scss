@@ -16,11 +16,35 @@
 }
 
 .carousel-item {
+  position: relative;
   transition: transform 0.3s ease;
   cursor: pointer;
+  overflow: hidden;
 }
 
 .carousel-item.center {
   transform: scale(1.1);
   cursor: default;
+}
+.carousel-item.side app-shorts-video {
+  filter: blur(4px);
+  transform: scale(0.95);
+  pointer-events: none; /* Prevent clicks from going to video inside */
+}
+
+.carousel-item.center app-shorts-video {
+  filter: none;
+  transform: scale(1.1);
+  pointer-events: auto;
+  cursor: default;
+}
+
+/* Overlay to make entire side item clickable */
+.clickable-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
 }

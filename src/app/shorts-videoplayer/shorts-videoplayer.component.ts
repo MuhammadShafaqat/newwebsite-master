@@ -27,19 +27,20 @@ export class ShortsVideoPlayer implements AfterViewInit {
     setTimeout(() => this.updateVideoStates(), 0);
   }
 
-  selectVideo(index: number) {
-    if (index >= 0 && index < this.items.length && index !== this.currentIndex) {
-      this.currentIndex = index;
-      this.updateVideoStates();
-    }
+selectVideo(index: number) {
+  const wrappedIndex = this.getWrappedIndex(index);
+  if (wrappedIndex !== this.currentIndex) {
+    this.currentIndex = wrappedIndex;
+    this.updateVideoStates();
   }
+}
 
   updateVideoStates() {
     const iframes = this.videoFrames.toArray();
     for (let i = 0; i < iframes.length; i++) {
       const iframe = iframes[i].nativeElement;
-      const idx = this.currentIndex + i - 1;
-      if (idx === this.currentIndex) {
+      // const idx = this.currentIndex + i - 1;
+      if (i === this.currentIndex) {
         iframe.contentWindow?.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
         iframe.contentWindow?.postMessage('{"event":"command","func":"unMute","args":""}', '*');
       } else {
@@ -48,8 +49,11 @@ export class ShortsVideoPlayer implements AfterViewInit {
       }
     }
   }
+
   getWrappedIndex(index: number): number {
   const len = this.items.length;
   return ((index % len) + len) % len;
 }
+
+
 }

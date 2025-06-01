@@ -18,6 +18,13 @@ export class ValuesComponent {
   }
 
   setupGsap(): void {
+      gsap.from('.extra-box', {
+    scrollTrigger: '.top-row',
+    duration: 1,
+    opacity: 0,
+    y: -50,
+    stagger: 0.3,
+  });
     gsap.from('.arbeit', {
       scrollTrigger: '.values-container',
       duration: 0.75,

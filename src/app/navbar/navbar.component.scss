@@ -49,7 +49,8 @@
 
 .links a {
   text-decoration: none;
-  color: var(--text-color);
+  color: var(--bg-color);
+  // color: blueviolet;
 }
 
 .links a:hover {
@@ -65,16 +66,21 @@
 }
 
 @media (max-width: 768px) {
-  .links {
+ .links {
     position: absolute;
     top: 70px;
-    left: 0;
-    right: 0;
+    left: 1;
+    width: 100%;
     flex-direction: column;
-    background: var(--bg-color);
+    align-items: flex-start; /* align to left side */
+    // background: var(--bg-color);
+    background-color: white;
+    width: 100px;
     display: none;
-    text-align: center;
-    padding: 1rem 0;
+    text-align: left;
+    padding: 0.5rem 1rem; /* reduced vertical padding */
+    font-size: 0.9rem;     /* smaller font size */
+    gap: 0.1rem;           /* reduced vertical gap between links */
   }
 
   .navbar.mobile-open .links {
@@ -83,6 +89,12 @@
 
   .links.hidden {
     display: none !important;
+  }
+
+  .links a {
+    width: 100%;
+    padding: 0.1rem 0;
+    font-size: 0.8rem;
   }
 }
 

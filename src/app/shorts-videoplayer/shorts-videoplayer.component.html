@@ -2,9 +2,11 @@
   <div class="carousel-container">
     <div class="carousel-slide">
 
-      <!-- Left Video (wrap around) -->
+      <!-- Left Video -->
       <div class="carousel-item side" (click)="selectVideo(getWrappedIndex(currentIndex - 1))">
+        <div class="clickable-overlay"></div>
         <app-shorts-video
+          #videoFrame
           [videoInfo]="items[getWrappedIndex(currentIndex - 1)]"
           [isActive]="false"
         ></app-shorts-video>
@@ -13,14 +15,17 @@
       <!-- Center Video -->
       <div class="carousel-item center">
         <app-shorts-video
+          #videoFrame
           [videoInfo]="items[currentIndex]"
           [isActive]="true"
         ></app-shorts-video>
       </div>
 
-      <!-- Right Video (wrap around) -->
+      <!-- Right Video -->
       <div class="carousel-item side" (click)="selectVideo(getWrappedIndex(currentIndex + 1))">
+        <div class="clickable-overlay"></div>
         <app-shorts-video
+          #videoFrame
           [videoInfo]="items[getWrappedIndex(currentIndex + 1)]"
           [isActive]="false"
         ></app-shorts-video>
