@@ -21,6 +21,7 @@ import { TodolistComponent } from './todolist/todolist.component';
 import { HomeComponent } from './home/home.component';
 import { RouterModule } from '@angular/router';
 import { AboutComponent } from './about/about.component';
+import { FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,7 +48,8 @@ import { AboutComponent } from './about/about.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     CommonModule,
-    AboutComponent
+    AboutComponent,
+    FormsModule
 ],
   providers: [],
   bootstrap: [AppComponent],

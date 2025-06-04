@@ -22,4 +22,4 @@ export class ShortsVideo implements OnChanges {
     const url = `https://www.youtube.com/embed/${this.videoInfo.videoId}?autoplay=${autoplayParam}&mute=${muteParam}&enablejsapi=1&origin=http://localhost`;
     this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
-}
+}``
