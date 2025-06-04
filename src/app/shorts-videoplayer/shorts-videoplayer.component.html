@@ -1,9 +1,17 @@
+//Not bad! Can you make it, that you have to swipe? Or can you at least //add an
+animation, maybe with css keyframes? Currently the user doesn't know //when the
+next video is selected. It just replaces it, without any animation. That's not
+good. //Also the first video currently autoplays. Don't make that it autoplays.
+//Also don't make it red. It doesn't suit the rest of the website. Maybe black,
+navy or gray.
 <div class="carousel" *ngIf="items.length > 0">
   <div class="carousel-container">
     <div class="carousel-slide">
-
       <!-- Left Video -->
-      <div class="carousel-item side" (click)="selectVideo(getWrappedIndex(currentIndex - 1))">
+      <div
+        class="carousel-item side"
+        (click)="selectVideo(getWrappedIndex(currentIndex - 1))"
+      >
         <div class="clickable-overlay"></div>
         <app-shorts-video
           #videoFrame
@@ -22,7 +30,10 @@
       </div>
 
       <!-- Right Video -->
-      <div class="carousel-item side" (click)="selectVideo(getWrappedIndex(currentIndex + 1))">
+      <div
+        class="carousel-item side"
+        (click)="selectVideo(getWrappedIndex(currentIndex + 1))"
+      >
         <div class="clickable-overlay"></div>
         <app-shorts-video
           #videoFrame
@@ -30,7 +41,6 @@
           [isActive]="false"
         ></app-shorts-video>
       </div>
-
     </div>
   </div>
 </div>
