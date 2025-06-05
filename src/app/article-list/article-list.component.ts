@@ -4,11 +4,12 @@ import { ArticlesService } from '../services/articles.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-article-list',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, MatIconModule],
   templateUrl: './article-list.component.html',
   styleUrl: './article-list.component.scss'
 })
