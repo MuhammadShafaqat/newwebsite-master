@@ -22,6 +22,10 @@ import { HomeComponent } from './home/home.component';
 import { RouterModule } from '@angular/router';
 import { AboutComponent } from './about/about.component';
 import { FormsModule } from '@angular/forms';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,9 +53,14 @@ import { FormsModule } from '@angular/forms';
     BrowserAnimationsModule,
     CommonModule,
     AboutComponent,
-    FormsModule
+    FormsModule,
+    MatExpansionModule,
+    MatIconModule,
+    MatButtonModule,
 ],
-  providers: [],
+  providers: [
+    provideAnimationsAsync()
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
