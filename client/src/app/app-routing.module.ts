@@ -9,6 +9,7 @@ import { EventsComponent } from './events/events.component';
 import { AboutComponent } from './about/about.component';
 import { ArticleListComponent } from './article-list/article-list.component';
 import { ArticleComponent } from './article/article.component';
+import { AdminpanelComponent } from './adminpanel/adminpanel.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'about', component: AboutComponent },
   { path: 'article-list', component: ArticleListComponent },
   { path: 'article/:id', component: ArticleComponent },
+   { path: 'adminpanel', component: AdminpanelComponent },
 
 ];
 
