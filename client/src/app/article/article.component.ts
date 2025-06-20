@@ -1,0 +1,37 @@
+import { Component } from '@angular/core';
+import { Article } from '../_models/article';
+import { ActivatedRoute } from '@angular/router';
+import { ArticlesService } from '../services/articles.service';
+import { CommonModule } from '@angular/common';
+
+@Component({
+  selector: 'app-article',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './article.component.html',
+  styleUrl: './article.component.scss'
+})
+export class ArticleComponent {
+
+  article?: Article;
+
+ 
+constructor(private route: ActivatedRoute, private articleService: ArticlesService) {
+  const id = this.route.snapshot.paramMap.get('id');
+
+  if (id) {
+    this.articleService.getArticleById(id).subscribe({
+      next: (data) => this.article = data,
+      error: (err) => {
+        console.error('Error fetching article:', err);
+        alert('Article not found');
+      }
+    });
+  } else {
+    console.error('No article ID found in route');
+  }
+}
+
+  }
+
+

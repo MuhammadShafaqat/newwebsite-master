@@ -1,0 +1,11 @@
+<div class="article-detail-container" *ngIf="article">
+  <div class="text-content">
+    <h1>{{ article.title }}</h1>
+   <p class="date">{{ article.createdAt | date: 'dd.MM.yyyy' }}</p>
+
+    <p class="body">{{ article.body }}</p>
+  </div>
+  <div class="image-container">
+    <img [src]="article.imageUrl" alt="Article image" />
+  </div>
+</div>

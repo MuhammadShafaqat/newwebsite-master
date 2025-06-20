@@ -1,0 +1,64 @@
+.carousel {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.carousel-container {
+  display: flex;
+  justify-content: center;
+}
+
+.carousel-slide {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.carousel-item {
+  position: relative;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.carousel-item.center {
+  transform: scale(1.1);
+  animation: fadeInUp 0.5s ease-in-out;
+  cursor: default;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.carousel-item.side app-shorts-video {
+  filter: blur(1px);
+  transform: scale(0.95);
+  pointer-events: none; /* Prevent clicks from going to video inside */
+}
+
+.carousel-item.center app-shorts-video {
+  filter: none;
+  transform: scale(1.1);
+  pointer-events: auto;
+  cursor: default;
+}
+
+/* Overlay to make entire side item clickable */
+.clickable-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+}

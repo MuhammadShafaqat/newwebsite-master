@@ -1,0 +1,14 @@
+<form [formGroup]="signupForm" (ngSubmit)="signup()">
+  <h2>Sign Up</h2>
+  <input formControlName="username" placeholder="Username" />
+  <div *ngIf="signupForm.get('username')?.invalid && signupForm.get('username')?.touched">
+    Username is required and must be at least 3 characters.
+  </div>
+
+  <input formControlName="password" type="password" placeholder="Password" />
+  <div *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched">
+    Password is required and must be at least 6 characters.
+  </div>
+
+  <button type="submit">Register</button>
+</form>

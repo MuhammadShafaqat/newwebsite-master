@@ -1,0 +1,22 @@
+<div class="page-container">
+  <h1>Alle Beiträge</h1>
+  <div class="search-container">
+    <input [(ngModel)]="searchTerm" type="text" placeholder="Suchen..." />
+    <!-- <span class="search-icon">🔍</span> -->
+     <mat-icon class="search-icon">search</mat-icon>
+  </div>
+
+  <div class="article-grid">
+    <div
+      class="article-card"
+      *ngFor="let article of filteredArticles"
+      (click)="openArticle(article.id)"
+    >
+      <img [src]="article.imageUrl" alt="Article image" />
+      <h2>{{ article.title }}</h2>
+      <p class="date">{{ article.createdAt | date: 'dd.MM.yyyy' }}</p>
+      <p class="body">{{ article.body }}</p>
+    </div>
+  </div>
+</div>
+

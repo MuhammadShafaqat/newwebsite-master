@@ -1,0 +1,33 @@
+<nav class="navbar" [class.mobile-open]="isMenuOpen"  [class.hide-navbar]="hideNavbar">
+  <div class="title">
+    <a routerLink="">
+      <img
+        class="pageLogo"
+        src="assets/logo/starlinelessbigger.png"
+        alt="derbuezer"
+        (click)="toggleMenu()"
+        [class.burger]="isMobileView"
+        [class.rotate]="isMenuOpen"
+      />
+    </a>
+    <h1 class="responsive-title">{{ webseitenTitel }}</h1>
+  </div>
+
+  <div class="links" [class.hidden]="isMobileView && !isMenuOpen">
+    <a routerLink="">Home</a>
+    <a [routerLink]="['']" fragment="kontakt-anchor">Mitmachen</a>
+    <a [routerLink]="['']" fragment="werte-anchor">Werte</a>
+    <a [routerLink]="['/spenden']">Spenden</a>
+    <a [routerLink]="['/shop']">Shop</a>
+    <a [routerLink]="['/actions']">Aktionen</a>
+    <a [routerLink]="['/events']">Events</a>
+    <a [routerLink]="['/about']">About</a>
+    <a [routerLink]="['/presse']">Pressemitteilung</a>
+  </div>
+
+  <button class="dark-toggle" (click)="toggleDarkMode()">
+    🌓
+  </button>
+</nav>
+
+<div class="content-area"></div>

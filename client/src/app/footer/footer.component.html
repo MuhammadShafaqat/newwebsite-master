@@ -1,0 +1,37 @@
+<footer>
+  <div class="foot">
+    <div class="description">
+      <h5><a>Über</a></h5>
+      <p>
+        Die Büezer und KMU Partei (BKP) ist eine schweizweite Partei. Ihre
+        Themen sind Arbeit, Technologie und Umwelt.
+      </p>
+      <h5><a [routerLink]="['/faq']">FAQ</a></h5>
+      <h5><a [routerLink]="['/kontakt']">Kontakt</a></h5>
+    </div>
+
+    <div class="links">
+      <h5><a [routerLink]="['/impressum']">Impressum</a></h5>
+      <h5><a [routerLink]="['/signin']">Login</a></h5>
+      <h5><a [routerLink]="['/socialmedia']">Soziale Medien</a></h5>
+    </div>
+
+    <div class="social-media">
+      <div class="icons">
+        <a href="https://www.tiktok.com" target="_blank" rel="noopener">
+          <img src="/assets/images/tiktoklogo.webp" alt="TikTok" />
+        </a>
+        <a href="https://www.instagram.com" target="_blank" rel="noopener">
+          <img src="/assets/images/Instagram_logo.webp" alt="Instagram" />
+        </a>
+        <a href="https://www.youtube.com" target="_blank" rel="noopener">
+          <img src="/assets/images/YouTube_icon.webp" alt="YouTube" />
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h4>&copy; 2024 {{ webseitenTitel }}</h4>
+  </div>
+</footer>

@@ -1,0 +1,56 @@
+.contact {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.contact-form {
+  background-color: rgb(243, 243, 243);
+  width: 550px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 3px 5px 10px -2px rgba(0, 0, 0, 0.48);
+}
+
+.form-ele {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+}
+
+input[type="text"],
+input[type="email"],
+select {
+  box-shadow: 1px 2px 15px 0px rgba(60, 60, 60, 0.188);
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: none;
+}
+
+select {
+  cursor: pointer;
+}
+
+input[type="submit"] {
+  border: 1px solid lightcoral;
+  background-color: lightcoral;
+  width: 80px;
+  height: 35px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+input[type="submit"]:hover {
+  color: white;
+  background: rgb(238, 67, 67);
+}
