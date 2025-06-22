@@ -10,6 +10,7 @@ const rateLimit = require('express-rate-limit');
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/auth');
 const articleRoutes = require('./routes/articles');
+const shopRoutes = require("./routes/shop");
 
 const app = express();
 connectDB(); // ✅ Connect to MongoDB
@@ -28,6 +29,7 @@ app.use(limiter);
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/articles', articleRoutes);
+app.use('/api/products', shopRoutes);
 
 
 
