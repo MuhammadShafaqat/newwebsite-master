@@ -4,9 +4,15 @@
     <span *ngIf="!sidebarCollapsed" class="d-inline"> 
       <mat-icon class="me-2">home</mat-icon> Admin Panel
     </span>
-    <button class="btn btn-sm d-md-none" (click)="toggleSidebar()">
+
+    <!-- <button class="btn btn-sm d-md-none" (click)="toggleSidebar()">
+      <mat-icon>{{ sidebarCollapsed ? 'menu' : 'close' }}</mat-icon>
+    </button> -->
+
+<button class="btn btn-sm d-inline d-lg-none" (click)="toggleSidebar()">
       <mat-icon>{{ sidebarCollapsed ? 'menu' : 'close' }}</mat-icon>
     </button>
+
   </div>
 
   <div class="list-group list-group-flush my-3">
