@@ -17,7 +17,7 @@ export class SidebarComponent implements OnInit {
     { label: 'Videos', icon: 'video_library', key: 'admin-videos' },
     { label: 'Press', icon: 'description', key: 'admin-press' },
     { label: 'Shop', icon: 'storefront', key: 'admin-shop' },
-    // { label: 'Logout', icon: 'logout', key: 'logout', danger: true }
+    { label: 'Logout', icon: 'logout', key: 'logout', danger: true }
   ];
 
   activeItem = 'dashboard';
