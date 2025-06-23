@@ -11,7 +11,7 @@ import { ArticleListComponent } from './article-list/article-list.component';
 import { ArticleComponent } from './article/article.component';
 import { SignupComponent } from './auth-components/signup/signup.component';
 import { SigninComponent } from './auth-components/signin/signin.component';
-import { AdminpannelHomeComponent } from './admin-pannel/adminpannel-home/adminpannel-home.component';
+
 
 
 const routes: Routes = [
@@ -26,8 +26,13 @@ const routes: Routes = [
   { path: 'article/:id', component: ArticleComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'signin', component: SigninComponent },
-{ path: 'adminpannel-home', component: AdminpannelHomeComponent },
 
+ // Lazy-loaded Admin Pannel
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('./admin-pannel/admin-pannel.module').then(m => m.AdminPannelModule),
+  },
 
 
 ];
