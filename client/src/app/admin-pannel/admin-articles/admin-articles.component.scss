@@ -151,3 +151,25 @@ line-height: 1.4rem;
 max-height: 2.8rem;
 }
 }
+
+.article-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+
+  h3 {
+    margin: 0;
+    font-size: 1.3rem;
+    flex: 1;
+    color: #222;
+  }
+
+  img {
+    width: 75px;
+    height: 75px;
+    object-fit: cover;
+    border-radius: 0.3rem;
+  }
+}
+

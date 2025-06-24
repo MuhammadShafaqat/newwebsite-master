@@ -90,6 +90,10 @@ onFileSelected(event: any) {
     this.editingArticleId = null;
     this.articleForm.reset();
   }
+  getCurrentArticle() {
+  return this.articles.find(a => a.id === this.editingArticleId);
+}
+
 
 
 }

@@ -1,4 +1,5 @@
-<h2>📝 Manage Articles</h2>
+<p class="fs-4 fs-md-3 fs-lg-2">📝 Manage Articles</p>
+
 
 <form [formGroup]="articleForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data" class="article-form">
   <div class="form-group">
@@ -10,6 +11,13 @@
     <label for="body">Body</label>
     <textarea id="body" formControlName="body" rows="5" placeholder="Enter article content" required></textarea>
   </div>
+
+   <!-- ✅ Show current image when editing -->
+  <div *ngIf="editingArticleId && articleForm.value.title" class="form-group">
+    <p><strong>Current Image:</strong></p>
+    <img [src]="'http://localhost:5000' + getCurrentArticle()?.imageUrl" width="200" />
+  </div>
+
 
   <div class="form-group">
     <label for="image">Image</label>
@@ -32,9 +40,10 @@
 
 
 <div *ngFor="let article of articles" class="article-card" style="margin-bottom: 2rem; border-bottom: 1px solid #ccc;">
+<div class="article-header">
   <h3>{{ article.title }}</h3>
-  <img [src]="'http://localhost:5000' + article.imageUrl" width="200" />
-  <!-- <p>{{ article.body }}</p> -->
+  <img [src]="'http://localhost:5000' + article.imageUrl" width="75" height="75" />
+</div>
   <p class="article-body" [title]="article.body">{{ article.body }}</p>
     <mat-icon (click)="onEdit(article)" class="text-success">edit</mat-icon>
   <mat-icon (click)="onDelete(article.id)" class="text-danger">delete</mat-icon>
