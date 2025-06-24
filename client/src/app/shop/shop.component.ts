@@ -27,7 +27,7 @@ ngOnInit(): void {
   }
 
   get featuredProducts() {
-    return this.products.filter((p) => p.isFeatured);
+    return this.products.filter((p) => p.featured);
   }
 
   get regularProducts() {

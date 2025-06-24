@@ -1,0 +1,141 @@
+:host {
+  display: block;
+  padding: 2rem;
+  background-color: #f4f6f8;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+/* Title */
+h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  color: #222;
+}
+
+/* Form Section */
+form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin-bottom: 3rem;
+}
+
+input,
+select {
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.2s;
+  width: 100%;
+}
+input[type='file'] {
+  padding: 0.6rem;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+
+input:focus,
+select:focus {
+  border-color: #1976d2;
+  outline: none;
+}
+
+textarea {
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  resize: vertical;
+  width: 100%;
+}
+
+
+label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 14px;
+}
+
+button[type='submit'] {
+  grid-column: span 2;
+  justify-self: start;
+  background-color: #1976d2;
+  color: #fff;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  font-size: 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type='submit']:hover {
+  background-color: #145aa2;
+}
+
+/* Table Section */
+table {
+  width: 100%;
+  background-color: #fff;
+  border-collapse: collapse;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+tr {
+  border-bottom: 1px solid #eee;
+}
+
+tr:last-child {
+  border-bottom: none;
+}
+
+td {
+  padding: 1rem;
+  font-size: 14px;
+}
+
+td button {
+  margin-right: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  font-size: 13px;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+/* Action Buttons */
+td button:nth-child(1) {
+  background-color: #4caf50;
+}
+td button:nth-child(1):hover {
+  background-color: #3e8e41;
+}
+
+td button:nth-child(2) {
+  background-color: #f44336;
+}
+td button:nth-child(2):hover {
+  background-color: #d32f2f;
+}
+
+td button:nth-child(3) {
+  background-color: #ff9800;
+}
+td button:nth-child(3):hover {
+  background-color: #fb8c00;
+}

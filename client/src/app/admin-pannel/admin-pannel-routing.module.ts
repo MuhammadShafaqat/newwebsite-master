@@ -17,8 +17,8 @@ const routes: Routes = [
       { path: 'admin-infobanner', component: AdminInfobannerComponent },
       { path: 'admin-events', component: AdminEventsComponent },
        { path: 'admin-press', component: AdminPressComponent },
-      { path: 'admin-shop', component: AdminVideosComponent },
-      { path: 'admin-videos', component: AdminShopComponent },
+      { path: 'admin-shop', component:  AdminShopComponent},
+      { path: 'admin-videos', component: AdminVideosComponent },
       { path: '', redirectTo: 'admin-articles', pathMatch: 'full' },
     ],
   }

@@ -1,1 +1,91 @@
-<p>admin-shop works!</p>
+<h2>Admin - Manage Products</h2>
+
+<form [formGroup]="productForm" (ngSubmit)="submitForm()">
+  <label>Name
+    <input formControlName="name" placeholder="Enter product name">
+  </label>
+
+  <label>Category
+    <select formControlName="category">
+      <option value="" disabled selected>Select category</option>
+      <option value="clothing">Clothing</option>
+      <option value="merchandise">Merchandise</option>
+      <option value="educational">Educational</option>
+      <option value="activism">Activism</option>
+      <option value="other">Other</option>
+    </select>
+  </label>
+
+  <label>Price
+    <input type="number" formControlName="price" placeholder="Enter price">
+  </label>
+
+  <label>Stock
+    <input type="number" formControlName="stock" placeholder="Enter stock quantity">
+  </label>
+
+  <label>Media Type
+    <select formControlName="mediaType">
+      <option value="image">Image</option>
+      <option value="video">Video</option>
+    </select>
+  </label>
+
+  <label>Size
+    <select formControlName="size">
+      <option value="S">S</option>
+      <option value="M">M</option>
+      <option value="L">L</option>
+    </select>
+  </label>
+
+  <label>Description
+    <textarea formControlName="description" rows="3" placeholder="Enter product description"></textarea>
+  </label>
+
+  <label><input type="checkbox" formControlName="isExternal"> External Link</label>
+
+  <label>Upload Image/Video
+    <input type="file" (change)="onFileSelected($event)">
+  </label>
+
+  <button type="submit">{{ selectedProduct ? 'Update Product' : 'Create Product' }}</button>
+</form>
+
+<hr>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Category</th>
+      <th>Price</th>
+      <th>Stock</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let p of products">
+      <td>{{ p.name }}</td>
+      <td>{{ p.category }}</td>
+      <td>{{ p.price }}</td>
+      <td>{{ p.stock }}</td>
+      <td>
+        <button mat-icon-button (click)="toggleActive(p.id!)" [matTooltip]="p.isActive ? 'Deactivate' : 'Activate'">
+          <mat-icon color="accent">{{ p.isActive ? 'toggle_on' : 'toggle_off' }}</mat-icon>
+        </button>
+      </td>
+      <td>
+        <button mat-icon-button color="primary" (click)="editProduct(p)" matTooltip="Edit">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="deleteProduct(p.id!)" matTooltip="Delete">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+

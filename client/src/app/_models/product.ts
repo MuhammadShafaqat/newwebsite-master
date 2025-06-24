@@ -1,9 +1,15 @@
 export interface Product {
-  _id?: string;
-  title: string;
+  id?: string;
+  name: string;
+  category: string;
   price: number;
-  image: string;
-  isFeatured: boolean;
-  isExternal: boolean;
-  externalUrl: string;
+  description?: string;
+  stock: number;
+  mediaUrl?: string;
+  mediaType?: 'image' | 'video';
+  isExternal?: boolean;
+  externalUrl?: string;
+  isActive?: boolean;
+  featured?: boolean;
+  size?: 'S' | 'M' | 'L';
 }
