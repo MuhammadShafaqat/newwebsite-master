@@ -1,16 +1,24 @@
 const Article = require('../models/Article');
 
 const createArticle = async (req, res) => {
-  const { title, body, imageUrl } = req.body;
   try {
+    const { title, body } = req.body;
+
+    if (!req.file) {
+      return res.status(400).json({ message: 'Image is required' });
+    }
+
+    const imageUrl = `/uploads/articles/${req.file.filename}`;
     const article = new Article({ title, body, imageUrl });
     await article.save();
+
     res.status(201).json({ message: 'Article created successfully', article });
   } catch (err) {
-    console.error(err);
+    console.error('Create Article Error:', err);
     res.status(500).json({ message: 'Failed to create article' });
   }
 };
+
 
 const getArticleById = async (req, res) => {
   try {
@@ -34,6 +42,30 @@ const getArticleById = async (req, res) => {
   }
 };
 
+const updateArticle = async (req, res) => {
+  try {
+    const { title, body } = req.body;
+    const updatedData = { title, body };
+
+    // If new image is uploaded
+    if (req.file) {
+      updatedData.imageUrl = `/uploads/articles/${req.file.filename}`;
+    }
+
+    const updatedArticle = await Article.findByIdAndUpdate(req.params.id, updatedData, { new: true });
+
+    if (!updatedArticle) {
+      return res.status(404).json({ message: 'Article not found' });
+    }
+
+    res.status(200).json({ message: 'Article updated successfully', article: updatedArticle });
+  } catch (err) {
+    console.error('Update Article Error:', err);
+    res.status(500).json({ message: 'Failed to update article' });
+  }
+};
+
+
 const deleteArticle = async (req, res) => {
   try {
     await Article.findByIdAndDelete(req.params.id);
@@ -45,4 +77,4 @@ const deleteArticle = async (req, res) => {
 
 
 
-module.exports = {createArticle, getArticleById, getArticles, deleteArticle }
+module.exports = {createArticle, getArticleById, getArticles, updateArticle, deleteArticle }

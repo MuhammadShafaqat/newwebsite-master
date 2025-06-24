@@ -1,1 +1,41 @@
-<p>admin-articles works!</p>
+<h2>📝 Manage Articles</h2>
+
+<form [formGroup]="articleForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data" class="article-form">
+  <div class="form-group">
+    <label for="title">Title</label>
+    <input id="title" formControlName="title" type="text" placeholder="Enter article title" required />
+  </div>
+
+  <div class="form-group">
+    <label for="body">Body</label>
+    <textarea id="body" formControlName="body" rows="5" placeholder="Enter article content" required></textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="image">Image</label>
+    <input id="image" type="file" (change)="onFileSelected($event)" [required]="!editingArticleId" />
+  </div>
+
+  <div class="form-actions">
+    <button type="submit">
+      <mat-icon class="me-1">save</mat-icon>
+      {{ editingArticleId ? 'Update' : 'Add' }} Article
+    </button>
+    <button type="button" *ngIf="editingArticleId" class="cancel" (click)="cancelEdit()">
+      <mat-icon class="me-1">cancel</mat-icon>
+      Cancel
+    </button>
+  </div>
+</form>
+
+<hr />
+
+
+<div *ngFor="let article of articles" class="article-card" style="margin-bottom: 2rem; border-bottom: 1px solid #ccc;">
+  <h3>{{ article.title }}</h3>
+  <img [src]="'http://localhost:5000' + article.imageUrl" width="200" />
+  <!-- <p>{{ article.body }}</p> -->
+  <p class="article-body" [title]="article.body">{{ article.body }}</p>
+    <mat-icon (click)="onEdit(article)" class="text-success">edit</mat-icon>
+  <mat-icon (click)="onDelete(article.id)" class="text-danger">delete</mat-icon>
+</div>

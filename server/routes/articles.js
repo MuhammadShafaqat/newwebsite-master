@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { createArticle, getArticles, deleteArticle, getArticleById } = require('../controllers/articleController');
+const { createArticle, getArticles, deleteArticle, updateArticle, getArticleById } = require('../controllers/articleController');
 const {authMiddleware} = require('../middlewares/authMiddleware');
+const upload = require('../middlewares/upload')
 
-router.post('/' ,createArticle);
+router.post('/', upload.single('image') ,createArticle);
+router.put('/:id', upload.single('image'), updateArticle);
 router.get('/', getArticles);
 router.get('/:id' ,getArticleById);
 router.delete('/:id' ,deleteArticle);

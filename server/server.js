@@ -11,6 +11,7 @@ const connectDB = require('./config/db');
 const authRoutes = require('./routes/auth');
 const articleRoutes = require('./routes/articles');
 const shopRoutes = require("./routes/shop");
+const path = require('path'); // ✅ Required for static file path resolution
 
 const app = express();
 connectDB(); // ✅ Connect to MongoDB
@@ -18,9 +19,17 @@ connectDB(); // ✅ Connect to MongoDB
 // Middlewares
 app.use(express.json());
 app.use(helmet());
-app.use(cors({ origin: true, credentials: true }));
+app.use(cors({ origin: 'http://localhost:4200',  credentials: true }));
 app.use(morgan('dev'));
 app.use(cookieParser());
+
+// ✅ Static Files for Uploaded Images
+app.use('/uploads', (req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
+  res.header('Cross-Origin-Resource-Policy', 'cross-origin'); // ✅ Required by Chrome
+  next();
+}, express.static(path.join(__dirname, 'uploads')));
+
 
 // Rate limiter
 const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });

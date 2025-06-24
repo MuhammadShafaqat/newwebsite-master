@@ -7,6 +7,8 @@ import { AdminEventsComponent } from './admin-events/admin-events.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { AdminLayoutComponent } from './admin-layout/admin-layout.component';
 import { MatIconModule } from '@angular/material/icon';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AdminArticlesComponent } from './admin-articles/admin-articles.component';
 
 
 @NgModule({
@@ -14,12 +16,14 @@ import { MatIconModule } from '@angular/material/icon';
     AdminLayoutComponent, 
    AdminInfobannerComponent, 
    AdminEventsComponent,
-    SidebarComponent
+    SidebarComponent,
+    AdminArticlesComponent
   ],
   imports: [
     CommonModule,
     AdminPannelRoutingModule,
-    MatIconModule
+    MatIconModule,
+    ReactiveFormsModule
   ]
 })
 export class AdminPannelModule { }

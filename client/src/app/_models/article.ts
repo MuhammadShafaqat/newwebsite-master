@@ -4,4 +4,5 @@ export interface Article {
   body: string;
   imageUrl: string;
   createdAt: string; // ISO date string
+  updatedAt?: string;
 }
