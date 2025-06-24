@@ -43,7 +43,9 @@
     <textarea formControlName="description" rows="3" placeholder="Enter product description"></textarea>
   </label>
 
-  <label><input type="checkbox" formControlName="isExternal"> External Link</label>
+  <label>
+    <input type="checkbox" formControlName="isExternal"> External Link
+  </label>
 
   <label>Upload Image/Video
     <input type="file" (change)="onFileSelected($event)">
@@ -52,11 +54,12 @@
   <button type="submit">{{ selectedProduct ? 'Update Product' : 'Create Product' }}</button>
 </form>
 
-<hr>
+<hr />
 
 <table>
   <thead>
     <tr>
+      <th>Image</th>
       <th>Name</th>
       <th>Category</th>
       <th>Price</th>
@@ -67,13 +70,19 @@
   </thead>
   <tbody>
     <tr *ngFor="let p of products">
+      <td>
+        <img [src]="'http://localhost:5000' + p.mediaUrl" alt="Product Image" class="product-thumb" *ngIf="p.mediaUrl && p.mediaType === 'image'">
+        <mat-icon *ngIf="!p.mediaUrl || p.mediaType !== 'image'">image_not_supported</mat-icon>
+      </td>
       <td>{{ p.name }}</td>
       <td>{{ p.category }}</td>
       <td>{{ p.price }}</td>
       <td>{{ p.stock }}</td>
       <td>
         <button mat-icon-button (click)="toggleActive(p.id!)" [matTooltip]="p.isActive ? 'Deactivate' : 'Activate'">
-          <mat-icon color="accent">{{ p.isActive ? 'toggle_on' : 'toggle_off' }}</mat-icon>
+          <mat-icon [ngStyle]="{ color: p.isActive ? '#4caf50' : '#f44336' }">
+            {{ p.isActive ? 'toggle_on' : 'toggle_off' }}
+          </mat-icon>
         </button>
       </td>
       <td>
@@ -87,5 +96,3 @@
     </tr>
   </tbody>
 </table>
-
-

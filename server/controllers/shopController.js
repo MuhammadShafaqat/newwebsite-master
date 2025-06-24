@@ -6,7 +6,7 @@ const createProduct = async (req, res) => {
   try {
     const data = req.body;
     if (req.file) {
-      data.mediaUrl = `/uploads/${req.file.filename}`;
+      data.mediaUrl = `/uploads/products/${req.file.filename}`;
       data.mediaType = 'image';
     }
     const product = new Product(data);
@@ -29,10 +29,23 @@ const getAllProducts = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   try {
-    const updated = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.json(updated);
+    const productId = req.params.id;
+    const updates = { ...req.body };
+
+    if (req.file) {
+      updates.mediaUrl = `/uploads/products/${req.file.filename}`; // New image path
+    }
+
+    // If there's no new file but mediaUrl was sent (i.e. old one), retain it
+    if (!req.file && req.body.mediaUrl) {
+      updates.mediaUrl = req.body.mediaUrl;
+    }
+
+    const updated = await Product.findByIdAndUpdate(productId, updates, { new: true });
+    res.status(200).json(updated);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    console.error('❌ Update product error:', err);
+    res.status(400).json({ message: err.message });
   }
 };
 // Get single product

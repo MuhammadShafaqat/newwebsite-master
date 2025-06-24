@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-
 import { Product } from '../../_models/product';
 import { AdminshopService } from '../admin-services/adminshop.service';
 
@@ -39,7 +38,10 @@ export class AdminShopComponent implements OnInit {
   }
 
   loadProducts() {
-    this.adminShop.getAllProducts().subscribe(data => this.products = data);
+    this.adminShop.getAllProducts().subscribe(data => {
+      console.log('📦 Loaded products from backend:', data);
+      this.products = data;
+    });
   }
 
   onFileSelected(event: any) {
@@ -51,21 +53,35 @@ export class AdminShopComponent implements OnInit {
     const formValues = this.productForm.value;
     const formData = new FormData();
 
-    Object.entries(formValues).forEach(([key, value]) => {
-      formData.append(key, value as string);
-    });
+    formData.append('name', formValues.name || '');
+    formData.append('category', formValues.category || '');
+    formData.append('price', formValues.price?.toString() || '0');
+    formData.append('stock', formValues.stock?.toString() || '0');
+    formData.append('description', formValues.description || '');
+    formData.append('mediaType', formValues.mediaType || '');
+    formData.append('size', formValues.size || '');
+    formData.append('isExternal', formValues.isExternal ? 'true' : 'false');
+    formData.append('externalUrl', formValues.externalUrl || '');
+    formData.append('isActive', formValues.isActive ? 'true' : 'false');
+    formData.append('featured', formValues.featured ? 'true' : 'false');
 
+    // 🖼️ Handle file upload or preserve existing image
     if (this.selectedFile) {
       formData.append('image', this.selectedFile);
+    } else if (this.selectedProduct?.mediaUrl) {
+      formData.append('mediaUrl', this.selectedProduct.mediaUrl); // keep existing image
     }
 
+    // 🚀 Create or Update
     if (this.selectedProduct) {
-      this.adminShop.updateProduct(this.selectedProduct.id!, formData).subscribe(() => {
-        this.resetForm();
+      this.adminShop.updateProduct(this.selectedProduct.id!, formData).subscribe({
+        next: () => this.resetForm(),
+        error: err => console.error('❌ Update Product Error:', err)
       });
     } else {
-      this.adminShop.createProduct(formData).subscribe(() => {
-        this.resetForm();
+      this.adminShop.createProduct(formData).subscribe({
+        next: () => this.resetForm(),
+        error: err => console.error('❌ Create Product Error:', err)
       });
     }
   }
