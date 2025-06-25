@@ -9,7 +9,16 @@
 
   <div class="form-group">
     <label for="body">Body</label>
-    <textarea id="body" formControlName="body" rows="5" placeholder="Enter article content" required></textarea>
+    <textarea
+  id="body"
+  formControlName="body"
+  rows="5"
+  placeholder="Enter article content"
+  required
+  (input)="autoGrow($event)"
+  #bodyTextarea
+></textarea>
+
   </div>
 
    <!-- ✅ Show current image when editing -->
