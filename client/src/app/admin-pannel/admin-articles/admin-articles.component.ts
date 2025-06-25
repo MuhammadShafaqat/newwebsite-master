@@ -3,15 +3,20 @@ import {
   ElementRef,
   OnInit,
   ViewChild,
-  AfterViewInit,
+  AfterViewInit
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { ArticlesService } from '../admin-services/articles.service';
 
 @Component({
   selector: 'app-admin-articles',
+
   templateUrl: './admin-articles.component.html',
-  styleUrls: ['./admin-articles.component.scss'],
+  styleUrls: ['./admin-articles.component.scss']
 })
 export class AdminArticlesComponent implements OnInit, AfterViewInit {
   articleForm: FormGroup;
@@ -19,39 +24,40 @@ export class AdminArticlesComponent implements OnInit, AfterViewInit {
   articles: any[] = [];
   editingArticleId: string | null = null;
 
+  selectedLanguage: string = 'en'; // default language
+
   @ViewChild('bodyTextarea') bodyTextareaRef!: ElementRef<HTMLTextAreaElement>;
 
   constructor(private fb: FormBuilder, private article: ArticlesService) {
     this.articleForm = this.fb.group({
       title: [''],
-      body: [''],
+      body: ['']
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadArticles();
   }
 
   ngAfterViewInit(): void {
-    // Initial grow (if editing article and content exists)
     setTimeout(() => this.autoGrowTextarea(), 100);
   }
 
-  loadArticles() {
-    this.article.getArticles().subscribe((res) => {
-      this.articles = res;
+  loadArticles(): void {
+    this.article.getArticles().subscribe({
+      next: (res) => this.articles = res,
+      error: (err) => console.error('Load error:', err)
     });
   }
 
-  onFileSelected(event: any) {
+  onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];
   }
 
-  onSubmit() {
+  onSubmit(): void {
     const formData = new FormData();
     formData.append('title', this.articleForm.get('title')?.value);
     formData.append('body', this.articleForm.get('body')?.value);
-
     if (this.selectedFile) {
       formData.append('image', this.selectedFile);
     }
@@ -62,31 +68,30 @@ export class AdminArticlesComponent implements OnInit, AfterViewInit {
           alert('Article updated!');
           this.resetForm();
         },
-        error: (err) => console.error('Update error:', err),
+        error: (err) => console.error('Update error:', err)
       });
-      return;
+    } else {
+      this.article.createArticle(formData).subscribe({
+        next: () => {
+          alert('Article created!');
+          this.resetForm();
+        },
+        error: (err) => console.error('Create error:', err)
+      });
     }
-
-    this.article.createArticle(formData).subscribe({
-      next: () => {
-        alert('Article created!');
-        this.resetForm();
-      },
-      error: (err) => console.error(err),
-    });
   }
 
-  onEdit(article: any) {
+  onEdit(article: any): void {
     this.editingArticleId = article.id;
     this.articleForm.patchValue({
       title: article.title,
-      body: article.body,
+      body: article.body
     });
 
     setTimeout(() => this.autoGrowTextarea(), 50);
   }
 
-  onDelete(id: string) {
+  onDelete(id: string): void {
     if (confirm('Are you sure you want to delete this article?')) {
       this.article.deleteArticle(id).subscribe(() => {
         this.articles = this.articles.filter((a) => a.id !== id);
@@ -94,12 +99,11 @@ export class AdminArticlesComponent implements OnInit, AfterViewInit {
     }
   }
 
-  cancelEdit() {
-    this.editingArticleId = null;
+  cancelEdit(): void {
     this.resetForm();
   }
 
-  resetForm() {
+  resetForm(): void {
     this.articleForm.reset();
     this.selectedFile = null;
     this.editingArticleId = null;
@@ -107,7 +111,7 @@ export class AdminArticlesComponent implements OnInit, AfterViewInit {
     this.loadArticles();
   }
 
-  getCurrentArticle() {
+  getCurrentArticle(): any {
     return this.articles.find((a) => a.id === this.editingArticleId);
   }
 
@@ -117,7 +121,7 @@ export class AdminArticlesComponent implements OnInit, AfterViewInit {
     textarea.style.height = textarea.scrollHeight + 'px';
   }
 
-  autoGrowTextarea() {
+  autoGrowTextarea(): void {
     if (this.bodyTextareaRef) {
       const textarea = this.bodyTextareaRef.nativeElement;
       textarea.style.height = 'auto';
@@ -125,10 +129,29 @@ export class AdminArticlesComponent implements OnInit, AfterViewInit {
     }
   }
 
-  resetTextareaHeight() {
+  resetTextareaHeight(): void {
     if (this.bodyTextareaRef) {
       const textarea = this.bodyTextareaRef.nativeElement;
-      textarea.style.height = '120px'; // or whatever your default min-height is
+      textarea.style.height = '120px';
     }
+  }
+
+  getDirection(language: string): 'rtl' | 'ltr' {
+    const rtlLanguages = ['ar', 'ur'];
+    return rtlLanguages.includes(language) ? 'rtl' : 'ltr';
+  }
+
+  convertToParagraphs(text: string): string {
+    if (!text) return '';
+    
+    const escaped = text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+
+    const paragraphs = escaped.split(/\n{2,}/g); // Double newlines = paragraph
+    return paragraphs
+      .map(p => `<p>${p.trim().replace(/\n/g, '<br>')}</p>`)
+      .join('');
   }
 }

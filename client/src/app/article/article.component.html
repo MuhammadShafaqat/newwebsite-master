@@ -3,7 +3,12 @@
     <h1>{{ article.title }}</h1>
    <p class="date">{{ article.createdAt | date: 'dd.MM.yyyy' }}</p>
 
-    <p class="body">{{ article.body }}</p>
+    <div
+  class="body"
+  [innerHTML]="convertToParagraphs(article.body)"
+  
+></div>
+
   </div>
   <div class="image-container">
     <img [src]="'http://localhost:5000' + article.imageUrl" alt="Article image" />

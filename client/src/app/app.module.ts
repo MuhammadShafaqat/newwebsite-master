@@ -29,6 +29,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { SigninComponent } from './auth-components/signin/signin.component';
 import { SignupComponent } from './auth-components/signup/signup.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { MatTooltipModule } from '@angular/material/tooltip';
 @NgModule({
   declarations: [
     AppComponent,
@@ -64,7 +65,9 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     MatExpansionModule,
     MatIconModule,
     MatButtonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatTooltipModule,
+    
 ],
   providers: [
     provideAnimationsAsync()

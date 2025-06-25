@@ -43,4 +43,20 @@ openArticle(id: string) {
 }
 
 
+convertToParagraphs(text: string): string {
+  if (!text) return '';
+
+  const escaped = text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+  const paragraphs = escaped.split(/\n{2,}/g); // double line breaks → paragraphs
+
+  return paragraphs
+    .map(para => `<p>${para.trim().replace(/\n/g, '<br>')}</p>`)
+    .join('');
+}
+
+
 }

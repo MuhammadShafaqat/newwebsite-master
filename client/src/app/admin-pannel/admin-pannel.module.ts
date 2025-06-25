@@ -7,7 +7,7 @@ import { AdminEventsComponent } from './admin-events/admin-events.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { AdminLayoutComponent } from './admin-layout/admin-layout.component';
 import { MatIconModule } from '@angular/material/icon';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminArticlesComponent } from './admin-articles/admin-articles.component';
 import { AdminShopComponent } from './admin-shop/admin-shop.component';
 
@@ -26,7 +26,8 @@ import { AdminShopComponent } from './admin-shop/admin-shop.component';
     AdminPannelRoutingModule,
     MatIconModule,
     MatTooltipModule, 
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ]
 })
 export class AdminPannelModule { }
