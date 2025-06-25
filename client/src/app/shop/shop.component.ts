@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ShopService } from '../services/shop.service';
 import { Product } from '../_models/product';
 
-
-
 @Component({
   selector: 'app-shop',
   templateUrl: './shop.component.html',
@@ -12,10 +10,10 @@ import { Product } from '../_models/product';
 export class ShopComponent implements OnInit {
   products: Product[] = [];
 
-  constructor(private product:ShopService){}
+  constructor(private product: ShopService) {}
 
-ngOnInit(): void {
-   this.product.getAllProducts().subscribe({
+  ngOnInit(): void {
+    this.product.getAllProducts().subscribe({
       next: (data) => {
         this.products = data;
         console.log('Fetched products:', data);
@@ -27,10 +25,10 @@ ngOnInit(): void {
   }
 
   get featuredProducts() {
-    return this.products.filter((p) => p.featured);
+    return this.products.filter((p) => p.featured && p.isActive);
   }
 
   get regularProducts() {
-    return this.products;
+    return this.products.filter((p) => p.isActive); // includes both featured and non-featured
   }
 }

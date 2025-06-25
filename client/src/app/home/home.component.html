@@ -1,6 +1,8 @@
-<main>
-  //No gap is needed here. Only when the infobanner is activated, will there be
-  a gap.
+<main >
+  <!-- Show only if activeBanner is present -->
+  <div class="infoBanner" *ngIf="activeBanner">
+    {{ activeBanner.statement }}
+  </div>
   <app-titlescreen></app-titlescreen>
   <app-values></app-values>
   <app-shorts-videoplayer></app-shorts-videoplayer>

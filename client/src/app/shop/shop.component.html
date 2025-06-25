@@ -13,7 +13,7 @@
   <h2 class="title"><mat-icon>shopping_cart</mat-icon> All Products</h2>
   <div class="products-grid">
     <div *ngFor="let product of regularProducts" class="product-card">
-      <img [src]="product.mediaUrl" [alt]="product.name" />
+      <img [src]="'http://localhost:5000' + product.mediaUrl" [alt]="product.name" />
       <h3>{{ product.name }}</h3>
       <p *ngIf="product.price">CHF {{ product.price.toFixed(2) }}</p>
       <a *ngIf="product.isExternal" [href]="product.externalUrl" target="_blank" class="btn">Zum Artikel</a>
