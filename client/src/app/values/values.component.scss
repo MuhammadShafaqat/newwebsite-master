@@ -40,10 +40,14 @@
   }
 
   div {
-    padding: 20px;
+     padding: 20px;
     border-radius: 5%;
     box-shadow: 3px 5px 10px -2px rgba(0, 0, 0, 0.48);
-    height: 350px;
+    height: auto; // 👈 allow height to grow
+    max-width: 100%; // 👈 prevent content from overflowing horizontally
+    overflow-wrap: break-word; // 👈 break long words
+    word-break: break-word;
+    box-sizing: border-box; // 👈 include padding in width calculation
   }
 
   .arbeit {
