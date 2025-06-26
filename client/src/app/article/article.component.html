@@ -1,16 +1,15 @@
 <div class="article-detail-container" *ngIf="article">
-  <div class="text-content">
-    <h1>{{ article.title }}</h1>
-   <p class="date">{{ article.createdAt | date: 'dd.MM.yyyy' }}</p>
+  <div class="header-inline">
+    <div class="text-info">
+      <h1>{{ article.title }}</h1>
+      <p class="author"><mat-icon>person</mat-icon> {{ article.author }}</p>
+      <p class="date">{{ article.createdAt | date: 'dd.MM.yyyy' }}</p>
+    </div>
 
-    <div
-  class="body"
-  [innerHTML]="convertToParagraphs(article.body)"
-  
-></div>
+    <div class="image-container">
+      <img [src]="'http://localhost:5000' + article.imageUrl" alt="Article image" />
+    </div>
+  </div>
 
-  </div>
-  <div class="image-container">
-    <img [src]="'http://localhost:5000' + article.imageUrl" alt="Article image" />
-  </div>
+  <div class="body" [innerHTML]="convertToParagraphs(article.body)"></div>
 </div>

@@ -2,7 +2,7 @@ const Article = require('../models/Article');
 
 const createArticle = async (req, res) => {
   try {
-    const { title, body } = req.body;
+    const { title, body, author} = req.body;
 
     if (!req.file) {
       return res.status(400).json({ message: 'Image is required' });

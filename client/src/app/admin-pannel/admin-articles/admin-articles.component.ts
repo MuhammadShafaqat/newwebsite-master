@@ -31,7 +31,8 @@ export class AdminArticlesComponent implements OnInit, AfterViewInit {
   constructor(private fb: FormBuilder, private article: ArticlesService) {
     this.articleForm = this.fb.group({
       title: [''],
-      body: ['']
+      body: [''],
+      author: [''] // default author name
     });
   }
 
@@ -58,6 +59,7 @@ export class AdminArticlesComponent implements OnInit, AfterViewInit {
     const formData = new FormData();
     formData.append('title', this.articleForm.get('title')?.value);
     formData.append('body', this.articleForm.get('body')?.value);
+    formData.append('author', this.articleForm.get('author')?.value);
     if (this.selectedFile) {
       formData.append('image', this.selectedFile);
     }
@@ -85,7 +87,8 @@ export class AdminArticlesComponent implements OnInit, AfterViewInit {
     this.editingArticleId = article.id;
     this.articleForm.patchValue({
       title: article.title,
-      body: article.body
+      body: article.body,
+      author: article.author || 'Redaktion der BKP'
     });
 
     setTimeout(() => this.autoGrowTextarea(), 50);

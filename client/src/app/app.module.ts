@@ -30,6 +30,7 @@ import { SigninComponent } from './auth-components/signin/signin.component';
 import { SignupComponent } from './auth-components/signup/signup.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ArticleComponent } from './article/article.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,7 +49,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     HomeComponent,
     LangComponent,
     SigninComponent,
-    SignupComponent
+    SignupComponent,
+    ArticleComponent
   
   ],
   imports: [

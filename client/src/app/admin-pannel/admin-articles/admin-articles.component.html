@@ -27,6 +27,15 @@
     <img [src]="'http://localhost:5000' + getCurrentArticle()?.imageUrl" width="200" />
   </div>
 
+<div class="form-group">
+  <label for="author">Author Name</label>
+  <input
+    id="author"
+    formControlName="author"
+    type="text"
+    placeholder="Enter author name"
+  />
+</div>
 
   <div class="form-group">
     <label for="image">Image</label>
@@ -49,21 +58,26 @@
 
 
 <!-- admin-articles.component.html -->
+<!-- admin-articles.component.html -->
 <div *ngFor="let article of articles" class="article-card">
   <div class="article-header">
     <h3 [matTooltip]="article.title">{{ article.title }}</h3>
     <img [src]="'http://localhost:5000' + article.imageUrl" width="75" height="75" />
   </div>
 
-  <!-- Proper paragraph rendering -->
-<!-- Proper paragraph rendering with tooltip -->
-<div
-  class="article-body"
-  [innerHTML]="convertToParagraphs(article.body)"
-  [matTooltip]="article.body"
-  matTooltipPosition="above"
->
-</div>
+  <!-- 👉 Add Author Below the Title -->
+  <p class="article-author">
+    <mat-icon inline>person</mat-icon>
+    <strong>Author:</strong> {{ article.author }}
+  </p>
+
+  <!-- Render body with paragraphs -->
+  <div
+    class="article-body"
+    [innerHTML]="convertToParagraphs(article.body)"
+    [matTooltip]="article.body"
+    matTooltipPosition="above"
+  ></div>
 
   <mat-icon (click)="onEdit(article)" class="text-success">edit</mat-icon>
   <mat-icon (click)="onDelete(article.id)" class="text-danger">delete</mat-icon>

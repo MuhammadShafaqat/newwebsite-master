@@ -13,6 +13,7 @@ const articleRoutes = require('./routes/articles');
 const shopRoutes = require("./routes/shop");
 const orderRoutes = require('./routes/order');
 const bannerRoutes = require('./routes/infobanner');
+const eventRoutes = require('./routes/events');
 const path = require('path'); // ✅ Required for static file path resolution
 
 const app = express();
@@ -43,6 +44,7 @@ app.use('/api/articles', articleRoutes);
 app.use('/api/products', shopRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/banner', bannerRoutes);
+app.use('/api/events', eventRoutes);
 
 
 // Start server
