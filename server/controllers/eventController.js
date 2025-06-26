@@ -7,6 +7,18 @@ const  getEvents = async (req, res) => {
   res.json(events);
 };
 
+
+// Admin-only: Get all events regardless of role
+const getAllEventsForAdmin = async (req, res) => {
+  try {
+    const events = await Event.find({ isActive: true });
+    res.json(events);
+  } catch (err) {
+    console.error('Admin fetch error:', err);
+    res.status(500).json({ message: 'Failed to fetch all events for admin' });
+  }
+};
+
 // Create Event
 const createEvent = async (req, res) => {
   try {
@@ -45,16 +57,56 @@ const createEvent = async (req, res) => {
   }
 };
 
+//update Event
+const updateEvent = async (req, res) => {
+  try {
+    const {
+      title,
+      description,
+      isMandatory,
+      eventDate,
+      repeat,
+      visibilityLevel
+    } = req.body;
 
-//deleteEvent
+    const updatedData = {
+      title,
+      description,
+      isMandatory,
+      eventDate,
+      repeat,
+      visibilityLevel,
+      date: eventDate // Optional: keep old compatibility
+    };
+
+    const event = await Event.findById(req.params.id);
+    if (!event) {
+      return res.status(404).json({ message: 'Event not found' });
+    }
+
+    // If new image uploaded, replace old one
+    if (req.file) {
+       updatedData.image = `/uploads/events/${req.file.filename}`; 
+    }
+
+    const updatedEvent = await Event.findByIdAndUpdate(req.params.id, updatedData, {
+      new: true
+    });
+
+    res.status(200).json({ message: 'Event updated successfully', event: updatedEvent });
+
+  } catch (err) {
+    console.error('Update Event Error:', err);
+    res.status(500).json({ message: 'Failed to update event' });
+  }
+};
+
+
 // Delete Event
 const deleteEvent = async (req, res) => {
   try {
-    const event = await Event.findById(req.params.id);
-    if (!event) return res.status(404).json({ message: 'Event not found' });
-
-    await event.remove();
-    res.json({ message: 'Event deleted successfully' });
+    const event = await Event.findByIdAndDelete(req.params.id);
+   return    res.json({ message: 'Event deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Server error while deleting event' });
   }
@@ -88,4 +140,4 @@ const  toggleAttendance = async (req, res) => {
 };
 
 
-module.exports = {getEvents, createEvent, deleteEvent, toggleAttendance}
+module.exports = {getEvents, getAllEventsForAdmin, createEvent, updateEvent, deleteEvent, toggleAttendance}
