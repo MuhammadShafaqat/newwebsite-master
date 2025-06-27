@@ -1,10 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { User } from '../_models/user';
 
-interface AuthResponse {
+export interface AuthResponse {
   message: string;
-  isAdmin: boolean; // ✅ Instead of role: 'admin' | 'user'
+  isAdmin: boolean;
+  token: string;
+  id: string; // ✅ Add this
+  roleLevel: number
 }
 
 @Injectable({
@@ -22,6 +26,29 @@ export class AuthService {
 
   signin(data: { username: string; password: string }): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.baseUrl}/signin`, data);
+  }
+ 
+getCurrentUser(): Observable<User> {
+  const token = localStorage.getItem('token');
+  return this.http.get<User>(`${this.baseUrl}/user`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+}
+
+
+isLoggedIn(): boolean {
+  const token = localStorage.getItem('token');
+  console.log('🧪 Checking token in localStorage:', token);
+  return !!token;
+}
+
+
+
+   logout(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('isAdmin');
   }
 
 }

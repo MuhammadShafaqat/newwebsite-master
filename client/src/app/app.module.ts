@@ -20,7 +20,6 @@ import { ShortsVideoPlayer } from './shorts-videoplayer/shorts-videoplayer.compo
 import { TodolistComponent } from './todolist/todolist.component';
 import { HomeComponent } from './home/home.component';
 import { RouterModule } from '@angular/router';
-import { AboutComponent } from './about/about.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -31,6 +30,8 @@ import { SignupComponent } from './auth-components/signup/signup.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ArticleComponent } from './article/article.component';
+import { EventsComponent } from './events/events.component';
+import { AboutComponent } from './about/about.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,7 +51,9 @@ import { ArticleComponent } from './article/article.component';
     LangComponent,
     SigninComponent,
     SignupComponent,
-    ArticleComponent
+    ArticleComponent,
+    EventsComponent,
+    AboutComponent,
   
   ],
   imports: [
@@ -61,8 +64,7 @@ import { ArticleComponent } from './article/article.component';
     ShortsVideoPlayerModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    CommonModule,
-    AboutComponent,
+    CommonModule,   
     FormsModule,
     MatExpansionModule,
     MatIconModule,

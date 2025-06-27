@@ -55,8 +55,10 @@ const signin = async (req, res) => {
       sameSite: 'strict',
       maxAge: 86400000,
     });
+return  res.status(200).json({message: 'Login successful', 
+  isAdmin: user.isAdmin, token, id: user._id,  roleLevel: user.roleLevel  });
 
-res.status(200).json({ message: 'Login successful', isAdmin: user.isAdmin });
+
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Server error' });
@@ -68,10 +70,22 @@ const logout = (req, res) => {
   res.status(200).json({ message: 'Logged out' });
 };
 
-const getProfile = (req, res) => {
-  res.json({ user: req.user });
+const getUser = async (req, res) => {
+ 
+   try {
+      const user = await User.findById(req.user.id).select('-password');
+      if (!user) {
+        return res.status(404).json({ success: false, message: 'User not found' });
+      }
+      return res.status(200).json({ success: true, message: 'User retrieved successfully', user: user });
+    } catch (error) {
+      console.error('Error in retrieving user:', error);
+      return res.status(500).json({ success: false, message: 'Server Error' });
+    }
+
 };
 
 
 
-module.exports = {signup, signin, logout, getProfile}
+
+module.exports = {signup, signin, logout, getUser}

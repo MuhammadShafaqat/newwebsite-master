@@ -26,6 +26,14 @@ constructor(private fb: FormBuilder, private auth: AuthService, private router: 
       next: (res) => {
         alert('Login successful!');
        localStorage.setItem('isAdmin', String(res.isAdmin));  
+       localStorage.setItem('token', res.token); // 👈 Store token
+       localStorage.setItem('id', res.id); // ✅ Save user ID
+
+       localStorage.setItem('roleLevel', String(res.roleLevel)); // ✅ Store roleLevel
+
+      console.log('🟢 User roleLevel:', res.roleLevel); // ✅ use it as needed
+
+
     this.router.navigate(res.isAdmin ? ['/adminpannel-home'] : ['/']);
       },
       error: (err) => alert(err.error.message)

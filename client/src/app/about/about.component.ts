@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-about',
-  standalone: true,
-  imports: [],  // ✅ Only import other components/modules if needed (not itself)
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss']
 })

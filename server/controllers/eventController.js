@@ -1,11 +1,38 @@
 const Event = require('../models/Event');
 
-// Get visible events
-const  getEvents = async (req, res) => {
-  const roleLevel = req.user ? req.user.roleLevel : 0;
-  const events = await Event.find({ visibilityLevel: { $lte: roleLevel }, isActive: true });
-  res.json(events);
+// for not-loggedIn users
+const getPublicEvents = async (req, res) => {
+  try {
+    const events = await Event.find({ visibilityLevel: 0, isActive: true });
+    return res.status(200).json(events);
+  } catch (error) {
+    console.error('Public events error:', error);
+    return res.status(500).json({ message: 'Failed to fetch public events' });
+  }
 };
+
+
+
+// Get visible events
+const getProtectedEvents  = async (req, res) => {
+  try {
+    const roleLevel = req.user?.roleLevel ?? 0;
+    const filter = {
+      isActive: true,
+      $or: [
+        { visibilityLevel: 0 }, // public
+        ...(roleLevel > 0 ? [{ visibilityLevel: roleLevel }] : [])
+      ]
+    };
+
+    const events = await Event.find(filter);
+    return res.status(200).json(events);
+  } catch (error) {
+    console.error('Error fetching events:', error);
+    return res.status(500).json({ message: 'Error fetching events' });
+  }
+};
+
 
 
 // Admin-only: Get all events regardless of role
@@ -118,7 +145,7 @@ const  toggleAttendance = async (req, res) => {
   const event = await Event.findById(eventId);
   if (!event) return res.status(404).json({ message: 'Event not found' });
 
-  const userId = req.user?._id;
+  const userId = req.user?.id;
 
   if (attend) {
     // Add attendee
@@ -140,4 +167,5 @@ const  toggleAttendance = async (req, res) => {
 };
 
 
-module.exports = {getEvents, getAllEventsForAdmin, createEvent, updateEvent, deleteEvent, toggleAttendance}
+module.exports = {getPublicEvents,
+  getProtectedEvents, getAllEventsForAdmin, createEvent, updateEvent, deleteEvent, toggleAttendance}

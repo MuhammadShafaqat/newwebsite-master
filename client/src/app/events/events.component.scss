@@ -1,0 +1,38 @@
+.events-page {
+  padding: 1rem;
+  max-width: 1000px;
+  margin: auto;
+
+  .calendar-heading {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    color: #2a5b9e;
+  }
+
+  .no-events {
+    text-align: center;
+    font-style: italic;
+    color: #999;
+  }
+
+  .events-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+
+    th, td {
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f4f4f4;
+    }
+
+    tr:hover {
+      background-color: #f9f9f9;
+    }
+  }
+}
