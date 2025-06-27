@@ -3,7 +3,7 @@ const Event = require('../models/Event');
 // for not-loggedIn users
 const getPublicEvents = async (req, res) => {
   try {
-    const events = await Event.find({ visibilityLevel: 0, isActive: true });
+    const events = await Event.find({ visibilityLevel: 0, isActive: true }).populate('attendees.user', 'username roleLevel');
     return res.status(200).json(events);
   } catch (error) {
     console.error('Public events error:', error);
@@ -25,7 +25,7 @@ const getProtectedEvents  = async (req, res) => {
       ]
     };
 
-    const events = await Event.find(filter);
+    const events = await Event.find(filter).populate('attendees.user', 'username roleLevel');
     return res.status(200).json(events);
   } catch (error) {
     console.error('Error fetching events:', error);
