@@ -4,24 +4,40 @@
   <div *ngIf="loading">Loading events...</div>
   <div *ngIf="!loading && events.length === 0" class="no-events">No events available</div>
 
-  <div *ngIf="events.length > 0">
-    <table class="events-table">
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Date</th>
-          <th>Mandatory</th>
-          <th>Visibility</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let event of events">
-          <td>{{ event.title }}</td>
-          <td>{{ event.eventDate | date: 'fullDate' }}</td>
-          <td>{{ event.isMandatory ? 'Yes' : 'No' }}</td>
-          <td>{{ getVisibilityLabel(event.visibilityLevel) }}</td>
-        </tr>
-      </tbody>
-    </table>
+  <div *ngFor="let event of events" class="event-card" [class.expanded]="isExpanded(event.id)">
+    <div class="date-box">{{ event.eventDate | date: 'd. MMMM yyyy' }}</div>
+
+    <img *ngIf="event.image"
+         class="event-image"
+         [class.expanded-img]="isExpanded(event.id)"
+         [src]="'http://localhost:5000' + event.image"
+         alt="{{ event.title }}" />
+
+    <div class="event-details">
+      <div class="event-title">
+        {{ event.title }}
+        <span *ngIf="event.isMandatory" class="mandatory-blink">MANDATORY</span>
+      </div>
+
+      <div class="event-description">
+        {{ isExpanded(event.id) ? event.description : (event.description || '') | slice:0:180 }}
+        <span *ngIf="!isExpanded(event.id) && hasShortDescription(event.description)">...</span>
+        <a *ngIf="hasLongDescription(event.description)"
+           (click)="toggleReadMore(event.id)"
+           class="read-more">
+          {{ isExpanded(event.id) ? 'Read Less' : 'Read More' }}
+        </a>
+      </div>
+
+<div class="attendance-row" (click)="toggleAttendance(event)" [title]="event.isAttending ? 'You are attending this event' : 'Click to attend anonymously'">
+  <mat-icon [ngClass]="{ 'attending': event.isAttending }">check_circle</mat-icon>
+  <span class="attendance-text">
+    {{ event.attendeesCount || 0 }} attending
+    <small *ngIf="event.isAttending" class="status">(You're in)</small>
+  </span>
+</div>
+
+
+    </div>
   </div>
 </div>

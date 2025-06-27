@@ -1,20 +1,24 @@
 export interface Attendee {
-  user?: string;           // ObjectId as string, if available
+  user?: string; // ObjectId as string (optional for anonymous)
   isAnonymous: boolean;
 }
 
 export interface Event {
-  id?: string;             // MongoDB document ID (optional when creating)
+  id: string;                      // Provided by backend
   title: string;
   image?: string;
   description?: string;
   isMandatory: boolean;
-  eventDate: string;        // ISO date string (e.g., '2025-07-01')
+  eventDate: string;              // ISO format from backend
+  date: string;                   // Legacy or optional use
   repeat: 'none' | 'weekly' | 'monthly' | 'annually';
   visibilityLevel: 0 | 1 | 2 | 3 | 4 | 5 | 6;
-  attendees?: Attendee[];
+  attendees: Attendee[];
   isActive?: boolean;
-  date: string;             // This seems redundant with `eventDate` unless used separately
   createdAt?: string;
   updatedAt?: string;
+
+  // ➕ Frontend-only fields
+  isAttending?: boolean;
+  attendeesCount?: number;
 }

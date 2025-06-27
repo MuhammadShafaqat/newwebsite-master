@@ -20,4 +20,19 @@ export class EventsService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.get<Event[]>(`${this.baseUrl}/protected`, { headers });
   }
+
+
+
+toggleAttendance(eventId: string, attend: boolean) {
+  const token = localStorage.getItem('token') || '';
+  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  return this.http.post<{ attendees: number }>(
+    `http://localhost:5000/api/events/attend`,
+    { eventId, attend }, {
+      headers
+    }
+  );
+}
+
+
 }

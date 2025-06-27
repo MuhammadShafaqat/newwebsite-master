@@ -1,6 +1,6 @@
 .events-page {
   padding: 1rem;
-  max-width: 1000px;
+  width: 100%;
   margin: auto;
 
   .calendar-heading {
@@ -16,23 +16,145 @@
     color: #999;
   }
 
-  .events-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1rem;
+  .event-card {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    background: #fff;
+    border: 1px solid #ddd;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    position: relative;
+    transition: all 0.3s ease;
 
-    th, td {
-      padding: 0.75rem;
-      border: 1px solid #ddd;
-      text-align: left;
+    @media (max-width: 768px) {
+      flex-direction: column;
     }
 
-    th {
-      background-color: #f4f4f4;
-    }
-
-    tr:hover {
+    &.expanded {
       background-color: #f9f9f9;
     }
+
+    .date-box {
+      background-color: #e74c3c;
+      color: white;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.8rem;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .event-image {
+      width: 300px;
+      height: 200px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    .event-details {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .event-title {
+      font-size: 1.3rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .mandatory-blink {
+      color: red;
+      font-size: 12px;
+      margin-left: 1rem;
+      animation: blink 1s infinite;
+    }
+
+    .event-description {
+      color: #444;
+      margin-bottom: 0.8rem;
+
+      .read-more {
+        color: #2a5b9e;
+        cursor: pointer;
+        margin-left: 0.4rem;
+        font-weight: 500;
+      }
+    }
+
+    .attendance-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      .attend-btn {
+        background-color: #2a5b9e;
+        color: white;
+        border: none;
+        padding: 0.4rem 1rem;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #1c3d6d;
+        }
+      }
+
+      .attendees-count {
+        font-size: 0.9rem;
+        color: #333;
+      }
+    }
   }
+}
+
+
+.attendance-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.3s ease;
+
+  &:hover {
+    color: #2a5b9e;
+
+    mat-icon {
+      color: #2a5b9e;
+    }
+  }
+
+  mat-icon {
+    color: #bbb;
+    font-size: 22px;
+    transition: color 0.3s ease;
+
+    &.attending {
+      color: #2a5b9e;
+    }
+  }
+
+  .attendance-text {
+    font-size: 0.95rem;
+    color: #333;
+
+    .status {
+      color: #2a5b9e;
+      font-weight: 500;
+      margin-left: 0.4rem;
+    }
+  }
+}
+
+
+
+
+@keyframes blink {
+  0%   { opacity: 1; }
+  50%  { opacity: 0; }
+  100% { opacity: 1; }
 }
