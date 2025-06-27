@@ -34,12 +34,12 @@ constructor(private fb: FormBuilder, private auth: AuthService, private router: 
       console.log('🟢 User roleLevel:', res.roleLevel); // ✅ use it as needed
 
 
-     // ✅ Redirect based on admin status
-      if (res.isAdmin) {
-        this.router.navigate(['/admin']);
-      } else {
-        this.router.navigate(['/']); // Non-admins go to homepage
-      }
+     
+      // if (res.isAdmin) {
+      //   this.router.navigate(['/admin']);
+      // } else {
+      //   this.router.navigate(['/']); 
+      // }
     },
     error: (err) => alert(err.error.message)
   });

@@ -31,7 +31,7 @@ const routes: Routes = [
  // Lazy-loaded Admin Pannel
   {
     path: 'admin',
-    canActivate: [AdminGuard], // ⬅️ Protect this route
+    // canActivate: [AdminGuard], 
     loadChildren: () =>
       import('./admin-pannel/admin-pannel.module').then(m => m.AdminPannelModule),
   },
