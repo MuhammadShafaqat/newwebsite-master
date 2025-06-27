@@ -1,0 +1,159 @@
+.calendar-container {
+  width: 100%;
+  margin: auto;
+  padding: 1rem;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+
+  h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+
+  button {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #2a5b9e;
+    transition: color 0.2s ease-in-out;
+
+    &:hover {
+      color: #1a3b70;
+    }
+  }
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+
+  .calendar-day {
+    text-align: center;
+    font-weight: 600;
+    color: #555;
+    font-size: 0.9rem;
+    padding: 0.25rem 0;
+  }
+
+  .calendar-cell {
+    border: 1px solid #ddd;
+    min-height: 60px;
+    padding: 4px;
+    position: relative;
+    text-align: right;
+    background: #fdfdfd;
+    border-radius: 4px;
+
+    &.other-month {
+      background-color: #f1f1f1;
+      color: #aaa;
+    }
+
+    .date-label {
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .event-dot {
+      position: absolute;
+      bottom: 4px;
+      left: 4px;
+      width: 100%;
+      text-align: center;
+      font-size: 0.9rem;
+      background-color: #fff;
+      color: #0a0909;
+      cursor: pointer;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      &.desktop-view {
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      &.mobile-view {
+        white-space: normal;
+        overflow: visible;
+        text-overflow: initial;
+      }
+    }
+  }
+}
+
+// Angular Material Tooltip Custom Styling
+::ng-deep .mat-tooltip.custom-tooltip {
+  background-color: #ffffff !important;
+  color: black !important;
+  font-size: 13px;
+  border: 1px solid #ccc;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 8px 12px;
+  border-radius: 6px;
+  max-width: 300px !important;
+  white-space: pre-line !important; // Allows line breaks
+  word-break: break-word;
+
+  &::first-line {
+    font-weight: bold;
+  }
+}
+
+// MOBILE VIEW
+@media (max-width: 768px) {
+  .calendar-container {
+    padding: 0.2rem;
+  }
+
+  .calendar-grid {
+    display: block;
+
+    .calendar-day {
+      display: none; // Hide week headers
+    }
+
+    .calendar-cell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #ddd;
+      margin-bottom: 5px;
+      min-height: 70px;
+      text-align: center;
+      padding: 0.75rem;
+      border-radius: 8px;
+
+      .date-label {
+        font-weight: bold;
+        font-size: 1.1rem;
+        color: #2a5b9e;
+        margin-bottom: 5px;
+      }
+
+      .event-dot {
+        position: static;
+        width: 100%;
+        color: #111;
+        background-color: transparent;
+        font-weight: 500;
+        font-size: 0.95rem;
+        white-space: normal;
+        overflow: visible;
+        text-overflow: initial;
+      }
+    }
+  }
+}

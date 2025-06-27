@@ -1,63 +1,65 @@
 <div class="events-page">
-  <h2 class="calendar-heading"><mat-icon  class="fs-5 me-1 align-middle text-secondary">calendar_today</mat-icon> Upcoming Events</h2>
+  <p class="calendar-heading"><mat-icon  class="fs-5 me-1 align-middle text-secondary">calendar_today</mat-icon> Upcoming Events</p>
 
   <div *ngIf="loading">Loading events...</div>
   <div *ngIf="!loading && events.length === 0" class="no-events">No events available</div>
+<app-calendar [events]="events"></app-calendar>
 
+  
   <div *ngFor="let event of events" class="event-card" [class.expanded]="isExpanded(event.id)">
-    <div class="date-box">{{ event.eventDate | date: 'd. MMMM yyyy' }}</div>
+  
+  <!-- Date Box -->
+  <div class="date-box">
+    {{ event.eventDate | date: 'd. MMMM yyyy' }}
+  </div>
 
-    <img *ngIf="event.image"
-         class="event-image"
-         [class.expanded-img]="isExpanded(event.id)"
-         [src]="'http://localhost:5000' + event.image"
-         alt="{{ event.title }}" />
+  <!-- ✅ Event Image (place it here, just before .event-details) -->
+  <img *ngIf="event.image"
+       class="event-image"
+       [class.expanded-img]="isExpanded(event.id)"
+       [src]="'http://localhost:5000' + event.image"
+       [alt]="event.title" />
 
-    <div class="event-details">
-      <div class="event-title">
-        {{ event.title }}
-        <span *ngIf="event.isMandatory" class="mandatory-blink">MANDATORY</span>
+  <!-- Event Details Block -->
+  <div class="event-details">
+
+    <div class="event-title">
+      {{ event.title }}
+      <span *ngIf="event.isMandatory" class="mandatory-blink">MANDATORY</span>
+    </div>
+
+    <div class="event-description-wrapper">
+      <div class="event-description" [class.clamped]="!isExpanded(event.id)">
+        {{ event.description }}
       </div>
 
-   <div class="event-description-wrapper">
-  <div class="event-description" [class.clamped]="!isExpanded(event.id)">
-    {{ event.description }}
-  </div>
+      <div class="description-spacer" *ngIf="!isExpanded(event.id)"></div>
 
-  <!-- Spacer for 2 empty lines -->
-  <div class="description-spacer" *ngIf="!isExpanded(event.id)"></div>
-
-  <!-- Read More / Less Link -->
-  <a *ngIf="hasLongDescription(event.description)"
-     (click)="toggleReadMore(event.id)"
-     class="read-more-link"
-  >
-    {{ isExpanded(event.id) ? 'Read Less' : 'Read More' }}
-  </a>
-</div>
-
-
-<div
-  class="attendance-row"
- 
->
-  <!-- Dynamic attendance icon -->
-  <mat-icon   (click)="toggleAttendance(event)"
-  [title]="event.isAttending ? 'You are attending this event' : 'Click to attend anonymously'"
-  [ngClass]="{ 'attending': event.isAttending }">
-    {{ event.isAttending ? 'how_to_reg' : 'person_add' }}
-  </mat-icon>
-
-  <!-- Attendees count with group icon -->
-  <span class="attendance-text">
-    <mat-icon class="group-icon">group</mat-icon>
-    {{ event.attendeesCount || 0 }} attending
-    <small *ngIf="event.isAttending" class="status">(You're in)</small>
-  </span>
-</div>
-
-
-
+      <a *ngIf="hasLongDescription(event.description)"
+         (click)="toggleReadMore(event.id)"
+         class="read-more-link">
+        {{ isExpanded(event.id) ? 'Read Less' : 'Read More' }}
+      </a>
     </div>
+
+    <div class="attendance-row">
+      <mat-icon
+        (click)="toggleAttendance(event)"
+        [title]="event.isAttending ? 'You are attending this event' : 'Click to attend anonymously'"
+        [ngClass]="{ 'attending': event.isAttending }">
+        {{ event.isAttending ? 'how_to_reg' : 'person_add' }}
+      </mat-icon>
+
+      <span class="attendance-text">
+        <mat-icon class="group-icon">group</mat-icon>
+        {{ event.attendeesCount || 0 }} attending
+        <small *ngIf="event.isAttending" class="status">(You're in)</small>
+      </span>
+    </div>
+
   </div>
+</div>
+
+
+
 </div>

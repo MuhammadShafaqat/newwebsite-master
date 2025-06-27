@@ -1,0 +1,35 @@
+<div class="calendar-container">
+  <div class="calendar-header">
+    <button (click)="prevMonth()">&laquo;</button>
+    <h3>{{ currentMonth | date: 'MMMM yyyy' }}</h3>
+    <button (click)="nextMonth()">&raquo;</button>
+  </div>
+
+  <div class="calendar-grid">
+    <div class="calendar-day" *ngFor="let day of weekDays">{{ day }}</div>
+
+    <div
+      class="calendar-cell"
+      *ngFor="let date of calendarDates"
+      [class.other-month]="!date.inCurrentMonth"
+    >
+      <div class="date-label">{{ date.date.getDate() }}</div>
+
+<div
+  *ngIf="date.event"
+  class="event-dot"
+  [ngClass]="{ 'mobile-view': isMobile, 'desktop-view': !isMobile }"
+  [matTooltip]="getTooltipText(date.event)"
+  matTooltipPosition="above"
+  matTooltipClass="custom-tooltip"
+>
+  
+    {{ truncateTitle(date.event.title) }}
+  
+</div>
+
+
+
+    </div>
+  </div>
+</div>

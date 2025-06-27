@@ -32,6 +32,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ArticleComponent } from './article/article.component';
 import { EventsComponent } from './events/events.component';
 import { AboutComponent } from './about/about.component';
+import { CalendarComponent } from './calendar/calendar.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,6 +55,7 @@ import { AboutComponent } from './about/about.component';
     ArticleComponent,
     EventsComponent,
     AboutComponent,
+    CalendarComponent
   
   ],
   imports: [
