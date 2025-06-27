@@ -7,11 +7,13 @@ import { AdminArticlesComponent } from './admin-articles/admin-articles.componen
 import { AdminPressComponent } from './admin-press/admin-press.component';
 import { AdminShopComponent } from './admin-shop/admin-shop.component';
 import { AdminVideosComponent } from './admin-videos/admin-videos.component';
+import { AdminGuard } from '../guards/admin.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: AdminLayoutComponent,
+    canActivate: [AdminGuard], // ⬅️ Optional double protection
     children: [
       {path:'admin-articles', component:AdminArticlesComponent},
       { path: 'admin-infobanner', component: AdminInfobannerComponent },

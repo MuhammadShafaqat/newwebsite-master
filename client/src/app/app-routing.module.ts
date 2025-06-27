@@ -11,6 +11,7 @@ import { ArticleListComponent } from './article-list/article-list.component';
 import { ArticleComponent } from './article/article.component';
 import { SignupComponent } from './auth-components/signup/signup.component';
 import { SigninComponent } from './auth-components/signin/signin.component';
+import { AdminGuard } from './guards/admin.guard';
 
 
 
@@ -30,6 +31,7 @@ const routes: Routes = [
  // Lazy-loaded Admin Pannel
   {
     path: 'admin',
+    canActivate: [AdminGuard], // ⬅️ Protect this route
     loadChildren: () =>
       import('./admin-pannel/admin-pannel.module').then(m => m.AdminPannelModule),
   },

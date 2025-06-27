@@ -25,7 +25,7 @@ constructor(private fb: FormBuilder, private auth: AuthService, private router: 
     this.auth.signin(this.signinForm.value).subscribe({
       next: (res) => {
         alert('Login successful!');
-       localStorage.setItem('isAdmin', String(res.isAdmin));  
+      //  localStorage.setItem('isAdmin', String(res.isAdmin));  
        localStorage.setItem('token', res.token); // 👈 Store token
        localStorage.setItem('id', res.id); // ✅ Save user ID
 
@@ -34,10 +34,15 @@ constructor(private fb: FormBuilder, private auth: AuthService, private router: 
       console.log('🟢 User roleLevel:', res.roleLevel); // ✅ use it as needed
 
 
-    this.router.navigate(res.isAdmin ? ['/adminpannel-home'] : ['/']);
-      },
-      error: (err) => alert(err.error.message)
-    });
+     // ✅ Redirect based on admin status
+      if (res.isAdmin) {
+        this.router.navigate(['/admin']);
+      } else {
+        this.router.navigate(['/']); // Non-admins go to homepage
+      }
+    },
+    error: (err) => alert(err.error.message)
+  });
   }
 
 
