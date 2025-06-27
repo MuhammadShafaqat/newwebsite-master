@@ -60,53 +60,101 @@
     }
 
     .event-title {
-      font-size: 1.3rem;
-      font-weight: bold;
+      font-size: 1.1rem;
+      // font-weight: bold;
       margin-bottom: 0.5rem;
     }
 
     .mandatory-blink {
-      color: red;
-      font-size: 12px;
+      color: green;
+      font-size: 10px;
       margin-left: 1rem;
       animation: blink 1s infinite;
     }
 
-    .event-description {
-      color: #444;
-      margin-bottom: 0.8rem;
+   .event-description-wrapper {
+  width: 650px;
+  font-size: 14px;
+  line-height: 1.6;
+  position: relative;
+}
 
-      .read-more {
-        color: #2a5b9e;
-        cursor: pointer;
-        margin-left: 0.4rem;
-        font-weight: 500;
-      }
+.event-description {
+  color: #444;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  text-align: justify;
+  &.clamped {
+    display: -webkit-box;
+    -webkit-line-clamp: 7;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    max-height: calc(1.6em * 7); // 7 lines height
+  }
+}
+
+.description-spacer {
+  height: calc(1.6em * 2); // 2 empty lines
+}
+
+.read-more-link {
+  display: inline-block;
+  color: #2a5b9e;
+  cursor: pointer;
+  font-weight: 500;
+  margin-top: 0.3rem;
+  margin-left: 0.1rem;
+}
+
+
+   .attendance-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.3s ease;
+
+  &:hover {
+    color: #2a5b9e;
+
+    mat-icon {
+      color: #2a5b9e;
+    }
+  }
+
+  mat-icon {
+    font-size: 22px;
+    transition: color 0.3s ease;
+    color: #bbb;
+
+    &.attending {
+      color: #2a5b9e;
     }
 
-    .attendance-row {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-
-      .attend-btn {
-        background-color: #2a5b9e;
-        color: white;
-        border: none;
-        padding: 0.4rem 1rem;
-        border-radius: 4px;
-        cursor: pointer;
-
-        &:hover {
-          background-color: #1c3d6d;
-        }
-      }
-
-      .attendees-count {
-        font-size: 0.9rem;
-        color: #333;
-      }
+    &.group-icon {
+      font-size: 20px;
+      color: #666;
+      margin-right: 0.3rem;
+      vertical-align: middle;
     }
+  }
+
+  .attendance-text {
+    font-size: 0.95rem;
+    color: #333;
+    display: flex;
+    align-items: center;
+
+    .status {
+      margin-left: 0.4rem;
+      color: #2a5b9e;
+      font-weight: 500;
+    }
+  }
+}
+
   }
 }
 
