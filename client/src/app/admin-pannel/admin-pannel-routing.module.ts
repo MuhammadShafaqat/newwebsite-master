@@ -13,7 +13,7 @@ const routes: Routes = [
   {
     path: '',
     component: AdminLayoutComponent,
-    // canActivate: [AdminGuard], 
+    canActivate: [AdminGuard], 
     children: [
       {path:'admin-articles', component:AdminArticlesComponent},
       { path: 'admin-infobanner', component: AdminInfobannerComponent },

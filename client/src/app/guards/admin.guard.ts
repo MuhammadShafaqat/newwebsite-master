@@ -11,8 +11,8 @@ export class AdminGuard implements CanActivate {
 
   canActivate(): Observable<boolean | UrlTree> {
     return this.auth.getCurrentUser().pipe(
-      map((user) => {
-        if (user.isAdmin) {
+      map((response:any) => {
+        if (response.user?.isAdmin) {
           return true;
         } else {
           alert('Access denied. Admins only.');

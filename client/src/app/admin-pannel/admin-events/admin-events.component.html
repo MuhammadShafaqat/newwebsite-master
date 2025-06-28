@@ -74,7 +74,7 @@
         <tr *ngFor="let event of filteredEvents">
           <td>{{ event.title }}</td>
           <td>{{ event.eventDate | date: 'longDate' }}</td>
-          <td>{{ event.attendees?.length || 0 }}</td>
+          <td>{{ event.attendees.length || 0 }}</td>
           <td>{{ event.isMandatory ? 'Yes' : 'No' }}</td>
           <td>{{ getVisibilityLabel(event.visibilityLevel) }}</td>
           <td>
