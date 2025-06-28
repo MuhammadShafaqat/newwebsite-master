@@ -29,8 +29,8 @@
     </div>
 
     <div class="event-description-wrapper">
-      <div class="event-description" [class.clamped]="!isExpanded(event.id)">
-        {{ event.description }}
+      <div class="event-description body" [class.clamped]="!isExpanded(event.id)"  [innerHTML]="convertToParagraphs(event.description!)">
+         
       </div>
 
       <div class="description-spacer" *ngIf="!isExpanded(event.id)"></div>

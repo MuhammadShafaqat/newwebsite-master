@@ -112,4 +112,28 @@ export class EventsComponent implements OnInit {
   getVisibilityLabel(level: number): string {
     return this.visibilityLabels[level] ?? 'Unknown';
   }
+
+convertToParagraphs(text: string): string {
+  if (!text) return '';
+
+  const isHTML = /<\/?[a-z][\s\S]*>/i.test(text); // detects basic HTML tags
+
+  if (isHTML) {
+    // ✅ already has <p>, <br>, etc. → return as-is
+    return text;
+  }
+
+  // Else treat as plain text and wrap into paragraphs
+  const paragraphs = text.includes('\n\n')
+    ? text.split(/\n{2,}/g)
+    : [text];
+
+  return paragraphs
+    .map(para => `<p>${para.trim().replace(/\n/g, '<br>')}</p>`)
+    .join('');
+}
+
+
+
+
 }

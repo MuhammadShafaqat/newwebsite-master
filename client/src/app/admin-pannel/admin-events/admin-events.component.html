@@ -4,10 +4,17 @@
   <form [formGroup]="eventForm" (ngSubmit)="editingEventId ? updateEventSubmit() : createEvent()" class="event-form">
     <label>Title: <input formControlName="title" type="text" required /></label>
 
-    <label class="full-width">
-      Description:
-      <textarea formControlName="description" rows="3"></textarea>
-    </label>
+   <label class="full-width">
+  Description:
+  <textarea
+    formControlName="description"
+    rows="3"
+    placeholder="Enter event description"
+    (input)="autoGrow($event)"
+    #descriptionTextarea
+  ></textarea>
+</label>
+
 
     <label class="full-width">
       Image:

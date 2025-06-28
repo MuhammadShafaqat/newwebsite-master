@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AdmineventService } from '../admin-services/adminevent.service';
 import { Event } from 'src/app/_models/event';
@@ -8,7 +8,11 @@ import { Event } from 'src/app/_models/event';
   templateUrl: './admin-events.component.html',
   styleUrls: ['./admin-events.component.scss']
 })
-export class AdminEventsComponent implements OnInit {
+
+export class AdminEventsComponent implements OnInit, AfterViewInit {
+
+   @ViewChild('descriptionTextarea') descriptionTextareaRef!: ElementRef<HTMLTextAreaElement>;
+
   eventForm!: FormGroup;
   events: Event[] = [];
   loading = false;
@@ -30,6 +34,9 @@ selectedVisibilityFilter: string = 'all';
   repeatOptions = ['none', 'weekly', 'monthly', 'annually'];
 
   constructor(private fb: FormBuilder, private adminevent: AdmineventService) {}
+ngAfterViewInit(): void {
+  setTimeout(() => this.autoGrowTextarea(), 100);
+}
 
   ngOnInit(): void {
     this.eventForm = this.fb.group({
@@ -84,7 +91,7 @@ selectedVisibilityFilter: string = 'all';
     const formValues = this.eventForm.value;
 
     formData.append('title', formValues.title);
-    formData.append('description', formValues.description || '');
+    formData.append('description', this.convertToParagraphs(formValues.description || ''));
     formData.append('isMandatory', formValues.isMandatory.toString());
     formData.append('eventDate', formValues.eventDate);
     formData.append('repeat', formValues.repeat);
@@ -118,7 +125,7 @@ selectedVisibilityFilter: string = 'all';
     const formValues = this.eventForm.value;
 
     formData.append('title', formValues.title);
-    formData.append('description', formValues.description || '');
+    formData.append('description', this.convertToParagraphs(formValues.description || ''));
     formData.append('isMandatory', formValues.isMandatory.toString());
     formData.append('eventDate', formValues.eventDate);
     formData.append('repeat', formValues.repeat);
@@ -154,4 +161,42 @@ selectedVisibilityFilter: string = 'all';
     const match = this.visibilityOptions.find(o => o.value === level);
     return match ? match.label : 'Unknown';
   }
+
+
+
+  autoGrow(event: any): void {
+  const textarea = event.target as HTMLTextAreaElement;
+  textarea.style.height = 'auto';
+  textarea.style.height = textarea.scrollHeight + 'px';
+}
+
+autoGrowTextarea(): void {
+  if (this.descriptionTextareaRef) {
+    const textarea = this.descriptionTextareaRef.nativeElement;
+    textarea.style.height = 'auto';
+    textarea.style.height = textarea.scrollHeight + 'px';
+  }
+}
+
+resetTextareaHeight(): void {
+  if (this.descriptionTextareaRef) {
+    const textarea = this.descriptionTextareaRef.nativeElement;
+    textarea.style.height = '120px';
+  }
+}
+
+convertToParagraphs(text: string): string {
+  if (!text) return '';
+
+  const escaped = text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+  const paragraphs = escaped.split(/\n{2,}/g);
+  return paragraphs
+    .map(p => `<p>${p.trim().replace(/\n/g, '<br>')}</p>`)
+    .join('');
+}
+
 }
