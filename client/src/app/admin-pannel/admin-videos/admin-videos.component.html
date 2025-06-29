@@ -1,1 +1,41 @@
-<p>admin-videos works!</p>
+<h2><mat-icon class="icon">movie</mat-icon> Add YouTube Video</h2>
+
+<div class="video-input-preview-container">
+  <form (ngSubmit)="onSubmit()" class="video-form">
+    <label for="videoId">YouTube Video ID:</label>
+    <input
+      type="text"
+      [(ngModel)]="videoId"
+      name="videoId"
+      id="videoId"
+      placeholder="e.g. RlcQwaI6Lwc"
+      required
+    />
+    <button type="submit">Submit</button>
+  </form>
+
+  <div class="video-preview" *ngIf="videoId">
+    <h3>Preview</h3>
+    <div class="video-wrapper">
+      <iframe
+        [src]="('https://www.youtube.com/embed/' + videoId) | safe"
+        frameborder="0"
+        allowfullscreen
+      ></iframe>
+    </div>
+  </div>
+</div>
+
+<h3><mat-icon class="icon">video_library</mat-icon> Video List</h3>
+<ul>
+  <li *ngFor="let video of videoList">
+    <strong>{{ video.title }}</strong><br />
+    <div class="video-wrapper">
+      <iframe
+        [src]="'https://www.youtube.com/embed/' + video.videoId | safe"
+        frameborder="0"
+        allowfullscreen
+      ></iframe>
+    </div>
+  </li>
+</ul>

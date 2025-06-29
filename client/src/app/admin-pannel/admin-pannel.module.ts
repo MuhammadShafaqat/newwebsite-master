@@ -10,6 +10,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminArticlesComponent } from './admin-articles/admin-articles.component';
 import { AdminShopComponent } from './admin-shop/admin-shop.component';
+import { SafePipe } from '../pipes/safe.pipe';
+import { AdminVideosComponent } from './admin-videos/admin-videos.component';
 
 
 @NgModule({
@@ -19,7 +21,9 @@ import { AdminShopComponent } from './admin-shop/admin-shop.component';
    AdminEventsComponent,
     SidebarComponent,
     AdminArticlesComponent,
-    AdminShopComponent
+    AdminShopComponent,
+    AdminVideosComponent,
+     SafePipe
   ],
   imports: [
     CommonModule,
@@ -27,7 +31,8 @@ import { AdminShopComponent } from './admin-shop/admin-shop.component';
     MatIconModule,
     MatTooltipModule, 
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+   
   ]
 })
 export class AdminPannelModule { }
