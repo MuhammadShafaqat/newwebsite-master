@@ -1,28 +1,28 @@
-.carousel {
+.carousel1 {
   display: flex;
   justify-content: center;
   margin-top: 2rem;
 }
 
-.carousel-container {
+.carousel1-container {
   display: flex;
   justify-content: center;
 }
 
-.carousel-slide {
+.carousel1-slide {
   display: flex;
   gap: 12px;
   align-items: center;
 }
 
-.carousel-item {
+.carousel1-item {
   position: relative;
   transition: transform 0.3s ease;
   cursor: pointer;
   overflow: hidden;
 }
 
-.carousel-item.center {
+.carousel1-item.center {
   transform: scale(1.1);
   animation: fadeInUp 0.5s ease-in-out;
   cursor: default;
@@ -40,13 +40,13 @@
 }
 
 
-.carousel-item.side app-shorts-video {
+.carousel1-item.side app-shorts-video {
   filter: blur(1px);
   transform: scale(0.95);
   pointer-events: none; /* Prevent clicks from going to video inside */
 }
 
-.carousel-item.center app-shorts-video {
+.carousel1-item.center app-shorts-video {
   filter: none;
   transform: scale(1.1);
   pointer-events: auto;

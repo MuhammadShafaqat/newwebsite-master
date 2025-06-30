@@ -4,12 +4,12 @@ next video is selected. It just replaces it, without any animation. That's not
 good. //Also the first video currently autoplays. Don't make that it autoplays.
 //Also don't make it red. It doesn't suit the rest of the website. Maybe black,
 navy or gray.
-<div class="carousel" *ngIf="items.length > 0">
-  <div class="carousel-container">
-    <div class="carousel-slide">
+<div class="carousel1" *ngIf="items.length > 0">
+  <div class="carousel1-container">
+    <div class="carousel1-slide">
       <!-- Left Video -->
       <div
-        class="carousel-item side"
+        class="carousel1-item side"
         (click)="selectVideo(getWrappedIndex(currentIndex - 1))"
       >
         <div class="clickable-overlay"></div>
@@ -22,7 +22,7 @@ navy or gray.
       </div>
 
       <!-- Center Video -->
-      <div class="carousel-item center">
+      <div class="carousel1-item center">
         <app-shorts-video
           #videoFrame
           [videoInfo]="items[currentIndex]"
@@ -33,7 +33,7 @@ navy or gray.
 
       <!-- Right Video -->
       <div
-        class="carousel-item side"
+        class="carousel1-item side"
         (click)="selectVideo(getWrappedIndex(currentIndex + 1))"
       >
         <div class="clickable-overlay"></div>
