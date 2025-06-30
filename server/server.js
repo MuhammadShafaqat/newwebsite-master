@@ -15,13 +15,17 @@ const orderRoutes = require('./routes/order');
 const bannerRoutes = require('./routes/infobanner');
 const eventRoutes = require('./routes/events');
 const videoRoutes = require('./routes/videos');
+const pressRoutes = require("./routes/press");
 const path = require('path'); // ✅ Required for static file path resolution
 
 const app = express();
 connectDB(); // ✅ Connect to MongoDB
 
 // Middlewares
-app.use(express.json());
+// Middlewares
+app.use(express.json({ limit: '10mb' })); // or higher if needed
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
 app.use(helmet());
 app.use(cors({ origin: 'http://localhost:4200',  credentials: true }));
 app.use(morgan('dev'));
@@ -47,6 +51,7 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/banner', bannerRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/videos', videoRoutes);
+app.use('/api/press-release', pressRoutes)
 
 
 // Start server

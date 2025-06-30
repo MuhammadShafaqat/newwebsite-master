@@ -33,6 +33,7 @@ import { ArticleComponent } from './article/article.component';
 import { EventsComponent } from './events/events.component';
 import { AboutComponent } from './about/about.component';
 import { CalendarComponent } from './calendar/calendar.component';
+import { PressComponent } from './press/press.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -55,7 +56,8 @@ import { CalendarComponent } from './calendar/calendar.component';
     ArticleComponent,
     EventsComponent,
     AboutComponent,
-    CalendarComponent
+    CalendarComponent,
+    PressComponent
   
   ],
   imports: [

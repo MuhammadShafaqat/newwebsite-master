@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ShortsVideoPlayer } from './shorts-videoplayer.component';
+import { ShortsVideoPlayerComponent } from './shorts-videoplayer.component';
 
 describe('CustomContentSliderComponent', () => {
-  let component: ShortsVideoPlayer;
-  let fixture: ComponentFixture<ShortsVideoPlayer>;
+  let component: ShortsVideoPlayerComponent;
+  let fixture: ComponentFixture<ShortsVideoPlayerComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ShortsVideoPlayer],
+      imports: [ShortsVideoPlayerComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ShortsVideoPlayer);
+    fixture = TestBed.createComponent(ShortsVideoPlayerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

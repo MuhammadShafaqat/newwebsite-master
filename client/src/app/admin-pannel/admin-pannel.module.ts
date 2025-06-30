@@ -12,6 +12,7 @@ import { AdminArticlesComponent } from './admin-articles/admin-articles.componen
 import { AdminShopComponent } from './admin-shop/admin-shop.component';
 import { SafePipe } from '../pipes/safe.pipe';
 import { AdminVideosComponent } from './admin-videos/admin-videos.component';
+import { AdminPressComponent } from './admin-press/admin-press.component';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { AdminVideosComponent } from './admin-videos/admin-videos.component';
     AdminArticlesComponent,
     AdminShopComponent,
     AdminVideosComponent,
+    AdminPressComponent,
      SafePipe
   ],
   imports: [

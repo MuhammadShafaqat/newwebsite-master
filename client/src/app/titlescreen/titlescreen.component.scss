@@ -5,7 +5,7 @@
 }
 
 .slider-wrapper {
-  width: 100vw;
+  width: 100%;
   // border-top: 40px solid #f44336;  
   // border-bottom: 40px solid #f44336;  
   box-sizing: border-box;
@@ -113,7 +113,7 @@
 @media (max-width: 768px) {
   .slider-wrapper{
     height: 50vh;
-    width: 90vw;
+    width: 100%;
     align-items: center;
     
   }
@@ -126,7 +126,7 @@
 }
 
 .image-wrapper{
-  width: 90vw;
+  width: 100%;
 }
 
 .slider-item {
@@ -144,7 +144,7 @@
 }
 
 .media {
-  width: 95%;
+  width: 100%;
   height: 41vh;
   object-fit: cover;
    background-color: black;  

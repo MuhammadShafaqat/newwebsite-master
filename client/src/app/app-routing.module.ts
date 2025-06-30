@@ -12,6 +12,7 @@ import { ArticleComponent } from './article/article.component';
 import { SignupComponent } from './auth-components/signup/signup.component';
 import { SigninComponent } from './auth-components/signin/signin.component';
 import { AdminGuard } from './guards/admin.guard';
+import { PressComponent } from './press/press.component';
 
 
 
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'faq', component: FaqComponent },
   { path: 'actions', component: ActionsComponent },
   { path: 'events', component: EventsComponent },
+  { path: 'press', component: PressComponent },
   { path: 'about', component: AboutComponent },
   { path: 'article-list', component: ArticleListComponent },
   { path: 'article/:id', component: ArticleComponent },

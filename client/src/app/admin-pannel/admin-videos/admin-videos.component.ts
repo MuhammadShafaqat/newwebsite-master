@@ -48,4 +48,13 @@ export class AdminVideosComponent implements OnInit {
       this.videoList = videos;
     });
   }
+
+  deleteVideo(id: string) {
+  if (confirm('Are you sure you want to delete this video?')) {
+    this.adminvideo.deleteVideo(id).subscribe(() => {
+      this.videoList = this.videoList.filter(v => v._id !== id);
+    });
+  }
+}
+
 }

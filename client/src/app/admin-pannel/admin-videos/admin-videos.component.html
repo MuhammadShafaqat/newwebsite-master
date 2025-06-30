@@ -28,14 +28,25 @@
 
 <h3><mat-icon class="icon">video_library</mat-icon> Video List</h3>
 <ul>
-  <li *ngFor="let video of videoList">
-    <strong>{{ video.title }}</strong><br />
-    <div class="video-wrapper">
-      <iframe
-        [src]="'https://www.youtube.com/embed/' + video.videoId | safe"
-        frameborder="0"
-        allowfullscreen
-      ></iframe>
-    </div>
-  </li>
+ <li *ngFor="let video of videoList">
+  <div class="video-card-header">
+    <strong>{{ video.title }}</strong>
+  </div>
+
+  <div class="video-wrapper">
+    <iframe
+      [src]="'https://www.youtube.com/embed/' + video.videoId | safe"
+      frameborder="0"
+      allowfullscreen
+    ></iframe>
+  </div>
+
+  <div class="delete-wrapper">
+    <button mat-icon-button color="warn" (click)="deleteVideo(video._id!)" aria-label="Delete video">
+      <mat-icon>delete_forever</mat-icon>
+    </button>
+  </div>
+</li>
+
 </ul>
+
