@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../_models/user';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 export interface AuthResponse {
   message: string;
@@ -18,7 +20,7 @@ export class AuthService {
 
   private baseUrl = 'http://localhost:5000/api/auth';
 
-  constructor(private http:HttpClient) { }
+  constructor(private router:Router, private snackBar: MatSnackBar ,private http:HttpClient) { }
 
   signup(data: { username: string; password: string }): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.baseUrl}/signup`, data);
@@ -46,9 +48,11 @@ isLoggedIn(): boolean {
 
 
 
-   logout(): void {
-    localStorage.removeItem('token');
-    localStorage.removeItem('isAdmin');
-  }
+ logout() {
+  localStorage.clear();
+  sessionStorage.clear();
+  this.snackBar.open('Logged out successfully', 'Close', { duration: 3000 });
+  this.router.navigate(['/signin']);
+}
 
 }

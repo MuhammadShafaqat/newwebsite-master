@@ -1,6 +1,9 @@
 // sidebar.component.ts
 import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { MatSnackBar } from '@angular/material/snack-bar'; // optional for toast
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -23,7 +26,12 @@ export class SidebarComponent implements OnInit {
   activeItem = 'dashboard';
   sidebarCollapsed = false;
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+ constructor(
+  private breakpointObserver: BreakpointObserver,
+  private router: Router,
+  private auth:AuthService,
+  private snackBar: MatSnackBar // optional
+) {}
 
   ngOnInit(): void {
     this.breakpointObserver.observe([Breakpoints.Handset])
@@ -33,6 +41,11 @@ export class SidebarComponent implements OnInit {
   }
 
   selectItem(key: string) {
+ if (key === 'logout') {
+    this.auth.logout();
+    return;
+  }
+
     this.activeItem = key;
     this.itemSelected.emit(key);
   }
