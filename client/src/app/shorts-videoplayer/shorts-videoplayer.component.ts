@@ -1,4 +1,5 @@
-import { Component, QueryList, ViewChildren, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, QueryList, ViewChildren, ElementRef, AfterViewInit, OnInit } from '@angular/core';
+import { VideoService } from '../services/video.service';
 
 interface VideoItem {
   title: string;
@@ -10,7 +11,7 @@ interface VideoItem {
   templateUrl: './shorts-videoplayer.component.html',
   styleUrls: ['./shorts-videoplayer.component.scss'],
 })
-export class ShortsVideoPlayer implements AfterViewInit {
+export class ShortsVideoPlayer implements AfterViewInit, OnInit {
   currentIndex = 0;
 
   items: VideoItem[] = [
@@ -22,9 +23,15 @@ export class ShortsVideoPlayer implements AfterViewInit {
   ];
 
   @ViewChildren('videoFrame') videoFrames!: QueryList<ElementRef<HTMLIFrameElement>>;
-
+constructor(private video:VideoService){}
   ngAfterViewInit(): void {
     setTimeout(() => this.updateVideoStates(), 0);
+  }
+
+  ngOnInit(): void {
+    this.video.getVideos().subscribe((videos)=>{
+      this.items = videos
+    })
   }
 
 selectVideo(index: number) {
