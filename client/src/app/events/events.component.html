@@ -42,20 +42,33 @@
       </a>
     </div>
 
-    <div class="attendance-row">
-      <mat-icon
-        (click)="toggleAttendance(event)"
-        [title]="event.isAttending ? 'You are attending this event' : 'Click to attend anonymously'"
-        [ngClass]="{ 'attending': event.isAttending }">
-        {{ event.isAttending ? 'how_to_reg' : 'person_add' }}
-      </mat-icon>
+ <div class="attendance-row">
+  <mat-icon
+    (click)="toggleAttendance(event)"
+    [title]="event.isAttending ? 'You are attending this event' : 'Click to attend anonymously'"
+    [ngClass]="{ 'attending': event.isAttending }">
+    {{ event.isAttending ? 'how_to_reg' : 'person_add' }}
+  </mat-icon>
 
-      <span class="attendance-text">
-        <mat-icon class="group-icon">group</mat-icon>
-        {{ event.attendeesCount || 0 }} attending
-        <small *ngIf="event.isAttending" class="status">(You're in)</small>
-      </span>
-    </div>
+  <!-- ✅ Group icon and count, without 'attending' for admins -->
+  <span class="attendance-text" *ngIf="isAdmin">
+    <mat-icon class="group-icon">group</mat-icon>
+    {{ event.attendeesCount || 0 }}
+  </span>
+
+  <!-- ✅ Group icon and count + "attending" for normal users -->
+  <span class="attendance-text" *ngIf="!isAdmin">
+        attending
+  </span>
+
+  <!-- ✅ Show "You're in" for ALL users if attending -->
+  <span class="attendance-text" *ngIf="event.isAttending">
+    <small class="status">(You're in)</small>
+  </span>
+</div>
+
+
+
 
   </div>
 </div>

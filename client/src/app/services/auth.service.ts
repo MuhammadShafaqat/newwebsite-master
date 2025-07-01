@@ -30,9 +30,9 @@ export class AuthService {
     return this.http.post<AuthResponse>(`${this.baseUrl}/signin`, data);
   }
  
-getCurrentUser(): Observable<User> {
+getCurrentUser(): Observable<AuthResponse> {
   const token = localStorage.getItem('token');
-  return this.http.get<User>(`${this.baseUrl}/user`, {
+  return this.http.get<AuthResponse>(`${this.baseUrl}/user`, {
     headers: {
       Authorization: `Bearer ${token}`
     }

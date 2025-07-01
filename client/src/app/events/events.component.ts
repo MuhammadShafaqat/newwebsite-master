@@ -13,6 +13,7 @@ export class EventsComponent implements OnInit {
   loading = false;
   userId: string = '';
   isLoggedIn = false;
+  isAdmin: boolean = false;
   expandedEventIds = new Set<string>();
 
   visibilityLabels = [
@@ -32,6 +33,10 @@ export class EventsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading = true;
+    this.auth.getCurrentUser().subscribe((res:any)=>{
+      console.log(res.user.isAdmin)
+      this.isAdmin = res.user.isAdmin;
+    })
     this.isLoggedIn = this.auth.isLoggedIn();
 
     if (this.isLoggedIn) {
