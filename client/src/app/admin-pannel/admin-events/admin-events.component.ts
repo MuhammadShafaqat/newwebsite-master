@@ -1,4 +1,11 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  AfterViewChecked,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AdmineventService } from '../admin-services/adminevent.service';
 import { Event } from 'src/app/_models/event';
@@ -6,20 +13,18 @@ import { Event } from 'src/app/_models/event';
 @Component({
   selector: 'app-admin-events',
   templateUrl: './admin-events.component.html',
-  styleUrls: ['./admin-events.component.scss']
+  styleUrls: ['./admin-events.component.scss'],
 })
-
-export class AdminEventsComponent implements OnInit, AfterViewInit {
-
-   @ViewChild('descriptionTextarea') descriptionTextareaRef!: ElementRef<HTMLTextAreaElement>;
+export class AdminEventsComponent implements OnInit, AfterViewInit, AfterViewChecked {
+  @ViewChild('descriptionTextarea') descriptionTextareaRef!: ElementRef<HTMLTextAreaElement>;
 
   eventForm!: FormGroup;
   events: Event[] = [];
+  filteredEvents: Event[] = [];
   loading = false;
   selectedFile: File | null = null;
   editingEventId: string | null = null;
-  filteredEvents: Event[] = [];
-selectedVisibilityFilter: string = 'all';
+  selectedVisibilityFilter: string = 'all';
 
   visibilityOptions = [
     { label: 'Public', value: 0 },
@@ -28,15 +33,15 @@ selectedVisibilityFilter: string = 'all';
     { label: 'Vollmitglied', value: 3 },
     { label: 'Lokalverwaltung', value: 4 },
     { label: 'Regionalverwaltung', value: 5 },
-    { label: 'Vorstand', value: 6 }
+    { label: 'Vorstand', value: 6 },
   ];
 
   repeatOptions = ['none', 'weekly', 'monthly', 'annually'];
 
-  constructor(private fb: FormBuilder, private adminevent: AdmineventService) {}
-ngAfterViewInit(): void {
-  setTimeout(() => this.autoGrowTextarea(), 100);
-}
+  constructor(
+    private fb: FormBuilder,
+    private adminevent: AdmineventService
+  ) {}
 
   ngOnInit(): void {
     this.eventForm = this.fb.group({
@@ -45,10 +50,18 @@ ngAfterViewInit(): void {
       isMandatory: [false],
       eventDate: ['', Validators.required],
       repeat: ['none'],
-      visibilityLevel: [0, Validators.required]
+      visibilityLevel: [0, Validators.required],
     });
 
     this.getEvents();
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => this.autoGrowTextarea(), 100);
+  }
+
+  ngAfterViewChecked(): void {
+    this.autoGrowTextarea();
   }
 
   getEvents() {
@@ -56,26 +69,25 @@ ngAfterViewInit(): void {
     this.adminevent.getAllEventsForAdmin().subscribe({
       next: (data) => {
         this.events = data;
-        this.applyFilter(); // ✅ Apply filter after fetching
+        this.applyFilter();
         this.loading = false;
       },
       error: () => {
         this.loading = false;
-      }
+      },
     });
   }
 
   applyFilter() {
-  if (this.selectedVisibilityFilter === 'all') {
-    this.filteredEvents = [...this.events];
-  } else {
-    const selected = parseInt(this.selectedVisibilityFilter, 10);
-    this.filteredEvents = this.events.filter(e => e.visibilityLevel === selected);
+    if (this.selectedVisibilityFilter === 'all') {
+      this.filteredEvents = [...this.events];
+    } else {
+      const selected = parseInt(this.selectedVisibilityFilter, 10);
+      this.filteredEvents = this.events.filter(
+        (e) => e.visibilityLevel === selected
+      );
+    }
   }
-}
-
-
-
 
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];
@@ -91,7 +103,10 @@ ngAfterViewInit(): void {
     const formValues = this.eventForm.value;
 
     formData.append('title', formValues.title);
-    formData.append('description', this.convertToParagraphs(formValues.description || ''));
+    formData.append(
+      'description',
+      this.convertToParagraphs(formValues.description || '')
+    );
     formData.append('isMandatory', formValues.isMandatory.toString());
     formData.append('eventDate', formValues.eventDate);
     formData.append('repeat', formValues.repeat);
@@ -100,7 +115,11 @@ ngAfterViewInit(): void {
     formData.append('image', this.selectedFile);
 
     this.adminevent.createEvent(formData).subscribe(() => {
-      this.eventForm.reset({ repeat: 'none', visibilityLevel: 0, isMandatory: false });
+      this.eventForm.reset({
+        repeat: 'none',
+        visibilityLevel: 0,
+        isMandatory: false,
+      });
       this.selectedFile = null;
       this.getEvents();
     });
@@ -110,12 +129,14 @@ ngAfterViewInit(): void {
     this.editingEventId = event.id!;
     this.eventForm.patchValue({
       title: event.title,
-      description: event.description,
+      description: this.convertHtmlToPlainText(event.description || ''),
       isMandatory: event.isMandatory,
       eventDate: event.eventDate,
       repeat: event.repeat,
-      visibilityLevel: event.visibilityLevel
+      visibilityLevel: event.visibilityLevel,
     });
+
+    setTimeout(() => this.autoGrowTextarea(), 50);
   }
 
   updateEventSubmit() {
@@ -125,7 +146,10 @@ ngAfterViewInit(): void {
     const formValues = this.eventForm.value;
 
     formData.append('title', formValues.title);
-    formData.append('description', this.convertToParagraphs(formValues.description || ''));
+    formData.append(
+      'description',
+      this.convertToParagraphs(formValues.description || '')
+    );
     formData.append('isMandatory', formValues.isMandatory.toString());
     formData.append('eventDate', formValues.eventDate);
     formData.append('repeat', formValues.repeat);
@@ -136,7 +160,11 @@ ngAfterViewInit(): void {
     }
 
     this.adminevent.updatEvent(this.editingEventId, formData).subscribe(() => {
-      this.eventForm.reset({ repeat: 'none', visibilityLevel: 0, isMandatory: false });
+      this.eventForm.reset({
+        repeat: 'none',
+        visibilityLevel: 0,
+        isMandatory: false,
+      });
       this.selectedFile = null;
       this.editingEventId = null;
       this.getEvents();
@@ -144,7 +172,11 @@ ngAfterViewInit(): void {
   }
 
   cancelEdit() {
-    this.eventForm.reset({ repeat: 'none', visibilityLevel: 0, isMandatory: false });
+    this.eventForm.reset({
+      repeat: 'none',
+      visibilityLevel: 0,
+      isMandatory: false,
+    });
     this.selectedFile = null;
     this.editingEventId = null;
   }
@@ -153,50 +185,60 @@ ngAfterViewInit(): void {
     if (!confirm('Are you sure you want to delete this event?')) return;
 
     this.adminevent.deleteEvent(id).subscribe(() => {
-      this.events = this.events.filter(e => e.id !== id);
+      this.events = this.events.filter((e) => e.id !== id);
+      this.applyFilter();
     });
   }
 
   getVisibilityLabel(level: number): string {
-    const match = this.visibilityOptions.find(o => o.value === level);
+    const match = this.visibilityOptions.find((o) => o.value === level);
     return match ? match.label : 'Unknown';
   }
 
-
-
   autoGrow(event: any): void {
-  const textarea = event.target as HTMLTextAreaElement;
-  textarea.style.height = 'auto';
-  textarea.style.height = textarea.scrollHeight + 'px';
-}
-
-autoGrowTextarea(): void {
-  if (this.descriptionTextareaRef) {
-    const textarea = this.descriptionTextareaRef.nativeElement;
+    const textarea = event.target as HTMLTextAreaElement;
     textarea.style.height = 'auto';
     textarea.style.height = textarea.scrollHeight + 'px';
   }
-}
 
-resetTextareaHeight(): void {
-  if (this.descriptionTextareaRef) {
-    const textarea = this.descriptionTextareaRef.nativeElement;
-    textarea.style.height = '120px';
+  autoGrowTextarea(): void {
+    if (this.descriptionTextareaRef?.nativeElement) {
+      const textarea = this.descriptionTextareaRef.nativeElement;
+      textarea.style.height = 'auto';
+      textarea.style.height = textarea.scrollHeight + 'px';
+    }
   }
-}
 
-convertToParagraphs(text: string): string {
-  if (!text) return '';
+  convertToParagraphs(text: string): string {
+    if (!text) return '';
 
-  const escaped = text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
+    const escaped = text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
 
-  const paragraphs = escaped.split(/\n{2,}/g);
-  return paragraphs
-    .map(p => `<p>${p.trim().replace(/\n/g, '<br>')}</p>`)
-    .join('');
-}
+    const paragraphs = escaped.split(/\n{2,}/g);
+    return paragraphs
+      .map((p) => `<p>${p.trim().replace(/\n/g, '<br>')}</p>`)
+      .join('');
+  }
 
+  convertHtmlToPlainText(html: string): string {
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = html;
+
+    // Convert <br> to \n
+    tempDiv.querySelectorAll('br').forEach((br) =>
+      br.replaceWith('\n')
+    );
+
+    // Convert <p> to paragraphs with double newlines
+    let text = '';
+    tempDiv.querySelectorAll('p').forEach((p, index, array) => {
+      text += (p.textContent?.trim() || '');
+      if (index < array.length - 1) text += '\n\n';
+    });
+
+    return text.trim();
+  }
 }

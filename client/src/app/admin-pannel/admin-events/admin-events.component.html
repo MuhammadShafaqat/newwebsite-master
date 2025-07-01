@@ -16,10 +16,11 @@
 </label>
 
 
-    <label class="full-width">
-      Image:
-      <input type="file" (change)="onFileSelected($event)" />
-    </label>
+   <label class="full-width">
+  Image:
+  <input type="file" (change)="onFileSelected($event)" />
+</label>
+
 
     <label>Event Date: <input formControlName="eventDate" type="date" required /></label>
 
@@ -57,7 +58,7 @@
   <!-- 🔽 Filter dropdown -->
   <div class="filter-controls">
     <label for="filter">Filter by Visibility Level:</label>
-    <select id="filter" [(ngModel)]="selectedVisibilityFilter" (change)="applyFilter()">
+   <select id="filter" name="filter" [(ngModel)]="selectedVisibilityFilter" (change)="applyFilter()">
       <option value="all">All</option>
       <option *ngFor="let option of visibilityOptions" [value]="option.value.toString()">
         {{ option.label }}
