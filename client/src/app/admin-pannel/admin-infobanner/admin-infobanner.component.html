@@ -12,6 +12,9 @@
       Statement is required.
     </div>
   </label>
+<label>Learn More Link
+  <input formControlName="link" type="url" placeholder="https://example.com" />
+</label>
 
   <div class="btn-group">
     <button type="submit" [disabled]="bannerForm.invalid"
@@ -37,7 +40,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let b of banners">
+    <tr *ngFor="let b of banners" class="banner-row">
       <!-- 80% -->
       <td class="col-statement" [matTooltip]="b.statement">{{ b.statement }}</td>
 
@@ -73,8 +76,9 @@
     </mat-icon>
   </div>
 </td>
-
+ <hr>
     </tr>
+   
   </tbody>
 </table>
 

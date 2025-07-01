@@ -1,8 +1,14 @@
 <main>
   <!-- Show only if activeBanner is present -->
-  <div class="infoBanner" *ngIf="activeBanner">
-    {{ activeBanner.statement }}
-  </div>
+<div class="infoBanner" *ngIf="activeBanner">
+  <mat-icon class="info-icon">info</mat-icon>
+  {{ activeBanner.statement }}
+  <a *ngIf="activeBanner.link" [href]="activeBanner.link" target="_blank" class="learn-more-btn">
+    Learn More
+  </a>
+</div>
+
+
   <app-titlescreen></app-titlescreen>
   <app-values></app-values>
   <app-shorts-videoplayer></app-shorts-videoplayer>

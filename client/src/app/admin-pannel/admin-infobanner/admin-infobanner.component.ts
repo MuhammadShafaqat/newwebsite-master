@@ -21,6 +21,7 @@ export class AdminInfobannerComponent  implements OnInit {
   ngOnInit(): void {
     this.bannerForm = this.fb.group({
       statement: ['', Validators.required],
+      link: [''],  
       isActive: [false]
     });
 
@@ -53,6 +54,7 @@ export class AdminInfobannerComponent  implements OnInit {
  editBanner(banner: InfoBanner): void {
   this.bannerForm.patchValue({
     statement: banner.statement,
+    link: banner.link || '', 
     isActive: banner.isActive
   });
   this.selectedBanner = banner;

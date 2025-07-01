@@ -4,14 +4,14 @@ const Banner = require('../models/InfoBanner');
 // @route   POST /api/banner
  const createBanner = async (req, res) => {
   try {
-    const { statement, isActive } = req.body;
+    const { statement, link, isActive } = req.body;
 
     // Optional: Deactivate other banners if only one should be active
     if (isActive) {
       await Banner.updateMany({}, { isActive: false });
     }
 
-    const banner = await Banner.create({ statement, isActive });
+    const banner = await Banner.create({ statement, link, isActive });
     res.status(201).json(banner);
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
@@ -33,15 +33,18 @@ const getBanners = async (req, res) => {
 // @route   PUT /api/banner/:id
 const updateBanner = async (req, res) => {
   try {
-    const { statement, isActive } = req.body;
+    const { statement, link, isActive } = req.body;
 
     if (isActive) {
-      await Banner.updateMany({}, { isActive: false });
+      if (isActive) {
+  await Banner.updateMany({ _id: { $ne: req.params.id } }, { isActive: false });
+}
+
     }
 
     const updated = await Banner.findByIdAndUpdate(
       req.params.id,
-      { statement, isActive },
+      { statement, link, isActive },
       { new: true }
     );
 

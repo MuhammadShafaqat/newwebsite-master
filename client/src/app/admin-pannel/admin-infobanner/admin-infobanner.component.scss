@@ -30,21 +30,27 @@ form {
     font-size: 0.95rem;
     color: #444;
 
-    textarea {
-  resize: none;
-  min-height: 80px;
-  height: auto;
-  overflow: hidden;
-  padding: 0.5rem 0.75rem;
-  font-size: 0.95rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  margin-top: 0.3rem;
-  transition: border-color 0.2s ease;
-  outline: none;
+    textarea,
+    input {
+      margin-top: 0.3rem;
+      padding: 0.5rem 0.75rem;
+      font-size: 0.95rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background-color: #fff;
+      color: #333;
+      transition: border-color 0.2s ease;
+      resize: none;
+      outline: none;
+      box-shadow: none;
+    }
 
+    input:focus,
+    textarea:focus {
+      outline: none;
+      box-shadow: none;
+    }
 
-}
     .error {
       color: #f44336;
       font-size: 0.85rem;
@@ -72,8 +78,7 @@ form {
       &:hover {
         background-color: #1565c0;
       }
-
-     }
+    }
 
     button[type='button'] {
       background-color: #f1f1f1;
@@ -87,6 +92,42 @@ form {
   }
 }
 
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 0.75rem;
+
+  thead th {
+    text-align: left;
+    padding: 0.75rem 1rem;
+    color: #333;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  tbody .banner-row td {
+    padding: 1rem;
+    background-color: #ffffff;
+    vertical-align: middle;
+
+    &:first-child {
+      border-left: 4px solid #1976d2; // ✅ Apply the left border here
+      border-top-left-radius: 6px;
+      border-bottom-left-radius: 6px;
+    }
+
+    &:last-child {
+      border-top-right-radius: 6px;
+      border-bottom-right-radius: 6px;
+    }
+  }
+
+  tbody .banner-row {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+}
+
+
 .col-statement {
   width: 80%;
   max-width: 80%;
@@ -98,25 +139,27 @@ form {
   word-break: break-word;
 }
 
-.col-status,
+.col-status {
+  width: 10%;
+  max-width:10%;
+  text-align: center;
+}
+
 .col-actions {
   width: 10%;
   max-width: 10%;
-  white-space: nowrap; /* Prevent wrapping */
+  text-align: center;
 }
 
 @media (max-width: 768px) {
+  .col-statement {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .col-status,
   .col-actions {
     width: auto;
     max-width: none;
   }
-
-  .col-statement {
-    width: 70%;
-  }
-
-  .col-status {
-    width: 30%;
-  }
 }
-
