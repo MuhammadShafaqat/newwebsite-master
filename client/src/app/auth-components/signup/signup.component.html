@@ -1,14 +1,32 @@
-<form [formGroup]="signupForm" (ngSubmit)="signup()">
-  <h2>Sign Up</h2>
-  <input formControlName="username" placeholder="Username" />
-  <div *ngIf="signupForm.get('username')?.invalid && signupForm.get('username')?.touched">
-    Username is required and must be at least 3 characters.
-  </div>
+<div class="container">
+  <form [formGroup]="signupForm" (ngSubmit)="signup()">
+    <h2 class="form-title">Create Your Account</h2>
 
-  <input formControlName="password" type="password" placeholder="Password" />
-  <div *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched">
-    Password is required and must be at least 6 characters.
-  </div>
+    <!-- Username Field -->
+    <div class="input-group" [ngClass]="{ 'error': signupForm.get('username')?.invalid && signupForm.get('username')?.touched }">
+      <mat-icon>person</mat-icon>
+      <input formControlName="username" placeholder="Username" />
+    </div>
+    <div class="error-msg" *ngIf="signupForm.get('username')?.invalid && signupForm.get('username')?.touched">
+      Username is required (min 3 characters).
+    </div>
 
-  <button type="submit">Register</button>
-</form>
+    <!-- Password Field -->
+    <div class="input-group" [ngClass]="{ 'error': signupForm.get('password')?.invalid && signupForm.get('password')?.touched }">
+      <mat-icon>lock</mat-icon>
+      <input formControlName="password" type="password" placeholder="Password" />
+    </div>
+    <div class="error-msg" *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched">
+      Password must be at least 6 characters.
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" [disabled]="signupForm.invalid">Register</button>
+
+    <!-- Sign In Link -->
+    <p class="signin-link">
+      Already have an account?
+      <a routerLink="/signin">Sign In</a>
+    </p>
+  </form>
+</div>
