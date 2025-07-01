@@ -15,11 +15,11 @@ export class ShortsVideoPlayer implements AfterViewInit, OnInit {
   currentIndex = 0;
 
   items: VideoItem[] = [
-    { title: 'Jeremy Clarkson', videoId: 'J12q7fDYDFs' },
-    { title: 'Bohemian Rhapsody', videoId: 'tgbNymZ7vqY' },
-    { title: 'DPRK Music', videoId: 'GTLmzAP_sv0' },
-    { title: '4 Jahre BKP', videoId: 'fMegboGSycw' },
-    { title: 'Drogenkonsum in Luzern explodiert!', videoId: 'Kouxe0bsSJY' }
+    // { title: 'Jeremy Clarkson', videoId: 'J12q7fDYDFs' },
+    // { title: 'Bohemian Rhapsody', videoId: 'tgbNymZ7vqY' },
+    // { title: 'DPRK Music', videoId: 'GTLmzAP_sv0' },
+    // { title: '4 Jahre BKP', videoId: 'fMegboGSycw' },
+    // { title: 'Drogenkonsum in Luzern explodiert!', videoId: 'Kouxe0bsSJY' }
   ];
 
   @ViewChildren('videoFrame') videoFrames!: QueryList<ElementRef<HTMLIFrameElement>>;
