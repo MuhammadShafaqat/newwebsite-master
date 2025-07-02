@@ -25,7 +25,7 @@ constructor(private fb: FormBuilder, private auth: AuthService, private router: 
     this.auth.signin(this.signinForm.value).subscribe({
       next: (res) => {
         alert('Login successful!');
-      //  localStorage.setItem('isAdmin', String(res.isAdmin));  
+      localStorage.setItem('username', res.username); // ✅ Save username
        localStorage.setItem('token', res.token); // 👈 Store token
        localStorage.setItem('id', res.id); // ✅ Save user ID
 

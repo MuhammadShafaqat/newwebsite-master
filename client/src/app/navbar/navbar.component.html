@@ -17,13 +17,25 @@
     <a routerLink="">Home</a>
     <a [routerLink]="['']" fragment="kontakt-anchor">Mitmachen</a>
     <a [routerLink]="['']" fragment="werte-anchor">Werte</a>
-    <a [routerLink]="['/spenden']">Spenden</a>
+    <!-- <a [routerLink]="['/spenden']">Spenden</a> -->
     <a [routerLink]="['/shop']">Geschäft</a>
     <a [routerLink]="['/actions']">Aktionen</a>
     <a [routerLink]="['/events']">Veranstaltungen</a>
-    <a [routerLink]="['/about']">Um</a>
+    <!-- <a [routerLink]="['/about']">Um</a> -->
     <a [routerLink]="['/press']">Pressemitteilung</a>
+    <!-- Only show when user is logged in -->
   </div>
+
+<!-- If user is logged in, show username + logout -->
+<span *ngIf="userName" class="user-info">
+  <span class="user-name">{{ userName }}</span>
+  <mat-icon class="logout-icon" (click)="logout()" matTooltip="Logout">power_settings_new</mat-icon>
+</span>
+
+<!-- If user is not logged in, show Sign In -->
+<a *ngIf="!userName" [routerLink]="['/signin']" class="signin-link">
+  <mat-icon class="signin-icon">login</mat-icon>
+</a>
 
   <button class="dark-toggle" (click)="toggleDarkMode()">
     🌓

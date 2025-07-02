@@ -7,6 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 export interface AuthResponse {
   message: string;
+  username: string;
   isAdmin: boolean;
   token: string;
   id: string; // ✅ Add this
