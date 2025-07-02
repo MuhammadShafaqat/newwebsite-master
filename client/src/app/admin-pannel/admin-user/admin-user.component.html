@@ -1,0 +1,48 @@
+
+<div class="admin-users">
+  <h2>All Users</h2>
+
+  <table *ngIf="!loading" class="user-table">
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Role Level</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.username }}</td>
+   <td>
+  <select
+    [value]="user.roleLevel"
+    (change)="onRoleChange($event, user)"
+    class="role-dropdown"
+  >
+    <option *ngFor="let role of roleOptions" [value]="role.value">
+      {{ role.label }}
+    </option>
+  </select>
+</td>
+
+        <td>{{ user.isActive ? 'Active' : 'Inactive' }}</td>
+        <td>
+          
+               <mat-icon
+          (click)="toggleActivation(user)" [class.active]="user.isActive"
+          [ngStyle]="{ color: user.isActive ? '#4caf50' : '#f44336' }"
+          [matTooltip]="user.isActive ? 'Deactivate' : 'Activate'"
+          class="icon-action"
+        >
+          {{ user.isActive ? 'toggle_on' : 'toggle_off' }}
+        </mat-icon>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="loading">Loading users...</div>
+</div>
+
+

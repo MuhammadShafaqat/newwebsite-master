@@ -8,6 +8,7 @@ import { AdminPressComponent } from './admin-press/admin-press.component';
 import { AdminShopComponent } from './admin-shop/admin-shop.component';
 import { AdminVideosComponent } from './admin-videos/admin-videos.component';
 import { AdminGuard } from '../guards/admin.guard';
+import { AdminUserComponent } from './admin-user/admin-user.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,7 @@ const routes: Routes = [
        { path: 'admin-press', component: AdminPressComponent },
       { path: 'admin-shop', component:  AdminShopComponent},
       { path: 'admin-videos', component: AdminVideosComponent },
+      { path: 'admin-user', component: AdminUserComponent },
       { path: '', redirectTo: 'admin-articles', pathMatch: 'full' },
     ],
   }

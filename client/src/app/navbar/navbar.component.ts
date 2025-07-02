@@ -1,14 +1,13 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { Router, NavigationEnd } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent {
   webseitenTitel: string = 'Büezer und KMU Partei (BKP)';
   isMenuOpen = false;
   isMobileView = false;
@@ -36,29 +35,21 @@ export class NavbarComponent implements OnInit {
     this.onResize();
     this.previousScrollY = window.scrollY;
 
-    // Initial check
-    this.loadUsername();
-
-    // 🔁 Listen to route changes
-    this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe(() => {
-        this.loadUsername();
-      });
-  }
-
-  loadUsername() {
+    // ✅ Prefer loading username directly from localStorage if available
     this.userName = localStorage.getItem('username');
 
+    // ✅ Optional: fetch from server if token exists and user not yet set
     if (!this.userName && this.auth.isLoggedIn()) {
       this.auth.getCurrentUser().subscribe({
         next: (res: any) => {
+          // Update userName
           this.userName = res.user?.username;
+          // Optionally store in localStorage for later reuse
           localStorage.setItem('username', this.userName || '');
         },
         error: () => {
           this.userName = null;
-        },
+        }
       });
     }
   }

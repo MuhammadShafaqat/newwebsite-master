@@ -20,6 +20,7 @@ export class SidebarComponent implements OnInit {
     { label: 'Videos', icon: 'video_library', key: 'admin-videos' },
     { label: 'Press', icon: 'description', key: 'admin-press' },
     { label: 'Shop', icon: 'storefront', key: 'admin-shop' },
+    { label: 'User', icon: 'manage_accounts', key: 'admin-user' },
     { label: 'Logout', icon: 'logout', key: 'logout', danger: true }
   ];
 

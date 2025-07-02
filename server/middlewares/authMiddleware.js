@@ -17,7 +17,7 @@ const authMiddleware = async (req, res, next) => {
   }
 };
 
-const adminOnly = (req, res, next) => {
+const adminMiddleware = (req, res, next) => {
   try {
     if (!req.user?.isAdmin) {
       return res.status(403).json({ message: 'Access denied: Admins only' });
@@ -29,4 +29,4 @@ const adminOnly = (req, res, next) => {
 };
 
 
-module.exports = { authMiddleware, adminOnly };
+module.exports = { authMiddleware, adminMiddleware };

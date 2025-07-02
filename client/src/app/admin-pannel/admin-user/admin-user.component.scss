@@ -1,0 +1,42 @@
+.admin-users {
+  background-color: #f0f4f8;
+  padding: 7px;
+  h2 {
+    font-size: 24px;
+    margin-bottom: 1rem;
+  }
+
+  .user-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th, td {
+      padding: 0.6rem;
+      border-bottom: 1px solid #ddd;
+      vertical-align: middle;
+    }
+
+    th {
+      text-align: left;
+      background-color: #f4f4f4;
+    }
+
+    .role-dropdown {
+      padding: 0.4rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      background-color: #fff;
+      font-weight: 500;
+      font-size: 0.95rem;
+      min-width: 140px;
+      appearance: none;
+      cursor: pointer;
+    }
+
+    .icon-action {
+      font-size: 32px;
+      cursor: pointer;
+      transition: color 0.2s ease-in-out;
+    }
+  }
+}

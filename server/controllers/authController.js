@@ -56,7 +56,7 @@ const signin = async (req, res) => {
       maxAge: 86400000,
     });
 return  res.status(200).json({message: 'Login successful', 
-  isAdmin: user.isAdmin, token, id: user._id,  roleLevel: user.roleLevel  });
+  isAdmin: user.isAdmin, token, id: user._id,  roleLevel: user.roleLevel, username:username  });
 
 
   } catch (err) {
@@ -84,8 +84,44 @@ const getUser = async (req, res) => {
     }
 
 };
+// get all users
+
+// Get all users (admin only)
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find().select('-password');
+    res.status(200).json(users);
+  } catch (err) {
+    res.status(500).json({ message: 'Server error while fetching users' });
+  }
+};
+
+// Universal Update: activate/deactivate or change roleLevel
+const updateUser = async (req, res) => {
+  const { userId } = req.params;
+  const updates = req.body;
+
+  const forbidden = ['_id', 'createdAt', 'updatedAt', 'password', 'username', 'isAdmin'];
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    // Apply only allowed updates
+    for (const key in updates) {
+      if (!forbidden.includes(key) && key in user) {
+        user[key] = updates[key];
+      }
+    }
+
+    await user.save();
+    res.status(200).json({ message: 'User updated successfully', user });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Failed to update user' });
+  }
+};
 
 
 
-
-module.exports = {signup, signin, logout, getUser}
+module.exports = {signup, signin, logout, getUser, getAllUsers, updateUser}
