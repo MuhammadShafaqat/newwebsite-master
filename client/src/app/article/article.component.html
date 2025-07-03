@@ -2,14 +2,17 @@
   <div class="header-inline">
     <div class="text-info">
       <h1>{{ article.title }}</h1>
-      <p class="author"><mat-icon>person</mat-icon> {{ article.author }}</p>
+
+      <!-- Date moved above author -->
       <p class="date">{{ article.createdAt | date: 'dd.MM.yyyy' }}</p>
+      <p class="author"><mat-icon>person</mat-icon> {{ article.author }}</p>
+
+      <!-- First 3 visible lines -->
+      <div class="body" [innerHTML]="convertToParagraphs(article.body)"></div>
     </div>
 
     <div class="image-container">
       <img [src]="'http://localhost:5000' + article.imageUrl" alt="Article image" />
     </div>
   </div>
-
-  <div class="body" [innerHTML]="convertToParagraphs(article.body)"></div>
 </div>
