@@ -1,69 +1,69 @@
-/* Universal Theme Styles */
+// /* Universal Theme Styles */
 
-html.dark {
-  body {
-    background-color: #121212 !important;
-    color: #eee !important;
-  }
+// html.dark {
+//   body {
+//     background-color: #121212 !important;
+//     color: #eee !important;
+//   }
 
-  .card, .mat-card, .event-card, .navbar, .mat-toolbar, .mat-menu-panel {
-    background-color: #1e1e1e !important;
-    color: #eee !important;
-  }
+//   .card, .mat-card, .event-card, .navbar, .mat-toolbar, .mat-menu-panel {
+//     background-color: #1e1e1e !important;
+//     color: #eee !important;
+//   }
 
-  .event-description, .description-text {
-    color: #ccc !important;
-  }
+//   .event-description, .description-text {
+//     color: #ccc !important;
+//   }
 
-  .read-more-link, .link {
-    color: #80bfff !important;
-  }
+//   .read-more-link, .link {
+//     color: #80bfff !important;
+//   }
 
-  button, .mat-button, .mat-icon-button {
-    color: #eee !important;
-  }
+//   button, .mat-button, .mat-icon-button {
+//     color: #eee !important;
+//   }
 
-  input, textarea, select {
-    background-color: #2a2a2a !important;
-    color: #eee !important;
-    border-color: #555 !important;
-  }
+//   input, textarea, select {
+//     background-color: #2a2a2a !important;
+//     color: #eee !important;
+//     border-color: #555 !important;
+//   }
 
-  .mat-icon {
-    color: #eee !important;
-  }
-}
+//   .mat-icon {
+//     color: #eee !important;
+//   }
+// }
 
-html.light {
-  body {
-    background-color: #ffffff !important;
-    color: #111 !important;
-  }
+// html.light {
+//   body {
+//     background-color: #ffffff !important;
+//     color: #111 !important;
+//   }
 
-  .card, .mat-card, .event-card, .navbar, .mat-toolbar, .mat-menu-panel {
-    background-color: #fff !important;
-    color: #111 !important;
-  }
+//   .card, .mat-card, .event-card, .navbar, .mat-toolbar, .mat-menu-panel {
+//     background-color: #fff !important;
+//     color: #111 !important;
+//   }
 
-  .event-description, .description-text {
-    color: #444 !important;
-  }
+//   .event-description, .description-text {
+//     color: #444 !important;
+//   }
 
-  .read-more-link, .link {
-    color: #2a5b9e !important;
-  }
+//   .read-more-link, .link {
+//     color: #2a5b9e !important;
+//   }
 
-  button, .mat-button, .mat-icon-button {
-    color: #111 !important;
-  }
+//   button, .mat-button, .mat-icon-button {
+//     color: #111 !important;
+//   }
 
-  input, textarea, select {
-    background-color: #fff !important;
-    color: #111 !important;
-    border-color: #ccc !important;
-  }
+//   input, textarea, select {
+//     background-color: #fff !important;
+//     color: #111 !important;
+//     border-color: #ccc !important;
+//   }
 
-  .mat-icon {
-    color: #111 !important;
-  }
-}
+//   .mat-icon {
+//     color: #111 !important;
+//   }
+// }

@@ -17,15 +17,17 @@
     
     <h2>{{ article.title }}</h2>
 
+    <div class="body" [innerHTML]="convertToParagraphs(article.body)"></div>
+
+<p class="date">{{ article.createdAt | date: 'dd.MM.yyyy' }}</p>
     <!-- ✅ Show Author -->
     <p class="author">
       <mat-icon inline>person</mat-icon>
       {{ article.author }}
     </p>
 
-    <p class="date">{{ article.createdAt | date: 'dd.MM.yyyy' }}</p>
+    
 
-    <div class="body" [innerHTML]="convertToParagraphs(article.body)"></div>
   </div>
 </div>
 
