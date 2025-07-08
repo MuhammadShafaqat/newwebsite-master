@@ -1,0 +1,62 @@
+<div class="action-wrapper">
+  <h2>{{ isEditing ? 'Edit' : 'Create' }} Action</h2>
+  <form [formGroup]="actionForm" (ngSubmit)="submitForm()">
+    <label>Title
+      <input formControlName="title" type="text" required />
+    </label>
+
+    <div formArrayName="descriptions">
+      <div *ngFor="let ctrl of descriptions.controls; let i = index">
+        <label>Description {{ i + 1 }}
+          <textarea [formControlName]="i" required></textarea>
+        </label>
+        <button type="button" (click)="removeDescription(i)" *ngIf="descriptions.length > 1">Remove</button>
+      </div>
+    </div>
+    <button type="button" (click)="addDescription()">Add Description</button>
+
+    <label>Images
+      <input type="file" multiple (change)="onImagesSelected($event)" />
+    </label>
+
+    <div class="image-preview">
+      <img *ngFor="let url of previewUrls" [src]="url" alt="Image" class="preview-image" />
+    </div>
+
+    <button type="submit">{{ isEditing ? 'Update' : 'Create' }}</button>
+    <button type="button" (click)="resetForm()" *ngIf="isEditing">Cancel</button>
+  </form>
+
+  <hr />
+
+  <h2>All Actions</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Images</th>
+        <th>Title</th>
+        <th>Descriptions</th>
+        <th>Created</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let action of actions">
+        <td>
+          <img *ngFor="let img of action.images" [src]="img" class="thumb" />
+        </td>
+        <td>{{ action.title }}</td>
+        <td>
+          <ul>
+            <li *ngFor="let desc of action.descriptions">{{ desc }}</li>
+          </ul>
+        </td>
+        <td>{{ action.createdAt | date:'short' }}</td>
+        <td>
+          <button (click)="editAction(action)">Edit</button>
+          <button (click)="deleteAction(action._id!)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -9,6 +9,7 @@ import { AdminShopComponent } from './admin-shop/admin-shop.component';
 import { AdminVideosComponent } from './admin-videos/admin-videos.component';
 import { AdminGuard } from '../guards/admin.guard';
 import { AdminUserComponent } from './admin-user/admin-user.component';
+import { AdminActionComponent } from './admin-action/admin-action.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,7 @@ const routes: Routes = [
       { path: 'admin-shop', component:  AdminShopComponent},
       { path: 'admin-videos', component: AdminVideosComponent },
       { path: 'admin-user', component: AdminUserComponent },
+       { path: 'admin-action', component: AdminActionComponent },
       { path: '', redirectTo: 'admin-articles', pathMatch: 'full' },
     ],
   }

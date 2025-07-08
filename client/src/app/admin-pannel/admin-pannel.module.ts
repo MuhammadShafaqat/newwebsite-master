@@ -14,6 +14,7 @@ import { SafePipe } from '../pipes/safe.pipe';
 import { AdminVideosComponent } from './admin-videos/admin-videos.component';
 import { AdminPressComponent } from './admin-press/admin-press.component';
 import { AdminUserComponent } from './admin-user/admin-user.component';
+import { AdminActionComponent } from './admin-action/admin-action.component';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { AdminUserComponent } from './admin-user/admin-user.component';
     AdminVideosComponent,
     AdminPressComponent,
     AdminUserComponent,
+    AdminActionComponent,
      SafePipe
   ],
   imports: [
