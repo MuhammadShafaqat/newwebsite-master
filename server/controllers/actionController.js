@@ -3,7 +3,7 @@ const Action = require('../models/Action');
 // Create Action
 const createAction = async (req, res) => {
   try {
-    const imagePaths = req.files?.map(file => `/uploads/products/${file.filename}`) || [];
+    const imagePaths = req.files?.map(file => `/uploads/actions/${file.filename}`) || [];
     const { title, descriptions } = req.body;
 
     const parsedDescriptions = Array.isArray(descriptions)

@@ -1,1 +1,34 @@
-<p>actions works!</p>
+<!-- action.component.html -->
+<div class="actions-container">
+  <!-- Top selected/latest action -->
+  <div class="top-action" *ngIf="selectedAction">
+    <h2>{{ selectedAction.title }}</h2>
+    <div class="desc-list">
+  <div *ngFor="let desc of selectedAction.descriptions" class="desc-card">
+    {{ desc }}
+  </div>
+</div>
+
+    <img
+      *ngFor="let img of selectedAction.images"
+      [src]="'http://localhost:5000' + img"
+      alt="Image"
+    />
+  </div>
+
+  <!-- Other actions below in a flex row/column -->
+  <div class="other-actions">
+    <div
+      class="action-card"
+      *ngFor="let action of otherActions"
+      (click)="selectAction(action)"
+    >
+      <h4>{{ action.title }}</h4>
+
+      <!-- Horizontal description list -->
+      <div class="description-list">
+        <span *ngFor="let desc of action.descriptions">{{ desc }}</span>
+      </div>
+    </div>
+  </div>
+</div>

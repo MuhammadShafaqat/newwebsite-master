@@ -43,7 +43,7 @@
     <tbody>
       <tr *ngFor="let action of actions">
         <td>
-          <img *ngFor="let img of action.images" [src]="img" class="thumb" />
+          <img *ngFor="let img of action.images" [src]="'http://localhost:5000' + img" class="thumb" />
         </td>
         <td>{{ action.title }}</td>
         <td>
@@ -53,8 +53,9 @@
         </td>
         <td>{{ action.createdAt | date:'short' }}</td>
         <td>
-          <button (click)="editAction(action)">Edit</button>
-          <button (click)="deleteAction(action._id!)">Delete</button>
+          <mat-icon class="text-success"  (click)="editAction(action)">edit</mat-icon>
+          <mat-icon class="text-danger"  (click)="deleteAction(action._id!)">delete</mat-icon>
+
         </td>
       </tr>
     </tbody>
