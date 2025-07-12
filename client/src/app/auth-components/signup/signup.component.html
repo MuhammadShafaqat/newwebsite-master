@@ -19,6 +19,15 @@
     <div class="error-msg" *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched">
       Password must be at least 6 characters.
     </div>
+    <!-- Registration Key Field -->
+<div class="input-group" [ngClass]="{ 'error': signupForm.get('registrationKey')?.invalid && signupForm.get('registrationKey')?.touched }">
+  <mat-icon>vpn_key</mat-icon>
+  <input formControlName="registrationKey" placeholder="Registration Key" />
+</div>
+<div class="error-msg" *ngIf="signupForm.get('registrationKey')?.invalid && signupForm.get('registrationKey')?.touched">
+  Registration Key is required and must be 4 letters or numbers.
+</div>
+
 
     <!-- Submit Button -->
     <button type="submit" [disabled]="signupForm.invalid">Register</button>

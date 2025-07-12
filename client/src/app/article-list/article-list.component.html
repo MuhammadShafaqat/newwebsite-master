@@ -13,8 +13,15 @@
     *ngFor="let article of filteredArticles"
     (click)="openArticle(article.id)"
   >
-    <img [src]="'http://localhost:5000' + article.imageUrl" alt="Article image" />
-    
+  
+    <div class="article-images">
+  <img
+    *ngFor="let img of article.imageUrls"
+    [src]="'http://localhost:5000' + img"
+   
+  />
+</div>
+
     <h2>{{ article.title }}</h2>
 
     <div class="body" [innerHTML]="convertToParagraphs(article.body)"></div>

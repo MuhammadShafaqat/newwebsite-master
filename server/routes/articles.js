@@ -4,8 +4,8 @@ const { createArticle, getArticles, deleteArticle, updateArticle, getArticleById
 const {authMiddleware} = require('../middlewares/authMiddleware');
 const uploadArticle = require('../middlewares/uploadArticle')
 
-router.post('/', uploadArticle.single('image') ,createArticle);
-router.put('/:id', uploadArticle.single('image'), updateArticle);
+router.post('/', uploadArticle.array('images', 10) ,createArticle);
+router.put('/:id', uploadArticle.array('images', 10), updateArticle);
 router.get('/', getArticles);
 router.get('/:id' ,getArticleById);
 router.delete('/:id' ,deleteArticle);

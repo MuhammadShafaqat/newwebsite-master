@@ -16,7 +16,7 @@
   <div class="links" [class.hidden]="isMobileView && !isMenuOpen">
     <a routerLink="">Home</a>
     <a [routerLink]="['']" fragment="kontakt-anchor">Mitmachen</a>
-    <a [routerLink]="['']" fragment="werte-anchor">Werte</a>
+    <a [routerLink]="['/values']" fragment="werte-anchor">Werte</a>
     <!-- <a [routerLink]="['/spenden']">Spenden</a> -->
     <a [routerLink]="['/shop']">Geschäft</a>
     <a [routerLink]="['/actions']">Aktionen</a>
@@ -35,6 +35,10 @@
 <!-- If user is not logged in, show Sign In -->
 <a *ngIf="!userName" [routerLink]="['/signin']" class="signin-link">
   <mat-icon class="signin-icon">login</mat-icon>
+</a>
+<a [routerLink]="['/cart-details']" class="cart-link">
+  <mat-icon class="cart-icon">shopping_cart</mat-icon>
+  <span class="cart-badge" *ngIf="cartCount > 0">{{ cartCount }}</span>
 </a>
 
   <button class="dark-toggle" (click)="toggleDarkMode()"> 🌓

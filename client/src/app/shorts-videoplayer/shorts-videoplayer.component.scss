@@ -36,6 +36,7 @@
   gap: 12px;
   align-items: center;
   position: relative;
+  touch-action: pan-y;
 }
 
 .carousel1-item {
@@ -73,7 +74,8 @@
   transform: translateY(-50%);
   width: 20px;
   height: 20px;
-  border: solid rgba(255, 255, 255, 0.5); /* Soft white with reduced opacity */
+   border: solid white;  
+  // border: solid rgba(255, 255, 255, 0.5);  
   border-width: 0 3px 3px 0;
   display: inline-block;
   pointer-events: none;
@@ -93,6 +95,23 @@
   left: auto;
   transform: translateY(-50%) rotate(-45deg); /* → direction */
 }
+/* make sure the arows responsible for mobile view */
+@media (max-width: 480px) {
+/* Left Arrow */
+.carousel1-item.side:first-child::before {
+  right: 12px;
+ left: auto;
+  transform: translateY(-50%) rotate(135deg); /* ← direction */
+}
+
+/* Right Arrow */
+.carousel1-item.side:last-child::before {
+  left: 12px;
+  //  right: auto;
+  transform: translateY(-50%) rotate(-45deg); /* → direction */
+}
+
+}
 
 /* Optional: Slightly more visible on hover */
 .carousel1-item.side:hover::before {
@@ -109,3 +128,6 @@
   bottom: 0;
   z-index: 10;
 }
+
+
+

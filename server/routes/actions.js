@@ -9,10 +9,10 @@ const {
   deleteAction
 } = require('../controllers/actionController');
 
-router.post('/', uploadAction.array('images', 5), createAction);
+router.post('/', uploadAction.array('media', 10), createAction);
 router.get('/', getAllActions);
 router.get('/:id', getActionById);
-router.put('/:id', uploadAction.array('images', 5), updateAction);
+router.put('/:id', uploadAction.array('media', 10), updateAction);
 router.delete('/:id', deleteAction);
 
 module.exports = router;

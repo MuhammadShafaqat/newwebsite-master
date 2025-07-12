@@ -39,7 +39,14 @@
 
   <div class="form-group">
     <label for="image">Image</label>
-    <input id="image" type="file" (change)="onFileSelected($event)" [required]="!editingArticleId" />
+<input
+  id="image"
+  type="file"
+  multiple
+  accept="image/*"
+  (change)="onFileSelected($event)"
+  [required]="!editingArticleId"
+/>
   </div>
 
   <div class="form-actions">
@@ -62,7 +69,15 @@
 <div *ngFor="let article of articles" class="article-card">
   <div class="article-header">
     <h3 [matTooltip]="article.title">{{ article.title }}</h3>
-    <img [src]="'http://localhost:5000' + article.imageUrl" width="75" height="75" />
+    <div class="article-images">
+  <img
+    *ngFor="let img of article.imageUrls"
+    [src]="'http://localhost:5000' + img"
+    width="75"
+    height="75"
+  />
+</div>
+
   </div>
 
   <!-- 👉 Add Author Below the Title -->

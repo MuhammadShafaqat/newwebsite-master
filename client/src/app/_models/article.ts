@@ -3,7 +3,7 @@ export interface Article {
   title: string;
   body: string;
   author: string;
-  imageUrl: string;
+  imageUrls: string[];
   createdAt: string; // ISO date string
   updatedAt?: string;
 }

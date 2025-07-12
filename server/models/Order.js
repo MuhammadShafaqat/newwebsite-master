@@ -1,6 +1,5 @@
+const mongoose = require('mongoose');
 
-const mongoose = require('mongoose')
-/* === models/Order.js === */
 const orderSchema = new mongoose.Schema({
   items: [
     {
@@ -8,11 +7,26 @@ const orderSchema = new mongoose.Schema({
       quantity: { type: Number, required: true }
     }
   ],
-  customerName: String,
-  customerEmail: String,
-  paymentMethod: { type: String, enum: ['credit_card', 'paypal'], required: true },
+  customerName: { type: String, required: true },
+  customerEmail: { type: String, required: true },
+  customerAddress: {
+    street: String,
+    postalCode: String,
+    city: String,
+    country: String
+  },
+  paymentMethod: {
+    type: String,
+    enum: ['vorkasse'], // Only vorkasse
+    required: true
+  },
   totalAmount: Number,
-  status: { type: String, enum: ['pending', 'paid', 'shipped'], default: 'pending' },
+  status: {
+    type: String,
+    enum: ['pending', 'paid', 'shipped'],
+    default: 'pending'
+  },
+  bankReference: String, // optional field for payment reference
   createdAt: { type: Date, default: Date.now }
 });
 

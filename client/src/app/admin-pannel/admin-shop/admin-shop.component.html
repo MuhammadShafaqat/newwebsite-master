@@ -79,19 +79,18 @@
       <td>{{ p.price }}</td>
       <td>{{ p.stock }}</td>
       <td>
-        <button mat-icon-button (click)="toggleActive(p.id!)" [matTooltip]="p.isActive ? 'Deactivate' : 'Activate'">
-          <mat-icon [ngStyle]="{ color: p.isActive ? '#4caf50' : '#f44336' }">
+      
+          <mat-icon [ngStyle]="{ color: p.isActive ? '#4caf50' : '#f44336' }" (click)="toggleActive(p.id!)" [matTooltip]="p.isActive ? 'Deactivate' : 'Activate'">
             {{ p.isActive ? 'toggle_on' : 'toggle_off' }}
           </mat-icon>
-        </button>
+      
       </td>
       <td>
-        <button mat-icon-button color="primary" (click)="editProduct(p)" matTooltip="Edit">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button mat-icon-button color="warn" (click)="deleteProduct(p.id!)" matTooltip="Delete">
-          <mat-icon>delete</mat-icon>
-        </button>
+      
+          <mat-icon color="primary" (click)="editProduct(p)" matTooltip="Edit">edit</mat-icon>
+      
+          <mat-icon  color="warn" (click)="deleteProduct(p.id!)" matTooltip="Delete">delete</mat-icon>
+        
       </td>
     </tr>
   </tbody>

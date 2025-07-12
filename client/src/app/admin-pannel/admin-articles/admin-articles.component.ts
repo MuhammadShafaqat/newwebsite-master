@@ -1,10 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild,
-  AfterViewInit
-} from '@angular/core';
+import { Component,  ElementRef,  OnInit,  ViewChild,  AfterViewInit} from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -14,13 +8,12 @@ import { ArticlesService } from '../admin-services/articles.service';
 
 @Component({
   selector: 'app-admin-articles',
-
   templateUrl: './admin-articles.component.html',
   styleUrls: ['./admin-articles.component.scss']
 })
 export class AdminArticlesComponent implements OnInit, AfterViewInit {
   articleForm: FormGroup;
-  selectedFile: File | null = null;
+  selectedFiles: File[] = [];
   articles: any[] = [];
   editingArticleId: string | null = null;
 
@@ -51,18 +44,26 @@ export class AdminArticlesComponent implements OnInit, AfterViewInit {
     });
   }
 
-  onFileSelected(event: any): void {
-    this.selectedFile = event.target.files[0];
+onFileSelected(event: any): void {
+  const files = event.target.files;
+  this.selectedFiles = [];
+
+  if (files && files.length) {
+    for (let i = 0; i < files.length; i++) {
+      this.selectedFiles.push(files[i]);
+    }
   }
+}
+
 
   onSubmit(): void {
     const formData = new FormData();
     formData.append('title', this.articleForm.get('title')?.value);
     formData.append('body', this.articleForm.get('body')?.value);
     formData.append('author', this.articleForm.get('author')?.value);
-    if (this.selectedFile) {
-      formData.append('image', this.selectedFile);
-    }
+  this.selectedFiles.forEach((file, index) => {
+    formData.append('images', file); // 'images' should match backend field name
+  });
 
     if (this.editingArticleId) {
       this.article.updateArticle(this.editingArticleId, formData).subscribe({
@@ -108,7 +109,7 @@ export class AdminArticlesComponent implements OnInit, AfterViewInit {
 
   resetForm(): void {
     this.articleForm.reset();
-    this.selectedFile = null;
+    this.selectedFiles = [];
     this.editingArticleId = null;
     this.resetTextareaHeight();
     this.loadArticles();
@@ -144,17 +145,27 @@ export class AdminArticlesComponent implements OnInit, AfterViewInit {
     return rtlLanguages.includes(language) ? 'rtl' : 'ltr';
   }
 
-  convertToParagraphs(text: string): string {
-    if (!text) return '';
-    
-    const escaped = text
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;');
+convertToParagraphs(text: string): string {
+  if (!text) return '';
 
-    const paragraphs = escaped.split(/\n{2,}/g); // Double newlines = paragraph
-    return paragraphs
-      .map(p => `<p>${p.trim().replace(/\n/g, '<br>')}</p>`)
-      .join('');
-  }
+  // Escape basic HTML entities
+  const escaped = text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+  // Detect and convert URLs to anchor tags
+  const urlRegex = /((https?:\/\/|www\.)[^\s<]+)/g;
+  const linkedText = escaped.replace(urlRegex, (match) => {
+    const href = match.startsWith('http') ? match : `https://${match}`;
+    return `<a href="${href}" target="_blank" rel="noopener noreferrer">${match}</a>`;
+  });
+
+  // Convert double line breaks into paragraphs, single line breaks into <br>
+  const paragraphs = linkedText.split(/\n{2,}/g);
+  return paragraphs
+    .map(p => `<p>${p.trim().replace(/\n/g, '<br>')}</p>`)
+    .join('');
+}
+
 }

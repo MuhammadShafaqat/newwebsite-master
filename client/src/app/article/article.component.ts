@@ -34,17 +34,26 @@ constructor(private route: ActivatedRoute, private articleService: ArticlesServi
 convertToParagraphs(text: string): string {
   if (!text) return '';
 
+  // Escape basic HTML entities
   const escaped = text
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
 
-  const paragraphs = escaped.split(/\n{2,}/g); // double line breaks → paragraphs
+  // Detect and convert URLs to anchor tags
+  const urlRegex = /((https?:\/\/|www\.)[^\s<]+)/g;
+  const linkedText = escaped.replace(urlRegex, (match) => {
+    const href = match.startsWith('http') ? match : `https://${match}`;
+    return `<a href="${href}" target="_blank" rel="noopener noreferrer">${match}</a>`;
+  });
 
+  // Convert double line breaks into paragraphs, single line breaks into <br>
+  const paragraphs = linkedText.split(/\n{2,}/g);
   return paragraphs
-    .map(para => `<p>${para.trim().replace(/\n/g, '<br>')}</p>`)
+    .map(p => `<p>${p.trim().replace(/\n/g, '<br>')}</p>`)
     .join('');
 }
+
 
 
 

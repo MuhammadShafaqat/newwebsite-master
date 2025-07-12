@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
 })
 export class JoinAndDonatePopupComponent {
   popup: Boolean = true;
+  
+  @ViewChild('popupRef') popupRef!: ElementRef;
 
   constructor(private router: Router) {}
 
@@ -18,5 +20,14 @@ export class JoinAndDonatePopupComponent {
   openDonationWindow(): void {
     this.closePopup();
     this.router.navigate(['/spenden']);
+  }
+
+
+   @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    const clickedInside = this.popupRef?.nativeElement.contains(event.target);
+    if (!clickedInside && this.popup) {
+      this.closePopup();
+    }
   }
 }

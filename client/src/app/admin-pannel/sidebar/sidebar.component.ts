@@ -22,6 +22,7 @@ export class SidebarComponent implements OnInit {
     { label: 'Press', icon: 'description', key: 'admin-press' },
     { label: 'Shop', icon: 'storefront', key: 'admin-shop' },
     { label: 'User', icon: 'manage_accounts', key: 'admin-user' },
+    { label: 'Orders', icon: 'manage_accounts', key: 'admin-orders' },
     { label: 'Logout', icon: 'logout', key: 'logout', danger: true }
   ];
 

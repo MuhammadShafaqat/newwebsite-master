@@ -3,14 +3,10 @@ const Action = require('../models/Action');
 // Create Action
 const createAction = async (req, res) => {
   try {
-    const imagePaths = req.files?.map(file => `/uploads/actions/${file.filename}`) || [];
-    const { title, descriptions } = req.body;
+    const mediaPaths = req.files?.map(file => `/uploads/actions/${file.filename}`) || [];
+    const { title, description } = req.body;
 
-    const parsedDescriptions = Array.isArray(descriptions)
-      ? descriptions
-      : [descriptions]; // handle single string or array
-
-    const newAction = new Action({ title, descriptions: parsedDescriptions, images: imagePaths });
+      const newAction = new Action({ title, description: description, media: mediaPaths });
     const saved = await newAction.save();
     res.status(201).json(saved);
   } catch (err) {
@@ -42,21 +38,17 @@ const getActionById = async (req, res) => {
 // Update
 const updateAction = async (req, res) => {
   try {
-    const imagePaths = req.files?.map(file => `/uploads/products/${file.filename}`) || [];
-    const { title, descriptions } = req.body;
+    const mediaPaths = req.files?.map(file => `/uploads/actions/${file.filename}`) || [];
+    const { title, description } = req.body;
 
-    const parsedDescriptions = Array.isArray(descriptions)
-      ? descriptions
-      : [descriptions];
+    const updateData = { title, description }
 
-    const updated = await Action.findByIdAndUpdate(
-      req.params.id,
-      {
-        $set: { title, descriptions: parsedDescriptions },
-        ...(imagePaths.length && { $push: { images: { $each: imagePaths } } })
-      },
-      { new: true }
-    );
+    if (mediaPaths.length) {
+      updateData.$push = { media: { $each: mediaPaths } };
+    }
+   
+
+   const updated = await Action.findByIdAndUpdate(req.params.id, updateData, { new: true });
 
     res.json(updated);
   } catch (err) {

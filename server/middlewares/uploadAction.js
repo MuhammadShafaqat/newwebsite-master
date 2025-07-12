@@ -18,4 +18,25 @@ const storage = multer.diskStorage({
   }
 });
 
-module.exports = multer({ storage });
+
+
+const fileFilter = (req, file, cb) => {
+  console.log('Received file mimetype:', file.mimetype);
+
+  const isImageOrVideo =
+    file.mimetype.startsWith('image/') || file.mimetype.startsWith('video/');
+
+  if (isImageOrVideo) {
+    cb(null, true);
+  } else {
+    console.log('❌ Rejected file:', file.originalname, 'with type:', file.mimetype);
+    cb(new Error('Only images and videos are allowed'), false);
+  }
+};
+
+
+
+module.exports = multer({
+  storage,
+  fileFilter
+});

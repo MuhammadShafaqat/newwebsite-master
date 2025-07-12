@@ -9,8 +9,7 @@ import { ActionService } from '../services/action.service';
 })
 export class ActionsComponent implements OnInit {
   allActions: Action[] = [];
-  selectedAction!: Action;
-  otherActions: Action[] = [];
+  previewAction: Action | null = null;
 
   constructor(private action: ActionService) {}
 
@@ -19,15 +18,26 @@ export class ActionsComponent implements OnInit {
       this.allActions = actions.sort(
         (a, b) => new Date(b.createdAt!).getTime() - new Date(a.createdAt!).getTime()
       );
-
-      this.selectedAction = this.allActions[0]; // Latest
-      this.otherActions = this.allActions.slice(1); // Remaining
     });
   }
 
-  selectAction(action: Action): void {
-    // Remove selected action from the list
-    this.otherActions = this.allActions.filter(a => a !== action);
-    this.selectedAction = action;
+  openPreview(action: Action) {
+    this.previewAction = action;
   }
+
+  closePreview() {
+    this.previewAction = null;
+  }
+
+  isImage(file: string): boolean {
+  return /\.(jpe?g|png|gif|webp)$/i.test(file);
+}
+
+isVideo(file: string): boolean {
+  return /\.(mp4|webm|ogg)$/i.test(file);
+}
+
+
+
+
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Action } from 'src/app/_models/action';
 import { AdminactionService } from '../admin-services/adminaction.service';
 
@@ -13,9 +13,9 @@ export class AdminActionComponent implements OnInit {
   actionForm!: FormGroup;
   isEditing = false;
   selectedId: string | null = null;
-  selectedImages: File[] = [];
+  selectedMedia: File[] = [];
   previewUrls: string[] = [];
-  existingImages: string[] = [];
+  existingMedia: string[] = [];
 
   constructor(private adminAction: AdminactionService, private fb: FormBuilder) {}
 
@@ -24,17 +24,11 @@ export class AdminActionComponent implements OnInit {
     this.loadActions();
   }
 
-  get descriptions() {
-    return this.actionForm.get('descriptions') as FormArray;
-  }
-
   initForm() {
     this.actionForm = this.fb.group({
       title: ['', Validators.required],
-      descriptions: this.fb.array([
-        this.fb.control('', Validators.required)
-      ]),
-      images: [null]
+      description: ['', Validators.required],
+      media: [null]
     });
   }
 
@@ -42,17 +36,9 @@ export class AdminActionComponent implements OnInit {
     this.adminAction.getAllActions().subscribe(res => this.actions = res);
   }
 
-  addDescription() {
-    this.descriptions.push(this.fb.control('', Validators.required));
-  }
-
-  removeDescription(i: number) {
-    this.descriptions.removeAt(i);
-  }
-
-  onImagesSelected(event: any) {
+  onMediaSelected(event: any) {
     const files: FileList = event.target.files;
-    this.selectedImages = Array.from(files);
+    this.selectedMedia = Array.from(files);
     this.previewUrls = [];
 
     Array.from(files).forEach(file => {
@@ -67,8 +53,10 @@ export class AdminActionComponent implements OnInit {
 
     const formData = new FormData();
     formData.append('title', this.actionForm.value.title);
-    this.descriptions.value.forEach((desc: string) => formData.append('descriptions', desc));
-    this.selectedImages.forEach(file => formData.append('images', file));
+    formData.append('description', this.actionForm.value.description);
+    this.selectedMedia.forEach(file =>{
+      console.log('Uploading:', file.name, file.type)
+      formData.append('media', file)}); // field name should match multer array name
 
     const request = this.isEditing && this.selectedId
       ? this.adminAction.updateAction(this.selectedId, formData)
@@ -83,17 +71,15 @@ export class AdminActionComponent implements OnInit {
   editAction(action: Action) {
     this.isEditing = true;
     this.selectedId = action._id || null;
-    this.existingImages = action.images || [];
+    this.existingMedia = action.media || [];
 
-    this.actionForm.patchValue({ title: action.title });
-    this.descriptions.clear();
-
-    action.descriptions.forEach((desc, i) => {
-      this.descriptions.push(this.fb.control(desc, Validators.required));
+    this.actionForm.patchValue({
+      title: action.title,
+      description: action.description
     });
 
-    this.previewUrls = [...this.existingImages];
-    this.selectedImages = [];
+    this.previewUrls = [...this.existingMedia.map(url => 'http://localhost:5000' + url)];
+    this.selectedMedia = [];
   }
 
   deleteAction(id: string) {
@@ -104,12 +90,18 @@ export class AdminActionComponent implements OnInit {
 
   resetForm() {
     this.actionForm.reset();
-    this.descriptions.clear();
-    this.descriptions.push(this.fb.control('', Validators.required));
     this.isEditing = false;
     this.selectedId = null;
     this.previewUrls = [];
-    this.selectedImages = [];
-    this.existingImages = [];
+    this.selectedMedia = [];
+    this.existingMedia = [];
+  }
+
+  isImage(fileUrl: string): boolean {
+    return /\.(jpe?g|png|gif|webp)$/i.test(fileUrl);
+  }
+
+  isVideo(fileUrl: string): boolean {
+    return /\.(mp4|webm|ogg)$/i.test(fileUrl);
   }
 }

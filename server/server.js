@@ -36,6 +36,8 @@ app.use(cookieParser());
 app.use('/uploads', (req, res, next) => {
   res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
   res.header('Cross-Origin-Resource-Policy', 'cross-origin'); // ✅ Required by Chrome
+
+  
   next();
 }, express.static(path.join(__dirname, 'uploads')));
 
@@ -54,6 +56,7 @@ app.use('/api/events', eventRoutes);
 app.use('/api/videos', videoRoutes);
 app.use('/api/press-release', pressRoutes);
 app.use('/api/actions', actionRoutes);
+
 
 
 // Start server

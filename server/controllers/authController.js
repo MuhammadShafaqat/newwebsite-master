@@ -1,12 +1,24 @@
 const User = require('../models/User');
+const RegistrationKey = require('../models/RegistrationKey');
 const jwt = require('jsonwebtoken');
 const argon2 = require('argon2');
 
 
 
 const signup = async (req, res) => {
-  const { username, password, isAdmin } = req.body;
+  const { username, password, isAdmin, registrationKey } = req.body;
   try {
+// ✅ Validate registration key
+    const keyDoc = await RegistrationKey.findOne();
+    if (!keyDoc) {
+      return res.status(500).json({ message: 'Registration key not configured. Contact admin.' });
+    }
+
+    const isValidKey = await argon2.verify(keyDoc.hashedKey, registrationKey);
+    if (!isValidKey) {
+      return res.status(401).json({ message: 'Invalid registration key' });
+    }
+
     const existing = await User.findOne({ username });
     if (existing) return res.status(400).json({ message: 'Username already exists' });
 

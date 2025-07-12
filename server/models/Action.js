@@ -5,13 +5,16 @@ const ActionSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  descriptions: [{
+  description: {
     type: String,
     required: true,
-  }],
-  images: [{
-    type: String,
-  }],
+  },
+  media: [  // 🆕 renamed from `images` to `media`
+    {
+      type: String,
+    },
+  ],
 }, { timestamps: true });
 
 module.exports = mongoose.model('Action', ActionSchema);
+

@@ -16,6 +16,10 @@ export class ShopService {
   getAllProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(this.apiUrl);
   }
+  getProductById(id: string) {
+  return this.http.get<Product>(`http://localhost:5000/api/products/${id}`);
+}
+
 
 
 }

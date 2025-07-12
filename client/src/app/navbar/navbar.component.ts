@@ -1,6 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import { CartService } from '../services/cart.service';
 
 @Component({
   selector: 'app-navbar',
@@ -14,8 +15,9 @@ export class NavbarComponent {
   previousScrollY = 0;
   hideNavbar = false;
   userName: string | null = null;
+  cartCount = 0;
 
-  constructor(private router: Router, private auth: AuthService) {}
+  constructor(private router: Router, private auth: AuthService, private cartService:CartService) {}
 
   @HostListener('window:resize')
   onResize() {
@@ -52,7 +54,13 @@ export class NavbarComponent {
         }
       });
     }
-  }
+  
+  
+   // ✅ Subscribe to cart item count
+  this.cartService.cart$.subscribe(items => {
+    this.cartCount = items.reduce((sum, item) => sum + item.quantity, 0);
+  })
+}
 
   logout() {
     this.auth.logout();

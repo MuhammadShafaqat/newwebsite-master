@@ -6,7 +6,6 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { TitlescreenComponent } from './titlescreen/titlescreen.component';
 import { JoinAndDonatePopupComponent } from './join-and-donate-popup/join-and-donate-popup.component';
 import { FooterComponent } from './footer/footer.component';
-import { ShopComponent } from './shop/shop.component';
 import { ActionsComponent } from './actions/actions.component';
 import { ContactFormComponent } from './contact-form/contact-form.component';
 import { ImpressumComponent } from './impressum/impressum.component';
@@ -34,6 +33,10 @@ import { EventsComponent } from './events/events.component';
 import { AboutComponent } from './about/about.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { PressComponent } from './press/press.component';
+import { ShopComponent } from './shop-components/shop/shop.component';
+import { OrderPageComponent } from './shop-components/order-page/order-page.component';
+import { ProductDetailComponent } from './shop-components/product-detail/product-detail.component';
+import { CartDetailsComponent } from './shop-components/cart-details/cart-details.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,7 +60,10 @@ import { PressComponent } from './press/press.component';
     EventsComponent,
     AboutComponent,
     CalendarComponent,
-    PressComponent
+    PressComponent,
+    OrderPageComponent,
+    ProductDetailComponent,
+    CartDetailsComponent
   
   ],
   imports: [

@@ -27,4 +27,26 @@ getAllUsers(): Observable<any[]> {
   });
   }
 
+   /**
+   * Create or update the registration key (4-digit code)
+   */
+  createOrUpdateRegistrationKey(key: string): Observable<any> {
+    const token = localStorage.getItem('token');
+    return this.http.post(`${this.apiUrl}/registration-key`, { key }, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+  }
+  /* get key */
+  getKeyInfo(): Observable<any> {
+  const token = localStorage.getItem('token');
+  return this.http.get(`${this.apiUrl}/registration-key`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+}
+
+
 }

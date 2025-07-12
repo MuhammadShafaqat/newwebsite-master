@@ -1,34 +1,58 @@
-<!-- action.component.html -->
-<div class="actions-container">
-  <!-- Top selected/latest action -->
-  <div class="top-action" *ngIf="selectedAction">
-    <h2>{{ selectedAction.title }}</h2>
-    <div class="desc-list">
-  <div *ngFor="let desc of selectedAction.descriptions" class="desc-card">
-    {{ desc }}
-  </div>
-</div>
+<div class="gallery-container">
+  <h2 class="gallery-heading">Action Gallery</h2>
 
-    <img
-      *ngFor="let img of selectedAction.images"
-      [src]="'http://localhost:5000' + img"
-      alt="Image"
-    />
-  </div>
-
-  <!-- Other actions below in a flex row/column -->
-  <div class="other-actions">
+  <div class="gallery-grid">
     <div
-      class="action-card"
-      *ngFor="let action of otherActions"
-      (click)="selectAction(action)"
+      class="gallery-card"
+      *ngFor="let action of allActions"
+      (click)="openPreview(action)"
     >
-      <h4>{{ action.title }}</h4>
+      <ng-container *ngIf="action.media?.length">
+        <img
+          *ngIf="isImage(action.media[0])"
+          [src]="'http://localhost:5000' + action.media[0]"
+          alt="Action Media"
+        />
+        <video
+          *ngIf="isVideo(action.media[0])"
+          [src]="'http://localhost:5000' + action.media[0]"
+          muted
+          controls          
+          loop
+        ></video>
+      </ng-container>
 
-      <!-- Horizontal description list -->
-      <div class="description-list">
-        <span *ngFor="let desc of action.descriptions">{{ desc }}</span>
+      <div class="gallery-info">
+        <h3>{{ action.title }}</h3>
+        <p>{{ action.description | slice: 0:100 }}...</p>
       </div>
+    </div>
+  </div>
+
+  <!-- Modal Preview -->
+  <div class="modal-overlay" *ngIf="previewAction" (click)="closePreview()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <h2>{{ previewAction.title }}</h2>
+      <p>{{ previewAction.description }}</p>
+
+      <div class="modal-media">
+        <ng-container *ngFor="let item of previewAction.media">
+          <a [href]="'http://localhost:5000' + item" target="_blank">
+            <img
+              *ngIf="isImage(item)"
+              [src]="'http://localhost:5000' + item"
+              alt="Preview Image"
+            />
+            <video
+              *ngIf="isVideo(item)"
+              [src]="'http://localhost:5000' + item"
+              controls
+            ></video>
+          </a>
+        </ng-container>
+      </div>
+
+      <button class="close-btn" (click)="closePreview()">Close</button>
     </div>
   </div>
 </div>

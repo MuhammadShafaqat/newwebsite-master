@@ -1,24 +1,104 @@
 .admin-users {
   background-color: #f0f4f8;
-  padding: 7px;
+  padding: 16px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+
   h2 {
     font-size: 24px;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    color: #333;
+  }
+
+  .registration-key-box {
+    background-color: #e3f2fd;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    border: 1px solid #bbdefb;
+    .key-preview {
+  margin-left: auto;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+
+    h3 {
+      margin: 0 0 0.8rem 0;
+      font-size: 18px;
+      font-weight: 600;
+      color: #1565c0;
+    }
+
+    form {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+
+      input {
+        padding: 0.5rem 0.75rem;
+        border: 1px solid #90caf9;
+        border-radius: 6px;
+        font-size: 1rem;
+        width: 150px;
+        background-color: #fff;
+      }
+
+      button {
+        padding: 0.5rem 1rem;
+        background-color: #1976d2;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 0.95rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.2s ease-in-out;
+
+        &:hover {
+          background-color: #1565c0;
+        }
+
+        &:disabled {
+          background-color: #ccc;
+          cursor: not-allowed;
+        }
+      }
+    }
+
+    .key-message {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: green;
+    }
   }
 
   .user-table {
     width: 100%;
     border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
 
-    th, td {
-      padding: 0.6rem;
-      border-bottom: 1px solid #ddd;
+    th,
+    td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid #e0e0e0;
       vertical-align: middle;
     }
 
     th {
       text-align: left;
       background-color: #f4f4f4;
+      font-size: 14px;
+      font-weight: 600;
+      color: #555;
+    }
+
+    td {
+      font-size: 14px;
     }
 
     .role-dropdown {
@@ -34,7 +114,7 @@
     }
 
     .icon-action {
-      font-size: 32px;
+      font-size: 24px;
       cursor: pointer;
       transition: color 0.2s ease-in-out;
     }

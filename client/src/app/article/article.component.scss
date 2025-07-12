@@ -74,5 +74,15 @@
       display: block;
       margin-bottom: 0.5rem;
     }
+     // ✅ Add this for link styling
+  a {
+    text-decoration: underline;
+    cursor: pointer;
+    
+
+    &:hover {
+      color: #0d47a1;
+    }
+  }
   }
 }
