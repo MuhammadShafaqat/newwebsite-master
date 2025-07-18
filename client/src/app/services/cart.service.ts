@@ -18,35 +18,45 @@ export class CartService {
   cart$ = this.cartSubject.asObservable();
 
   addToCart(item: CartItem) {
-    const existing = this.cart.find(p => p.id === item.id);
-    if (existing) {
-      existing.quantity += item.quantity;
+      if (item.quantity <= 0) return;
+    const existingIndex = this.cart.findIndex(p => p.id === item.id);
+    if (existingIndex !== -1) {
+      this.cart[existingIndex].quantity += item.quantity;
     } else {
       this.cart.push(item);
     }
-    this.cartSubject.next(this.cart);
+    this.cartSubject.next([...this.cart]);
   }
 
-  updateQuantity(id: string, quantity: number) {
-    const item = this.cart.find(p => p.id === id);
-    if (item && quantity > 0) {
-      item.quantity = quantity;
-      this.cartSubject.next(this.cart);
+  updateQuantity(productId: string, quantity: number) {
+    const index = this.cart.findIndex(item => item.id === productId);
+    if (index > -1) {
+      this.cart[index].quantity = quantity;
+      this.saveCart(this.cart);
     }
   }
 
   removeItem(id: string) {
     this.cart = this.cart.filter(p => p.id !== id);
-    this.cartSubject.next(this.cart);
+    this.cartSubject.next([...this.cart]);
   }
 
   clearCart() {
     this.cart = [];
-    this.cartSubject.next(this.cart);
+    this.cartSubject.next([...this.cart]);
   }
 
   getCartItems() {
     return this.cart;
+  }
+
+   saveCart(cart: CartItem[]) {
+    localStorage.setItem('cart', JSON.stringify(cart));
+    this.cartSubject.next(cart);
+  }
+
+  isInCart(productId: string): boolean {
+    return this.cart.some(item => item.id === productId);
   }
 
   getTotalPrice() {

@@ -18,6 +18,7 @@ import { OrderPageComponent } from './shop-components/order-page/order-page.comp
 import { CartDetailsComponent } from './shop-components/cart-details/cart-details.component';
 import { ValuesComponent } from './values/values.component';
 import { ContactFormComponent } from './contact-form/contact-form.component';
+import { ShortsVideoPlayer } from './shorts-videoplayer/shorts-videoplayer.component';
 
 
 
@@ -25,6 +26,7 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'impressum', component: ImpressumComponent },
   { path: 'values', component: ValuesComponent },
+  { path: 'videos', component: ShortsVideoPlayer },
   { path: 'contact-form', component: ContactFormComponent },
   { path: 'shop', component: ShopComponent },
   { path: 'faq', component: FaqComponent },

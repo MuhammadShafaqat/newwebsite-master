@@ -15,7 +15,10 @@
 
   <div class="links" [class.hidden]="isMobileView && !isMenuOpen">
     <a routerLink="">Home</a>
-    <a [routerLink]="['']" fragment="kontakt-anchor">Mitmachen</a>
+    <a href="https://bkps.ch/HTML/mitgliedschaft/formular.php#kontakt-anchor" target="_blank" rel="noopener">
+  Mitmachen
+</a>
+
     <a [routerLink]="['/values']" fragment="werte-anchor">Werte</a>
     <!-- <a [routerLink]="['/spenden']">Spenden</a> -->
     <a [routerLink]="['/shop']">Geschäft</a>
@@ -36,9 +39,9 @@
 <a *ngIf="!userName" [routerLink]="['/signin']" class="signin-link">
   <mat-icon class="signin-icon">login</mat-icon>
 </a>
-<a [routerLink]="['/cart-details']" class="cart-link">
+<a [routerLink]="['/cart-details']" class="cart-link"  *ngIf="cartCount > 0">
   <mat-icon class="cart-icon">shopping_cart</mat-icon>
-  <span class="cart-badge" *ngIf="cartCount > 0">{{ cartCount }}</span>
+  <span class="cart-badge" >{{ cartCount }}</span>
 </a>
 
   <button class="dark-toggle" (click)="toggleDarkMode()"> 🌓

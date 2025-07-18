@@ -13,16 +13,13 @@ interface VideoItem {
 })
 export class ShortsVideoPlayer implements AfterViewInit, OnInit {
   currentIndex = 0;
+  landscapeCurrentIndex = 0;
 
-  items: VideoItem[] = [
-    // { title: 'Jeremy Clarkson', videoId: 'J12q7fDYDFs' },
-    // { title: 'Bohemian Rhapsody', videoId: 'tgbNymZ7vqY' },
-    // { title: 'DPRK Music', videoId: 'GTLmzAP_sv0' },
-    // { title: '4 Jahre BKP', videoId: 'fMegboGSycw' },
-    // { title: 'Drogenkonsum in Luzern explodiert!', videoId: 'Kouxe0bsSJY' }
-  ];
+    portraitItems: VideoItem[] = [];
+    landscapeItems: VideoItem[] = [];
 
-  @ViewChildren('videoFrame') videoFrames!: QueryList<ElementRef<HTMLIFrameElement>>;
+
+ @ViewChildren('videoFrame') videoFrames!: QueryList<ElementRef<HTMLIFrameElement>>;
 constructor(private video:VideoService){}
   ngAfterViewInit(): void {
     setTimeout(() => this.updateVideoStates(), 0);
@@ -30,7 +27,8 @@ constructor(private video:VideoService){}
 
   ngOnInit(): void {
     this.video.getVideos().subscribe((videos)=>{
-      this.items = videos
+      this.portraitItems = videos.filter(video  =>video.orientation === 'portrait')
+       this.landscapeItems = videos.filter(video  =>video.orientation === 'landscape')
     })
   }
 
@@ -58,7 +56,20 @@ selectVideo(index: number) {
   }
 
   getWrappedIndex(index: number): number {
-  const len = this.items.length;
+  const len = this.portraitItems.length;
+  return ((index % len) + len) % len;
+}
+//landscape videos logic
+selectLandscapeVideo(index: number) {
+  const wrappedIndex = this.getWrappedLandscapeIndex(index);
+  if (wrappedIndex !== this.landscapeCurrentIndex) {
+    this.landscapeCurrentIndex = wrappedIndex;
+    this.updateVideoStates(); // same method will mute/pause all inactive
+  }
+}
+
+getWrappedLandscapeIndex(index: number): number {
+  const len = this.landscapeItems.length;
   return ((index % len) + len) % len;
 }
 

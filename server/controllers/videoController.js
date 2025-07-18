@@ -1,15 +1,16 @@
+const probe = require('probe-image-size');
 const Video = require('../models/Video');
 
 
 const createVideo = async (req, res) => {
-  const { title, videoId } = req.body;
+  const { title, videoId, orientation } = req.body;
 
   if (!title || !videoId) {
     return res.status(400).json({ message: 'Title and videoId are required' });
   }
 
   try {
-    const newVideo = await Video.create({ title, videoId }); // ← MongoDB create method
+    const newVideo = await Video.create({ title, videoId, orientation }); // ← MongoDB create method
     res.status(201).json(newVideo);
   } catch (error) {
     res.status(500).json({ message: 'Failed to create video', error });

@@ -34,8 +34,16 @@ export class ShopComponent implements OnInit {
   }
 
 addToCart(product: Product) {
-  // Implement cart logic via CartService
-  this.cart.addToCart({ ...product, quantity: 1 });
+    const isInCart = this.cart.isInCart(product.id!);
+
+  if (isInCart) {
+    // Get current quantity of the item
+    const existingItem = this.cart.getCartItems().find(item => item.id === product.id);
+    const newQuantity = (existingItem?.quantity || 0) + 1;
+    this.cart.updateQuantity(product.id!, newQuantity);
+  } else {
+    this.cart.addToCart({ ...product, quantity: 1 });
+  }
 }
 
 

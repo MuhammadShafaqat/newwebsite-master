@@ -7,34 +7,70 @@ import { ShopService } from '../../services/shop.service';
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
-  styleUrl: './product-detail.component.scss'
+  styleUrls: ['./product-detail.component.scss']
 })
-// product-detail.component.ts
 export class ProductDetailComponent implements OnInit {
   product!: Product;
   quantity = 1;
 
-  constructor(private cart: CartService, private route: ActivatedRoute,
-  private productService: ShopService,) {}
+  constructor(
+    private cart: CartService,
+    private route: ActivatedRoute,
+    private productService: ShopService
+  ) {}
+
   ngOnInit(): void {
-   const productId = this.route.snapshot.paramMap.get('id');
-  if (productId) {
-    this.productService.getProductById(productId).subscribe({
-      next: (data) => (this.product = data),
-      error: (err) => console.error('Error loading product:', err),
-    });
-  }
+    const productId = this.route.snapshot.paramMap.get('id');
+    if (productId) {
+      this.productService.getProductById(productId).subscribe({
+        next: (data) => {
+          this.product = data;
+
+          // ✅ If product already in cart, load its quantity
+          const existingItem = this.cart.getCartItems().find(item => item.id === this.product.id);
+          if (existingItem) {
+            this.quantity = existingItem.quantity;
+          }
+        },
+        error: (err) => console.error('Error loading product:', err),
+      });
+    }
   }
 
   increaseQty() {
     this.quantity++;
+    this.syncCart();
   }
 
   decreaseQty() {
-    if (this.quantity > 1) this.quantity--;
+    if (this.quantity > 1) {
+      this.quantity--;
+      this.syncCart();
+    }
   }
 
   addToCart() {
-    this.cart.addToCart({ ...this.product, quantity: this.quantity });
+    const existingItem = this.cart.getCartItems().find(item => item.id === this.product.id);
+
+    if (existingItem) {
+      // ✅ Just increase quantity by 1 if already in cart
+      const newQuantity = existingItem.quantity + 1;
+      this.quantity = newQuantity;
+      this.cart.updateQuantity(this.product.id!, newQuantity);
+    } else {
+      // ✅ Not in cart? Add it
+      this.cart.addToCart({ ...this.product, quantity: this.quantity });
+    }
+  }
+
+  private syncCart() {
+    if (!this.product.id) return;
+
+    const isInCart = this.cart.isInCart(this.product.id);
+    if (isInCart) {
+      this.cart.updateQuantity(this.product.id, this.quantity);
+    }
+    // 👇 Don't re-add in syncCart, only update if already exists
+    // AddToCart button handles adding
   }
 }
