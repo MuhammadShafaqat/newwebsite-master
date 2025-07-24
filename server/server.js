@@ -17,6 +17,7 @@ const eventRoutes = require('./routes/events');
 const videoRoutes = require('./routes/videos');
 const pressRoutes = require("./routes/press");
 const actionRoutes = require('./routes/actions');
+const contactRoutes = require('./routes/contact');
 const path = require('path'); // ✅ Required for static file path resolution
 
 const app = express();
@@ -56,6 +57,7 @@ app.use('/api/events', eventRoutes);
 app.use('/api/videos', videoRoutes);
 app.use('/api/press-release', pressRoutes);
 app.use('/api/actions', actionRoutes);
+app.use('/api/contacts', contactRoutes);
 
 
 

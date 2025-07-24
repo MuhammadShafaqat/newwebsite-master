@@ -23,6 +23,7 @@ export class SidebarComponent implements OnInit {
     { label: 'Shop', icon: 'storefront', key: 'admin-shop' },
     { label: 'User', icon: 'manage_accounts', key: 'admin-user' },
     { label: 'Orders', icon: 'manage_accounts', key: 'admin-orders' },
+    { label: 'Contacts', icon: 'manage_contacts', key: 'admin-contacts' },
     { label: 'Logout', icon: 'logout', key: 'logout', danger: true }
   ];
 

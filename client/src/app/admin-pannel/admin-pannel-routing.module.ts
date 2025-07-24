@@ -11,6 +11,7 @@ import { AdminGuard } from '../guards/admin.guard';
 import { AdminUserComponent } from './admin-user/admin-user.component';
 import { AdminActionComponent } from './admin-action/admin-action.component';
 import { AdminOrdersComponent } from './admin-orders/admin-orders.component';
+import { AdminContactsComponent } from './admin-contacts/admin-contacts.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,7 @@ const routes: Routes = [
       { path: 'admin-user', component: AdminUserComponent },
        { path: 'admin-action', component: AdminActionComponent },
        { path: 'admin-orders', component: AdminOrdersComponent },
+       { path: 'admin-contacts', component: AdminContactsComponent },
       { path: '', redirectTo: 'admin-articles', pathMatch: 'full' },
     ],
   }
