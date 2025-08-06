@@ -18,6 +18,7 @@ const videoRoutes = require('./routes/videos');
 const pressRoutes = require("./routes/press");
 const actionRoutes = require('./routes/actions');
 const contactRoutes = require('./routes/contact');
+const adminRoutes = require('./routes/admin');
 const path = require('path'); // ✅ Required for static file path resolution
 
 const app = express();
@@ -49,6 +50,7 @@ app.use(limiter);
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/admin', adminRoutes);
 app.use('/api/articles', articleRoutes);
 app.use('/api/products', shopRoutes);
 app.use('/api/orders', orderRoutes);

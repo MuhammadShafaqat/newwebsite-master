@@ -50,7 +50,7 @@ isLoggedIn(): boolean {
 
 
  logout() {
-  localStorage.clear();
+  localStorage.removeItem('token');
   sessionStorage.clear();
   this.snackBar.open('Logged out successfully', 'Close', { duration: 3000 });
   this.router.navigate(['/signin']);

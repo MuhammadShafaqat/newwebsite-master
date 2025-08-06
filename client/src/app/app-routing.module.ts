@@ -19,6 +19,8 @@ import { CartDetailsComponent } from './shop-components/cart-details/cart-detail
 import { ValuesComponent } from './values/values.component';
 import { ContactFormComponent } from './contact-form/contact-form.component';
 import { ShortsVideoPlayer } from './shorts-videoplayer/shorts-videoplayer.component';
+import { AdminSignupComponent } from './admin-pannel/admin-signup/admin-signup.component';
+import { AdminSigninComponent } from './admin-pannel/admin-signin/admin-signin.component';
 
 
 
@@ -42,10 +44,13 @@ const routes: Routes = [
   { path: 'order', component: OrderPageComponent },
   { path: 'cart-details', component: CartDetailsComponent },
 
+ // ✅ Public admin routes — no layout, no guard
+    { path: 'admin/admin-signup', component: AdminSignupComponent },
+  { path: 'admin/admin-signin', component: AdminSigninComponent },
  // Lazy-loaded Admin Pannel
   {
     path: 'admin',
-    canActivate: [AdminGuard], 
+  //  canLoad: [AdminGuard], 
     loadChildren: () =>
       import('./admin-pannel/admin-pannel.module').then(m => m.AdminPannelModule),
   },

@@ -5,9 +5,10 @@ import { Component } from '@angular/core';
   templateUrl: './admin-layout.component.html',
   styleUrl: './admin-layout.component.scss'
 })
-export class AdminLayoutComponent {
+export class AdminLayoutComponent  {
   selectedPage = 'admin-layout';
   isSidebarCollapsed = false;
+  
 
   toggleSidebar() {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
@@ -16,4 +17,6 @@ export class AdminLayoutComponent {
   onItemSelected(key: string) {
     this.selectedPage = key;
   }
+
+
 }

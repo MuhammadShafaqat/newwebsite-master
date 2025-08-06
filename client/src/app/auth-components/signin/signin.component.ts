@@ -35,11 +35,9 @@ constructor(private fb: FormBuilder, private auth: AuthService, private router: 
 
 
      
-      if (res.isAdmin) {
-        this.router.navigate(['/admin']);
-      } else {
-        this.router.navigate(['/']); 
-      }
+      
+        this.router.navigate(['/']);
+   
     },
     error: (err) => alert(err.error.message)
   });

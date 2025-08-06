@@ -4,6 +4,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { MatSnackBar } from '@angular/material/snack-bar'; // optional for toast
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { AdminauthService } from '../admin-services/adminauth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -34,6 +35,7 @@ export class SidebarComponent implements OnInit {
   private breakpointObserver: BreakpointObserver,
   private router: Router,
   private auth:AuthService,
+  private authAdmin:AdminauthService,
   private snackBar: MatSnackBar // optional
 ) {}
 
@@ -46,7 +48,7 @@ export class SidebarComponent implements OnInit {
 
   selectItem(key: string) {
  if (key === 'logout') {
-    this.auth.logout();
+    this.authAdmin.logoutAdmin();
     return;
   }
 

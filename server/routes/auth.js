@@ -17,12 +17,12 @@ const { authMiddleware,  adminMiddleware} = require('../middlewares/authMiddlewa
 router.post('/signup', signup);
 router.post('/signin', signin);
 router.post('/logout', logout);
-router.get('/user', authMiddleware ,getUser);
-router.get('/users', authMiddleware, getAllUsers);
-router.patch('/users/:userId', authMiddleware, updateUser);
+router.get('/user', adminMiddleware ,getUser);
+router.get('/users', adminMiddleware, getAllUsers);
+router.patch('/users/:userId', adminMiddleware, updateUser);
 
 // ✅ Registration key route (admin only)
-router.post('/users/registration-key', createOrUpdateKey);
-router.get('/users/registration-key', getKeyInfo);
+router.post('/users/registration-key', adminMiddleware , createOrUpdateKey);
+router.get('/users/registration-key', adminMiddleware, getKeyInfo);
 
 module.exports = router;

@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const Admin = require('../models/Admin');
 
 const authMiddleware = async (req, res, next) => {
   const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
@@ -17,14 +18,31 @@ const authMiddleware = async (req, res, next) => {
   }
 };
 
-const adminMiddleware = (req, res, next) => {
+const adminMiddleware = async (req, res, next) => {
   try {
-    if (!req.user?.isAdmin) {
-      return res.status(403).json({ message: 'Access denied: Admins only' });
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+
+    if (!token) {
+      return res.status(401).json({ error: 'No token provided' });
     }
+
+    if (!process.env.JWT_ADMIN_SECRET) {
+      throw new Error('JWT_ADMIN_SECRET not defined');
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_ADMIN_SECRET);
+    const admin = await Admin.findById(decoded.id);
+
+    if (!admin) {
+      return res.status(401).json({ error: 'Admin not found' });
+    }
+
+    req.admin = admin;
     next();
-  } catch (err) {
-    res.status(500).json({ message: 'Server error' });
+  } catch (error) {
+    console.error('Admin Auth Error:', error);
+    res.status(500).json({ error: 'Admin authentication failed' });
   }
 };
 

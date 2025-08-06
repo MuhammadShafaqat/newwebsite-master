@@ -17,6 +17,8 @@ import { AdminUserComponent } from './admin-user/admin-user.component';
 import { AdminActionComponent } from './admin-action/admin-action.component';
 import { AdminOrdersComponent } from './admin-orders/admin-orders.component';
 import { AdminContactsComponent } from './admin-contacts/admin-contacts.component';
+import { AdminSignupComponent } from './admin-signup/admin-signup.component';
+import { AdminSigninComponent } from './admin-signin/admin-signin.component';
 
 
 @NgModule({
@@ -33,6 +35,8 @@ import { AdminContactsComponent } from './admin-contacts/admin-contacts.componen
     AdminActionComponent,
     AdminOrdersComponent,
     AdminContactsComponent,
+    AdminSignupComponent,
+    AdminSigninComponent,
      SafePipe
   ],
   imports: [
