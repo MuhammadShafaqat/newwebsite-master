@@ -34,6 +34,7 @@ export class ShopComponent implements OnInit {
   }
 
 addToCart(product: Product) {
+ 
     const isInCart = this.cart.isInCart(product.id!);
 
   if (isInCart) {

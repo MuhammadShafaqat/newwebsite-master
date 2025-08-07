@@ -33,25 +33,36 @@
   <div class="modal-overlay" *ngIf="previewAction" (click)="closePreview()">
     <div class="modal-content" (click)="$event.stopPropagation()">
       <h2>{{ previewAction.title }}</h2>
-      <p>{{ previewAction.description }}</p>
+     
 
-      <div class="modal-media">
-        <ng-container *ngFor="let item of previewAction.media">
-          <a [href]="'http://localhost:5000' + item" target="_blank">
-            <img
-              *ngIf="isImage(item)"
-              [src]="'http://localhost:5000' + item"
-              alt="Preview Image"
-            />
-            <video
-              *ngIf="isVideo(item)"
-              [src]="'http://localhost:5000' + item"
-              controls
-            ></video>
-          </a>
-        </ng-container>
-      </div>
+     <div class="modal-media-wrapper">
+  <!-- Large selected preview -->
+  <div class="main-media">
+    <img *ngIf="isImage(selectedMedia!)" [src]="'http://localhost:5000' + selectedMedia" />
+    <video *ngIf="isVideo(selectedMedia!)" [src]="'http://localhost:5000' + selectedMedia" controls></video>
+  </div>
 
+  <!-- Thumbnails -->
+  <div class="thumbnail-list">
+    <ng-container *ngFor="let item of previewAction.media">
+      <img
+        *ngIf="isImage(item)"
+        [src]="'http://localhost:5000' + item"
+        [class.selected]="item === selectedMedia"
+        (click)="selectMedia(item)"
+      />
+      <video
+        *ngIf="isVideo(item)"
+        [src]="'http://localhost:5000' + item"
+        [class.selected]="item === selectedMedia"
+        (click)="selectMedia(item)"
+        muted
+      ></video>
+    </ng-container>
+  </div>
+</div>
+
+ <p>{{ previewAction.description }}</p>
       <button class="close-btn" (click)="closePreview()">Close</button>
     </div>
   </div>

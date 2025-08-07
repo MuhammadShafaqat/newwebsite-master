@@ -10,6 +10,7 @@ import { ActionService } from '../services/action.service';
 export class ActionsComponent implements OnInit {
   allActions: Action[] = [];
   previewAction: Action | null = null;
+  selectedMedia: string | null = null;
 
   constructor(private action: ActionService) {}
 
@@ -21,9 +22,14 @@ export class ActionsComponent implements OnInit {
     });
   }
 
-  openPreview(action: Action) {
-    this.previewAction = action;
-  }
+ openPreview(action: Action) {
+  this.previewAction = action;
+  this.selectedMedia = action.media?.[0] || null; // Default to the first item
+}
+
+selectMedia(item: string) {
+  this.selectedMedia = item;
+}
 
   closePreview() {
     this.previewAction = null;
