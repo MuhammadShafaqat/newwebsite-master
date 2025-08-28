@@ -1,4 +1,4 @@
-<main>
+<main id="home-anchor">
   <!-- Show only if activeBanner is present -->
 <div class="infoBanner" *ngIf="activeBanner">
   <mat-icon class="info-icon">info</mat-icon>
@@ -12,8 +12,12 @@
   <app-titlescreen></app-titlescreen>
   <app-values id="werte-anchor"></app-values>
   <app-shorts-videoplayer></app-shorts-videoplayer>
+   <app-faq id="faq-anchor"></app-faq>
+   <app-impressum id="impressum-anchor"></app-impressum>
+    <app-contact-form id="contact-form-anchor"></app-contact-form>
   <!-- <app-about></app-about> -->
   <app-todolist></app-todolist>
+ 
   <app-join-and-donate-popup></app-join-and-donate-popup>
   <!--<app-contact-form></app-contact-form>--->
 </main>
