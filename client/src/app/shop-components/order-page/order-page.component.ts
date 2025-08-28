@@ -14,18 +14,19 @@ export class OrderPageComponent implements OnInit {
   customer = {
     name: '',
     email: '',
+    customerIBAN: '',
     address: {
       street: '',
       postalCode: '',
       city: '',
-      country: ''
+      country: '',
+      
     }
   };
 
   cardDetails = {
-    number: '',
-    expiry: '',
-    cvv: ''
+    
+   
   };
 
   constructor(
@@ -58,33 +59,33 @@ checkout() {
     customerName: this.customer.name,
     customerEmail: this.customer.email,
     customerAddress: this.customer.address,
+    customerIBAN: this.customer.customerIBAN,   // ✅ Send IBAN
     paymentMethod: 'vorkasse' as 'vorkasse',
     totalAmount: this.total
   };
 
-  this.orderService.placeOrder(order).subscribe({
-    next: (res: any) => {
-      alert(`
-✅ Order Placed Successfully!
+//   this.orderService.placeOrder(order).subscribe({
+//     next: (res: any) => {
+//       alert(`
+// ✅ Order Placed Successfully!
 
-💵 Please make a bank transfer to:
+// 💵 Please make a bank transfer to:
 
-Bank: HBL
-IBAN: PK00HABB0000000000000000
-Account Title: My Shop
-Amount: PKR ${this.total}
-Reference: ORDER-${res._id}
+// IBAN: PK00HABB0000000000000000
+// Account Title: My Shop
+// Amount: CHF ${this.total}
+// Reference: ORDER-${res._id}
 
-🕒 Once we receive your payment, your order will be confirmed.
-      `);
+// 🕒 Once we receive your payment, your order will be confirmed.
+//       `);
 
-      this.cartService.clearCart();
-    },
-    error: (err) => {
-      console.error(err);
-      alert('❌ Failed to place order. Please try again.');
-    }
-  });
+//       this.cartService.clearCart();
+//     },
+//     error: (err) => {
+//       console.error(err);
+//       alert('❌ Failed to place order. Please try again.');
+//     }
+//   });
 }
 
 }

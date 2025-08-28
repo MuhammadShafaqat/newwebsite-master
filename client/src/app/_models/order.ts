@@ -16,13 +16,10 @@ export interface Order {
   customerName: string;
   customerEmail: string;
   customerAddress: CustomerAddress;
+  customerIBAN: string ,
   paymentMethod: 'vorkasse'
   totalAmount: number;
   status?: 'pending' | 'paid' | 'shipped'; // Optional, default: pending
   createdAt?: string; // Optional ISO timestamp
-  card?: {
-    number: string;
-    expiry: string;
-    cvv: string;
-  };
+
 }

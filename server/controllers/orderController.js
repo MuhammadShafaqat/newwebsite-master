@@ -8,6 +8,7 @@ const createOrder = async (req, res) => {
     customerName,
     customerEmail,
     customerAddress,
+    customerIBAN,   // ✅ Destructure IBAN
     paymentMethod,
     totalAmount
   } = req.body;
@@ -31,6 +32,7 @@ const createOrder = async (req, res) => {
       customerName,
       customerEmail,
       customerAddress,
+      customerIBAN,   // ✅ Destructure IBAN
       paymentMethod,
       totalAmount: total
     });

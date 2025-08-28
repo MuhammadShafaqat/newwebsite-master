@@ -31,7 +31,11 @@ export class CartService {
   updateQuantity(productId: string, quantity: number) {
     const index = this.cart.findIndex(item => item.id === productId);
     if (index > -1) {
+         if (quantity <= 0) {
+      this.cart.splice(index, 1); // remove item completely
+    } else {
       this.cart[index].quantity = quantity;
+    }
       this.saveCart(this.cart);
     }
   }

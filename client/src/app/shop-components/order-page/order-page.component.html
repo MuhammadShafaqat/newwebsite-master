@@ -11,9 +11,8 @@
     <input type="text" placeholder="Country" [(ngModel)]="customer.address.country" name="country" required />
 
     <!-- PAYMENT FIELDS -->
-    <input type="text" placeholder="Card Number" [(ngModel)]="cardDetails.number" name="cardNumber" required maxlength="16" />
-<input type="text" placeholder="Expiry MM/YY" [(ngModel)]="cardDetails.expiry" name="cardExpiry" required />
-<input type="text" placeholder="CVV" [(ngModel)]="cardDetails.cvv" name="cardCVV" required maxlength="4" />
+    <input type="text" placeholder="IBAN" [(ngModel)]="customer.customerIBAN" name="IBAN" required maxlength="16" />
+
 
     <div class="total-display">
       💰 <strong>Total to Pay: CHF {{ total.toFixed(2) }}</strong>

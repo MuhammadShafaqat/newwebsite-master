@@ -43,7 +43,7 @@ export class ProductDetailComponent implements OnInit {
   }
 
   decreaseQty() {
-    if (this.quantity > 1) {
+    if (this.quantity > 0) {
       this.quantity--;
       this.syncCart();
     }
@@ -63,14 +63,22 @@ export class ProductDetailComponent implements OnInit {
     }
   }
 
-  private syncCart() {
-    if (!this.product.id) return;
 
-    const isInCart = this.cart.isInCart(this.product.id);
-    if (isInCart) {
+  private syncCart() {
+  if (!this.product.id) return;
+
+  const isInCart = this.cart.isInCart(this.product.id);
+  if (isInCart) {
+    if (this.quantity > 0) {
       this.cart.updateQuantity(this.product.id, this.quantity);
+    } else {
+      this.cart.removeItem(this.product.id); // auto remove if 0
     }
-    // 👇 Don't re-add in syncCart, only update if already exists
-    // AddToCart button handles adding
+  } else {
+    if (this.quantity > 0) {
+      this.cart.addToCart({ ...this.product, quantity: this.quantity });
+    }
   }
+}
+
 }

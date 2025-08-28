@@ -8,6 +8,7 @@ export interface AdminOrder {
   customerEmail: string;
   customerAddress: any;
   paymentMethod: string;
+  customerIBAN: string;
   totalAmount: number;
   status: 'pending' | 'paid' | 'shipped';
   createdAt: string;

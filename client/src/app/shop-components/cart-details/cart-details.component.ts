@@ -14,7 +14,7 @@ export class CartDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.cartService.cart$.subscribe(items => {
-      this.cartItems = items;
+      this.cartItems = items.filter(i => i.quantity >0);
       this.calculateTotal();
     });
   }
@@ -24,7 +24,7 @@ export class CartDetailsComponent implements OnInit {
   }
 
   decrease(item: CartItem) {
-    if (item.quantity > 1) {
+    if (item.quantity >= 1) {
       this.cartService.updateQuantity(item.id!, item.quantity - 1);
     }
   }
