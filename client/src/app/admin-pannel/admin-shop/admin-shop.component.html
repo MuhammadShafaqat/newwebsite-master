@@ -33,6 +33,7 @@
 
   <label>Size
     <select formControlName="size">
+      <option value="none">None</option>
       <option value="S">S</option>
       <option value="M">M</option>
       <option value="L">L</option>
@@ -43,9 +44,19 @@
     <textarea formControlName="description" rows="3" placeholder="Enter product description"></textarea>
   </label>
 
-  <label>
-    <input type="checkbox" formControlName="isExternal"> External Link
+
+<label>
+  <input type="checkbox" formControlName="isExternal"> External Link
+</label>
+
+<!-- Only show when checkbox is checked -->
+<div *ngIf="productForm.get('isExternal')?.value">
+  <label>External URL
+    <input formControlName="externalUrl" placeholder="https://example.com">
   </label>
+</div>
+
+
 
   <label>Upload Image/Video
     <input type="file" (change)="onFileSelected($event)">

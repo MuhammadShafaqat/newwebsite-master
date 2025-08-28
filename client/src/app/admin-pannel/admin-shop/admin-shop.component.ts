@@ -29,7 +29,7 @@ export class AdminShopComponent implements OnInit {
       externalUrl: [''],
       isActive: [true],
       featured: [false],
-      size: ['M']
+      size: ['none']
     });
   }
 

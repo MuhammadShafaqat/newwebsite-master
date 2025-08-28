@@ -6,15 +6,26 @@
   <div class="product-detail__info">
     <h2>{{ product.name }}</h2>
     <p class="description">{{ product.description }}</p>
-    <p class="price">Price: {{ product.price.toFixed(2) }}</p>
 
-    <div class="quantity-controls">
-      <button (click)="decreaseQty()">−</button>
-      <input type="number" [value]="quantity" readonly />
-      <button (click)="increaseQty()">+</button>
-    </div>
+    <!-- ✅ Show only for NON-external products -->
+    <ng-container *ngIf="!product.isExternal; else externalBlock">
+      <p class="price">Price: {{ product.price.toFixed(2) }}</p>
 
-    <button class="btn primary" (click)="addToCart()">Add to Cart</button>
-    <button class="btn secondary" routerLink="/order">Go to Cart</button>
+      <div class="quantity-controls">
+        <button (click)="decreaseQty()">−</button>
+        <input type="number" [value]="quantity" readonly />
+        <button (click)="increaseQty()">+</button>
+      </div>
+
+      <button class="btn primary" (click)="addToCart()">Add to Cart</button>
+      <button class="btn secondary" routerLink="/order">Go to Cart</button>
+    </ng-container>
+
+    <!-- ✅ External product block -->
+    <ng-template #externalBlock>
+      <a [href]="product.externalUrl" target="_blank" class="btn primary">
+        Zum Artikel
+      </a>
+    </ng-template>
   </div>
 </div>

@@ -19,7 +19,7 @@ const productSchema = new mongoose.Schema({
   externalUrl: { type: String, default: null },     // ✅ Optional
   isActive: { type: Boolean, default: true },
   featured: { type: Boolean, default: false },
-  size: { type: String, enum: ['S', 'M', 'L'], default: 'M' }
+  size: { type: String, enum: ['S', 'M', 'L', 'none'], default: 'none' }
 }, { timestamps: true ,
   toJSON: {
       virtuals: true,
