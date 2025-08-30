@@ -68,6 +68,17 @@ const deleteProduct = async (req, res) => {
   }
 };
 
+const toggleFeatured = async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+    product.isFeatured = !product.isFeatured;
+    await product.save();
+    res.json({ status: product.isActive ? 'enabled' : 'disabled' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 const toggleActive = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
@@ -79,4 +90,4 @@ const toggleActive = async (req, res) => {
   }
 };
 
-module.exports = {createProduct, getAllProducts, updateProduct, deleteProduct, toggleActive, getProductById}
+module.exports = {createProduct, getAllProducts, updateProduct, deleteProduct, toggleActive, toggleFeatured, getProductById}

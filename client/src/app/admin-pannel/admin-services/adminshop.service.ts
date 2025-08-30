@@ -7,6 +7,9 @@ import { Product } from '../../_models/product'; // Adjust the path as needed
   providedIn: 'root'
 })
 export class AdminshopService {
+  toggleActive(id: string) {
+    return this.http.patch(`${this.api}/${id}/toggle`, {});
+  }
   private api = 'http://localhost:5000/api/products';
 
   constructor(private http: HttpClient) {}
@@ -27,7 +30,7 @@ export class AdminshopService {
     return this.http.delete(`${this.api}/${id}`);
   }
 
-  toggleActive(id: string): Observable<any> {
-    return this.http.patch(`${this.api}/${id}/toggle`, {});
+  toggleFeatured(id: string): Observable<any> {
+    return this.http.patch(`${this.api}/${id}/featured`, {});
   }
 }

@@ -24,12 +24,12 @@
     <input type="number" formControlName="stock" placeholder="Enter stock quantity">
   </label>
 
-  <label>Media Type
+  <!-- <label>Media Type
     <select formControlName="mediaType">
       <option value="image">Image</option>
       <option value="video">Video</option>
     </select>
-  </label>
+  </label> -->
 
   <label>Size
     <select formControlName="size">
@@ -44,6 +44,13 @@
     <textarea formControlName="description" rows="3" placeholder="Enter product description"></textarea>
   </label>
 
+ <label>Upload Image
+    <input type="file" (change)="onFileSelected($event)">
+  </label>
+
+<label>
+  <input type="checkbox" formControlName="featured"> Featured Product
+</label>
 
 <label>
   <input type="checkbox" formControlName="isExternal"> External Link
@@ -58,9 +65,7 @@
 
 
 
-  <label>Upload Image/Video
-    <input type="file" (change)="onFileSelected($event)">
-  </label>
+ 
 
   <button type="submit">{{ selectedProduct ? 'Update Product' : 'Create Product' }}</button>
 </form>
@@ -75,6 +80,7 @@
       <th>Category</th>
       <th>Price</th>
       <th>Stock</th>
+       <th>Featured</th>
       <th>Status</th>
       <th>Actions</th>
     </tr>
@@ -82,15 +88,20 @@
   <tbody>
     <tr *ngFor="let p of products">
       <td>
-        <img [src]="'http://localhost:5000' + p.mediaUrl" alt="Product Image" class="product-thumb" *ngIf="p.mediaUrl && p.mediaType === 'image'">
-        <mat-icon *ngIf="!p.mediaUrl || p.mediaType !== 'image'">image_not_supported</mat-icon>
+        <img [src]="'http://localhost:5000' + p.mediaUrl" alt="Product Image" class="product-thumb" >
       </td>
       <td>{{ p.name }}</td>
       <td>{{ p.category }}</td>
       <td>{{ p.price }}</td>
       <td>{{ p.stock }}</td>
+<td>
+   <mat-icon [ngStyle]="{ color: p.isFeatured ? '#4caf50' : '#f44336' }" (click)="toggleFeatured(p.id!)" [matTooltip]="p.isFeatured ? 'Deactivate' : 'Activate'">
+            {{ p.isFeatured ? 'toggle_on' : 'toggle_off' }}
+          </mat-icon>
+</td>
+
       <td>
-      
+              
           <mat-icon [ngStyle]="{ color: p.isActive ? '#4caf50' : '#f44336' }" (click)="toggleActive(p.id!)" [matTooltip]="p.isActive ? 'Deactivate' : 'Activate'">
             {{ p.isActive ? 'toggle_on' : 'toggle_off' }}
           </mat-icon>

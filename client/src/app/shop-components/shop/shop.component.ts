@@ -26,7 +26,7 @@ export class ShopComponent implements OnInit {
   }
 
   get featuredProducts() {
-    return this.products.filter((p) => p.featured && p.isActive);
+    return this.products.filter((p) => p.isFeatured && p.isActive);
   }
 
   get regularProducts() {

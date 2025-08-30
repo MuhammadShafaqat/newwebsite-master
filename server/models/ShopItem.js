@@ -11,14 +11,14 @@ const productSchema = new mongoose.Schema({
   },
   stock: { type: Number, default: 0 },
   orderCount: { type: Number, default: 0 },
-  mediaUrl: { type: String, default: null },       // ✅ Optional
-  mediaType: { type: String, enum: ['image', 'video'], default: 'image' },
+  mediaUrl: { type: String, default: null },       
+// mediaType: { type: String, enum: ['image', 'video'], default: 'image' },
   price: { type: Number, required: true },
   description: { type: String, default: '' },
   isExternal: { type: Boolean, default: false },
   externalUrl: { type: String, default: null },     // ✅ Optional
   isActive: { type: Boolean, default: true },
-  featured: { type: Boolean, default: false },
+  isFeatured: { type: Boolean, default: false },
   size: { type: String, enum: ['S', 'M', 'L', 'none'], default: 'none' }
 }, { timestamps: true ,
   toJSON: {

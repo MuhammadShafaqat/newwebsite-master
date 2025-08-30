@@ -64,8 +64,8 @@ checkout() {
     totalAmount: this.total
   };
 
-//   this.orderService.placeOrder(order).subscribe({
-//     next: (res: any) => {
+  this.orderService.placeOrder(order).subscribe({
+    next: (res: any) => {
 //       alert(`
 // ✅ Order Placed Successfully!
 
@@ -79,13 +79,13 @@ checkout() {
 // 🕒 Once we receive your payment, your order will be confirmed.
 //       `);
 
-//       this.cartService.clearCart();
-//     },
-//     error: (err) => {
-//       console.error(err);
-//       alert('❌ Failed to place order. Please try again.');
-//     }
-//   });
+      this.cartService.clearCart();
+    },
+    error: (err) => {
+      console.error(err);
+      alert('❌ Failed to place order. Please try again.');
+    }
+  });
 }
 
 }

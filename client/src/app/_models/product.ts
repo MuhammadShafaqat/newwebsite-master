@@ -10,6 +10,6 @@ export interface Product {
   isExternal?: boolean;
   externalUrl?: string;
   isActive?: boolean;
-  featured?: boolean;
+  isFeatured?: boolean;
   size?: 'S' | 'M' | 'L';
 }

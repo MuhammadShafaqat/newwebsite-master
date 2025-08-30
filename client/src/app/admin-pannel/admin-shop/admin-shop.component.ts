@@ -28,7 +28,7 @@ export class AdminShopComponent implements OnInit {
       isExternal: [false],
       externalUrl: [''],
       isActive: [true],
-      featured: [false],
+      isFeatured: [false],
       size: ['none']
     });
   }
@@ -58,12 +58,12 @@ export class AdminShopComponent implements OnInit {
     formData.append('price', formValues.price?.toString() || '0');
     formData.append('stock', formValues.stock?.toString() || '0');
     formData.append('description', formValues.description || '');
-    formData.append('mediaType', formValues.mediaType || '');
+    // formData.append('mediaType', formValues.mediaType || '');
     formData.append('size', formValues.size || '');
     formData.append('isExternal', formValues.isExternal ? 'true' : 'false');
     formData.append('externalUrl', formValues.externalUrl || '');
     formData.append('isActive', formValues.isActive ? 'true' : 'false');
-    formData.append('featured', formValues.featured ? 'true' : 'false');
+    formData.append('isFeatured', formValues.isFeatured ? 'true' : 'false');
 
     // 🖼️ Handle file upload or preserve existing image
     if (this.selectedFile) {
@@ -93,6 +93,9 @@ export class AdminShopComponent implements OnInit {
 
   deleteProduct(id: string) {
     this.adminShop.deleteProduct(id).subscribe(() => this.loadProducts());
+  }
+   toggleFeatured(id: string) {
+    this.adminShop.toggleFeatured(id).subscribe(() => this.loadProducts());
   }
 
   toggleActive(id: string) {
