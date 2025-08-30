@@ -1,11 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-faq',
   templateUrl: './faq.component.html',
   styleUrls: ['./faq.component.scss']
 })
-export class FaqComponent {
+export class FaqComponent implements OnInit {
+
+constructor(private router:Router){}
+
+   ngOnInit(): void {
+    // Force smooth scroll to top whenever this component loads
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 0);
+  }
 
 isAnyPanelOpen(): boolean {
   return this.faqs.some(faq => faq.expanded);

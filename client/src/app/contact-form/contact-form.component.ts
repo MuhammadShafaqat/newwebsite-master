@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ContactService } from '../services/contact.service';
 
 @Component({
@@ -6,12 +6,18 @@ import { ContactService } from '../services/contact.service';
   templateUrl: './contact-form.component.html',
   styleUrls: ['./contact-form.component.scss']
 })
-export class ContactFormComponent {
+export class ContactFormComponent implements OnInit {
 name: string = '';
 email: string = '';
 participation: string = 'member'; //by default
 
 constructor(private contact:ContactService){}
+ ngOnInit(): void {
+    // Force smooth scroll to top whenever this component loads
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 0);
+  }
 
 onSubmit(): void{
      if (!this.name || !this.email || !this.participation) {
