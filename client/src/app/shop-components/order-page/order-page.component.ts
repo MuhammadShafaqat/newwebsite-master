@@ -59,7 +59,6 @@ checkout() {
     customerName: this.customer.name,
     customerEmail: this.customer.email,
     customerAddress: this.customer.address,
-    customerIBAN: this.customer.customerIBAN,   // ✅ Send IBAN
     paymentMethod: 'vorkasse' as 'vorkasse',
     totalAmount: this.total
   };

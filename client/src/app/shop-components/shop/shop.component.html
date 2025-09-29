@@ -4,7 +4,7 @@
     <div *ngFor="let product of featuredProducts" class="product-card">
       <a [routerLink]="['/product', product.id]">
       <img [src]="'http://localhost:5000' + product.mediaUrl" [alt]="product.name" />
-      <h3>{{ product.name }}</h3>
+      <h5>{{ product.name }}</h5>
       <p *ngIf="product.price">CHF {{ product.price.toFixed(2) }}</p>
       </a>
       <a *ngIf="product.isExternal" [href]="product.externalUrl" target="_blank" class="btn">Zum Artikel</a>
@@ -18,7 +18,7 @@
     <div *ngFor="let product of regularProducts" class="product-card">
       <a [routerLink]="['/product', product.id]">
       <img [src]="'http://localhost:5000' + product.mediaUrl" [alt]="product.name" />
-      <h3>{{ product.name }}</h3>
+      <h5>{{ product.name }}</h5>
       <p *ngIf="product.price">CHF {{ product.price.toFixed(2) }}</p>
       </a>
       <a *ngIf="product.isExternal" [href]="product.externalUrl" target="_blank" class="btn">External Item</a>

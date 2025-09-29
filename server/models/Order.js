@@ -15,7 +15,6 @@ const orderSchema = new mongoose.Schema({
     city: String,
     country: String
   },
-  customerIBAN: { type: String, required: true }, // ✅ Add this
   paymentMethod: {
     type: String,
     enum: ['vorkasse'], // Only vorkasse

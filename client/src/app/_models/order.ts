@@ -16,7 +16,7 @@ export interface Order {
   customerName: string;
   customerEmail: string;
   customerAddress: CustomerAddress;
-  customerIBAN: string ,
+  customerIBAN?: string ,
   paymentMethod: 'vorkasse'
   totalAmount: number;
   status?: 'pending' | 'paid' | 'shipped'; // Optional, default: pending
