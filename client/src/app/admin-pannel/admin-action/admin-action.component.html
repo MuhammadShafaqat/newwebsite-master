@@ -14,7 +14,13 @@
 
     <!-- Media Upload -->
     <label>Media (Images or Videos)
-      <input type="file" multiple (change)="onMediaSelected($event)" />
+      <input
+  type="file"
+  multiple
+  accept="image/*,video/*"
+  (change)="onMediaSelected($event)"
+/>
+
     </label>
 
     <!-- Preview -->

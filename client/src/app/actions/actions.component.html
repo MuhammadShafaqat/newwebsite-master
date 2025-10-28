@@ -16,9 +16,6 @@
         <video
           *ngIf="isVideo(action.media[0])"
           [src]="'http://localhost:5000' + action.media[0]"
-          muted
-          controls          
-          loop
         ></video>
       </ng-container>
 
@@ -56,8 +53,9 @@
         [src]="'http://localhost:5000' + item"
         [class.selected]="item === selectedMedia"
         (click)="selectMedia(item)"
+        preload="metadata"
         muted
-      ></video>
+        ></video>
     </ng-container>
   </div>
 </div>
