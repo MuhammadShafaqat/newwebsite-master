@@ -1,9 +1,6 @@
-import { Component,  ElementRef,  OnInit,  ViewChild,  AfterViewInit} from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
+// src/app/admin-articles/admin-articles.component.ts
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { ArticlesService } from '../admin-services/articles.service';
 
 @Component({
@@ -11,161 +8,150 @@ import { ArticlesService } from '../admin-services/articles.service';
   templateUrl: './admin-articles.component.html',
   styleUrls: ['./admin-articles.component.scss']
 })
-export class AdminArticlesComponent implements OnInit, AfterViewInit {
+export class AdminArticlesComponent implements OnInit {
   articleForm: FormGroup;
-  selectedFiles: File[] = [];
+  filesMap: Map<number, File> = new Map(); // map blockIndex -> File
+  filePreviews: Map<number, string> = new Map(); // blockIndex -> dataURL
   articles: any[] = [];
   editingArticleId: string | null = null;
 
-  selectedLanguage: string = 'en'; // default language
-
-  @ViewChild('bodyTextarea') bodyTextareaRef!: ElementRef<HTMLTextAreaElement>;
-
-  constructor(private fb: FormBuilder, private article: ArticlesService) {
+  constructor(private fb: FormBuilder, public svc: ArticlesService) {
     this.articleForm = this.fb.group({
-      title: [''],
-      body: [''],
-      author: [''] // default author name
+      title: ['', Validators.required],
+      author: [''],
+      blocks: this.fb.array([], Validators.required)
     });
   }
 
-  ngOnInit(): void {
-    this.loadArticles();
+  ngOnInit() { this.loadArticles(); }
+
+  // Helpers
+  get blocks(): FormArray { return this.articleForm.get('blocks') as FormArray; }
+
+  loadArticles() {
+    this.svc.getArticles().subscribe(res => this.articles = res, err => console.error(err));
   }
 
-  ngAfterViewInit(): void {
-    setTimeout(() => this.autoGrowTextarea(), 100);
-  }
-
-  loadArticles(): void {
-    this.article.getArticles().subscribe({
-      next: (res) => this.articles = res,
-      error: (err) => console.error('Load error:', err)
-    });
-  }
-
-onFileSelected(event: any): void {
-  const files = event.target.files;
-  this.selectedFiles = [];
-
-  if (files && files.length) {
-    for (let i = 0; i < files.length; i++) {
-      this.selectedFiles.push(files[i]);
-    }
-  }
+  deleteArticle(id: string) {
+  this.svc.deleteArticle(id).subscribe(() => {
+    this.loadArticles();     // reload article list
+  });
 }
 
+  // Add text block
+  addTextBlock(text = '') {
+    const fg = this.fb.group({
+      type: ['text'],
+      value: [text, Validators.required],
+      url: ['']
+    });
+    this.blocks.push(fg);
+  }
 
-  onSubmit(): void {
+  // Add image block (placeholder)
+  addImageBlock() {
+    const fg = this.fb.group({
+      type: ['image'],
+      value: [''],
+      url: [''] // server will fill url after upload
+    });
+    this.blocks.push(fg);
+  }
+
+  removeBlock(index: number) {
+    this.blocks.removeAt(index);
+    this.filesMap.delete(index);
+    this.filePreviews.delete(index);
+    // shift keys in maps down by one to keep alignment
+    const newFiles = new Map<number, File>();
+    const newPreviews = new Map<number, string>();
+    Array.from(this.filesMap.keys()).sort((a,b)=>a-b).forEach(k => {
+      const newIndex = k > index ? k - 1 : k;
+      if (this.filesMap.get(k)) newFiles.set(newIndex, this.filesMap.get(k)!);
+      if (this.filePreviews.get(k)) newPreviews.set(newIndex, this.filePreviews.get(k)!);
+    });
+    this.filesMap = newFiles;
+    this.filePreviews = newPreviews;
+  }
+
+  onFileSelected(e: Event, blockIndex: number) {
+    const input = e.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0) return;
+    const file = input.files[0];
+    this.filesMap.set(blockIndex, file);
+
+    // preview
+    const reader = new FileReader();
+    reader.onload = () => this.filePreviews.set(blockIndex, reader.result as string);
+    reader.readAsDataURL(file);
+  }
+
+  editArticle(article: any) {
+    this.editingArticleId = article.id;
+    this.articleForm.patchValue({ title: article.title, author: article.author || '' });
+    // reset blocks
+    while (this.blocks.length) this.blocks.removeAt(0);
+    this.filesMap.clear();
+    this.filePreviews.clear();
+
+    article.body.forEach((b: any) => {
+      const fg = this.fb.group({ type: [b.type], value: [b.value || ''], url: [b.url || ''] });
+      this.blocks.push(fg);
+      // For image blocks that already have a url, we won't have a file in filesMap.
+      if (b.type === 'image' && b.url) {
+        this.filePreviews.set(this.blocks.length - 1, `http://localhost:5000${b.url}`);
+      }
+    });
+  }
+
+  cancelEdit() {
+    this.editingArticleId = null;
+    this.articleForm.reset();
+    while (this.blocks.length) this.blocks.removeAt(0);
+    this.filesMap.clear();
+    this.filePreviews.clear();
+  }
+
+  submit() {
+    if (this.articleForm.invalid) { alert('Please fill title and text blocks.'); return; }
+
+    const payloadBlocks = this.blocks.controls.map((ctrl, idx) => {
+      const val = ctrl.value;
+      // For image blocks with a selected File, set url to empty string (server will fill).
+      if (val.type === 'image') {
+        return { type: 'image', url: val.url || '' };
+      }
+      return { type: 'text', value: val.value };
+    });
+
     const formData = new FormData();
     formData.append('title', this.articleForm.get('title')?.value);
-    formData.append('body', this.articleForm.get('body')?.value);
-    formData.append('author', this.articleForm.get('author')?.value);
-  this.selectedFiles.forEach((file, index) => {
-    formData.append('images', file); // 'images' should match backend field name
-  });
+    formData.append('author', this.articleForm.get('author')?.value || '');
+    formData.append('body', JSON.stringify(payloadBlocks));
 
-    if (this.editingArticleId) {
-      this.article.updateArticle(this.editingArticleId, formData).subscribe({
-        next: () => {
-          alert('Article updated!');
-          this.resetForm();
-        },
-        error: (err) => console.error('Update error:', err)
-      });
-    } else {
-      this.article.createArticle(formData).subscribe({
-        next: () => {
-          alert('Article created!');
-          this.resetForm();
-        },
-        error: (err) => console.error('Create error:', err)
-      });
-    }
-  }
-
-  onEdit(article: any): void {
-    this.editingArticleId = article.id;
-    this.articleForm.patchValue({
-      title: article.title,
-      body: article.body,
-      author: article.author || 'Redaktion der BKP'
+    // Append files in order of block indexes (server will map in-order to empty image blocks)
+    Array.from(this.filesMap.keys()).sort((a,b)=>a-b).forEach(idx => {
+      const f = this.filesMap.get(idx);
+      if (f) formData.append('images', f);
     });
 
-    setTimeout(() => this.autoGrowTextarea(), 50);
+    const obs = this.editingArticleId
+      ? this.svc.updateArticle(this.editingArticleId, formData)
+      : this.svc.createArticle(formData);
+
+    obs.subscribe({
+      next: () => { alert('Saved'); this.cancelEdit(); this.loadArticles(); },
+      error: err => {
+        console.error(err);
+        alert('Save failed');
+      }
+    });
   }
 
-  onDelete(id: string): void {
-    if (confirm('Are you sure you want to delete this article?')) {
-      this.article.deleteArticle(id).subscribe(() => {
-        this.articles = this.articles.filter((a) => a.id !== id);
-      });
-    }
+  // Utility to create initial demo block quickly
+  addSample() {
+    this.addTextBlock('First paragraph...');
+    this.addImageBlock();
+    this.addTextBlock('Second paragraph...');
   }
-
-  cancelEdit(): void {
-    this.resetForm();
-  }
-
-  resetForm(): void {
-    this.articleForm.reset();
-    this.selectedFiles = [];
-    this.editingArticleId = null;
-    this.resetTextareaHeight();
-    this.loadArticles();
-  }
-
-  getCurrentArticle(): any {
-    return this.articles.find((a) => a.id === this.editingArticleId);
-  }
-
-  autoGrow(event: Event): void {
-    const textarea = event.target as HTMLTextAreaElement;
-    textarea.style.height = 'auto';
-    textarea.style.height = textarea.scrollHeight + 'px';
-  }
-
-  autoGrowTextarea(): void {
-    if (this.bodyTextareaRef) {
-      const textarea = this.bodyTextareaRef.nativeElement;
-      textarea.style.height = 'auto';
-      textarea.style.height = textarea.scrollHeight + 'px';
-    }
-  }
-
-  resetTextareaHeight(): void {
-    if (this.bodyTextareaRef) {
-      const textarea = this.bodyTextareaRef.nativeElement;
-      textarea.style.height = '120px';
-    }
-  }
-
-  getDirection(language: string): 'rtl' | 'ltr' {
-    const rtlLanguages = ['ar', 'ur'];
-    return rtlLanguages.includes(language) ? 'rtl' : 'ltr';
-  }
-
-convertToParagraphs(text: string): string {
-  if (!text) return '';
-
-  // Escape basic HTML entities
-  const escaped = text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
-
-  // Detect and convert URLs to anchor tags
-  const urlRegex = /((https?:\/\/|www\.)[^\s<]+)/g;
-  const linkedText = escaped.replace(urlRegex, (match) => {
-    const href = match.startsWith('http') ? match : `https://${match}`;
-    return `<a href="${href}" target="_blank" rel="noopener noreferrer">${match}</a>`;
-  });
-
-  // Convert double line breaks into paragraphs, single line breaks into <br>
-  const paragraphs = linkedText.split(/\n{2,}/g);
-  return paragraphs
-    .map(p => `<p>${p.trim().replace(/\n/g, '<br>')}</p>`)
-    .join('');
-}
-
 }

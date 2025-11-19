@@ -11,78 +11,65 @@ import { MatIconModule } from '@angular/material/icon';
   standalone: true,
   imports: [FormsModule, CommonModule, MatIconModule],
   templateUrl: './article-list.component.html',
-  styleUrl: './article-list.component.scss'
+  styleUrls: ['./article-list.component.scss'] // ✅ fixed
 })
-export class ArticleListComponent implements OnInit{
-
-    searchTerm = '';
+export class ArticleListComponent implements OnInit {
+  searchTerm = '';
   articles: Article[] = [];
 
-  constructor(private articleService: ArticlesService, private router: Router) {  }
+  constructor(private articleService: ArticlesService, private router: Router) {}
 
   ngOnInit(): void {
-  this.articleService.getArticles().subscribe({
-    next: (data) => this.articles = data,
-    error: (err) => console.error('Error fetching articles:', err)
-  });
-}
+    this.articleService.getArticles().subscribe({
+      next: (data) => this.articles = data,
+      error: (err) => console.error('Error fetching articles:', err)
+    });
+  }
 
   get filteredArticles(): Article[] {
+    const term = this.searchTerm.toLowerCase();
     return this.articles.filter(article =>
-      article.title.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      article.body.toLowerCase().includes(this.searchTerm.toLowerCase())
+      article.title.toLowerCase().includes(term) ||
+      article.body.some(block =>
+        block.type === 'text' &&
+        block.value &&
+        block.value.toLowerCase().includes(term)
+      )
     );
   }
 
-openArticle(id: string) {
-  if (typeof id === 'string') {
-    this.router.navigate(['/article', id]);
-  } else {
-    console.error('Invalid article ID in openArticle()', id);
+  openArticle(id: string) {
+    if (typeof id === 'string') {
+      this.router.navigate(['/article', id]);
+    } else {
+      console.error('Invalid article ID in openArticle()', id);
+    }
   }
-}
 
 
-convertToParagraphs(text: string): string {
-  if (!text) return '';
-
-  // Escape basic HTML entities
-  const escaped = text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
-
-  // Detect and convert URLs to anchor tags
-  const urlRegex = /((https?:\/\/|www\.)[^\s<]+)/g;
-  const linkedText = escaped.replace(urlRegex, (match) => {
-    const href = match.startsWith('http') ? match : `https://${match}`;
-    return `<a href="${href}" target="_blank" rel="noopener noreferrer">${match}</a>`;
-  });
-
-  // Convert double line breaks into paragraphs, single line breaks into <br>
-  const paragraphs = linkedText.split(/\n{2,}/g);
-  return paragraphs
-    .map(p => `<p>${p.trim().replace(/\n/g, '<br>')}</p>`)
-    .join('');
+  getFirstImage(article: Article): string | undefined {
+  const imageBlock = article.body.find(block => block.type === 'image' && block.url);
+  return imageBlock?.url;
 }
 
 
 
+  convertToParagraphs(text?: string): string {
+    if (!text) return '';
+    const escaped = text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
 
-// convertToParagraphs(text: string): string {
-//   if (!text) return '';
+    const urlRegex = /((https?:\/\/|www\.)[^\s<]+)/g;
+    const linkedText = escaped.replace(urlRegex, match => {
+      const href = match.startsWith('http') ? match : `https://${match}`;
+      return `<a href="${href}" target="_blank" rel="noopener noreferrer">${match}</a>`;
+    });
 
-//   const escaped = text
-//     .replace(/&/g, '&amp;')
-//     .replace(/</g, '&lt;')
-//     .replace(/>/g, '&gt;');
-
-//   const paragraphs = escaped.split(/\n{2,}/g); // double line breaks → paragraphs
-
-//   return paragraphs
-//     .map(para => `<p>${para.trim().replace(/\n/g, '<br>')}</p>`)
-//     .join('');
-// }
-
-
+    return linkedText
+      .split(/\n{2,}/g)
+      .map(p => `<p>${p.trim().replace(/\n/g, '<br>')}</p>`)
+      .join('');
+  }
 }

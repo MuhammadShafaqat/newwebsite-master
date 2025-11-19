@@ -8,12 +8,29 @@
       <p class="author"><mat-icon>person</mat-icon> {{ article.author }}</p>
 
       <!-- First 3 visible lines -->
-      <div class="body" [innerHTML]="convertToParagraphs(article.body)"></div>
+     
+
+<div class="body">
+  <ng-container *ngFor="let block of article.body">
+
+    <img 
+      *ngIf="block.type === 'image'"
+      [src]="'http://localhost:5000' + block.url"
+      style="width:70%; height: 500px; margin: 1rem 0; border-radius:8px;"
+    />
+
+    <p *ngIf="block.type === 'text'" 
+       [innerHTML]="convertToParagraphs(block.value)">
+    </p>
+
+  </ng-container>
+</div>
+
     </div>
 
-    <div class="image-container">
+    <!-- <div class="image-container">
       <img *ngFor="let img of article.imageUrls" class="mt-2"
       [src]="'http://localhost:5000' + img" alt="Article image" />
-    </div>
+    </div> -->
   </div>
 </div>

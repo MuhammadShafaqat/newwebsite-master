@@ -1,99 +1,78 @@
-<p class="fs-4 fs-md-3 fs-lg-2">📝 Manage Articles</p>
+<!-- admin-articles.component.html -->
+<div class="admin-page">
+  <h2>Manage Articles</h2>
 
+  <form [formGroup]="articleForm" (ngSubmit)="submit()" class="article-form" novalidate>
+    <div class="row">
+      <label>Title</label>
+      <input formControlName="title" required />
+    </div>
 
-<form [formGroup]="articleForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data" class="article-form">
-  <div class="form-group">
-    <label for="title">Title</label>
-    <input id="title" formControlName="title" type="text" placeholder="Enter article title" required />
-  </div>
+    <div class="row">
+      <label>Author</label>
+      <input formControlName="author" />
+    </div>
 
-  <div class="form-group">
-    <label for="body">Body</label>
-    <textarea
-  id="body"
-  formControlName="body"
-  rows="5"
-  placeholder="Enter article content"
-  required
-  (input)="autoGrow($event)"
-  #bodyTextarea
-></textarea>
+    <div class="blocks">
+      <div class="block-controls">
+        <button type="button" (click)="addTextBlock()">+ Text</button>
+        <button type="button" (click)="addImageBlock()">+ Image</button>
+        <button type="button" (click)="addSample()">Sample</button>
+      </div>
 
-  </div>
+      <div formArrayName="blocks" class="block-list">
+        <div *ngFor="let block of blocks.controls; let i = index" [formGroupName]="i" class="block">
+          <div *ngIf="block.get('type')?.value === 'text'">
+            <label>Text</label>
+            <textarea formControlName="value" placeholder="Paragraph text"></textarea>
+          </div>
 
-   <!-- ✅ Show current image when editing -->
-  <div *ngIf="editingArticleId && articleForm.value.title" class="form-group">
-    <p><strong>Current Image:</strong></p>
-    <img [src]="'http://localhost:5000' + getCurrentArticle()?.imageUrl" width="200" />
-  </div>
+          <div *ngIf="block.get('type')?.value === 'image'">
+            <label>Image</label>
+            <div class="image-input">
+              <input type="file" accept="image/*" (change)="onFileSelected($event, i)" />
+              <div class="preview" *ngIf="filePreviews.get(i)">
+                <img [src]="filePreviews.get(i)" alt="preview" />
+              </div>
+              <div class="preview" *ngIf="!filePreviews.get(i) && block.get('url')?.value">
+                <img [src]="'http://localhost:5000' + block.get('url')?.value" alt="current" />
+              </div>
+            </div>
+          </div>
 
-<div class="form-group">
-  <label for="author">Author Name</label>
-  <input
-    id="author"
-    formControlName="author"
-    type="text"
-    placeholder="Enter author name"
-  />
+          <div class="block-actions">
+            <button type="button" (click)="removeBlock(i)">Remove</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit"  class="btn-primary"  >{{ editingArticleId ? 'Update' : 'Create' }} Article</button>
+      <button type="button" class="btn-secondary"  (click)="cancelEdit()" *ngIf="editingArticleId">Cancel</button>
+    </div>
+  </form>
+
+  <hr/>
+<h1>Articles List </h1>
+  <div class="article-list">
+    <div *ngFor="let a of articles" class="article-card">
+      <h3>{{ a.title }}</h3>
+      <p><strong>Author:</strong> {{ a.author }}</p>
+      <div class="preview-body">
+        <ng-container *ngFor="let b of a.body">
+          <img *ngIf="b.type === 'image' && b.url" [src]="'http://localhost:5000' + b.url" />
+          <p *ngIf="b.type === 'text'">{{ b.value }}</p>
+
+        </ng-container>
+      </div>
+
+    <div class="card-actions">
+  <button class="btn-edit" (click)="editArticle(a)">Edit</button>
+
+  <button class="btn-danger" (click)="deleteArticle(a.id)">Delete</button>
 </div>
 
-  <div class="form-group">
-    <label for="image">Image</label>
-<input
-  id="image"
-  type="file"
-  multiple
-  accept="image/*"
-  (change)="onFileSelected($event)"
-  [required]="!editingArticleId"
-/>
+    </div>
   </div>
-
-  <div class="form-actions">
-    <button type="submit">
-      <mat-icon class="me-1">save</mat-icon>
-      {{ editingArticleId ? 'Update' : 'Add' }} Article
-    </button>
-    <button type="button" *ngIf="editingArticleId" class="cancel" (click)="cancelEdit()">
-      <mat-icon class="me-1">cancel</mat-icon>
-      Cancel
-    </button>
-  </div>
-</form>
-
-<hr />
-
-
-<!-- admin-articles.component.html -->
-<!-- admin-articles.component.html -->
-<div *ngFor="let article of articles" class="article-card">
-  <div class="article-header">
-    <h3 [matTooltip]="article.title">{{ article.title }}</h3>
-    <div class="article-images">
-  <img
-    *ngFor="let img of article.imageUrls"
-    [src]="'http://localhost:5000' + img"
-    width="75"
-    height="75"
-  />
-</div>
-
-  </div>
-
-  <!-- 👉 Add Author Below the Title -->
-  <p class="article-author">
-    <mat-icon inline>person</mat-icon>
-    <strong>Author:</strong> {{ article.author }}
-  </p>
-
-  <!-- Render body with paragraphs -->
-  <div
-    class="article-body"
-    [innerHTML]="convertToParagraphs(article.body)"
-    [matTooltip]="article.body"
-    matTooltipPosition="above"
-  ></div>
-
-  <mat-icon (click)="onEdit(article)" class="text-success">edit</mat-icon>
-  <mat-icon (click)="onDelete(article.id)" class="text-danger">delete</mat-icon>
 </div>
