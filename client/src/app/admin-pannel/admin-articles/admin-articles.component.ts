@@ -1,14 +1,17 @@
 // src/app/admin-articles/admin-articles.component.ts
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { ArticlesService } from '../admin-services/articles.service';
+
+
 
 @Component({
   selector: 'app-admin-articles',
   templateUrl: './admin-articles.component.html',
   styleUrls: ['./admin-articles.component.scss']
 })
-export class AdminArticlesComponent implements OnInit {
+export class AdminArticlesComponent implements OnInit,  AfterViewInit, AfterViewChecked {
+  @ViewChild('descriptionTextarea') descriptionTextareaRef!: ElementRef<HTMLTextAreaElement>;
   articleForm: FormGroup;
   filesMap: Map<number, File> = new Map(); // map blockIndex -> File
   filePreviews: Map<number, string> = new Map(); // blockIndex -> dataURL
@@ -24,6 +27,14 @@ export class AdminArticlesComponent implements OnInit {
   }
 
   ngOnInit() { this.loadArticles(); }
+
+    ngAfterViewInit(): void {
+    setTimeout(() => this.autoGrowTextarea(), 100);
+  }
+
+  ngAfterViewChecked(): void {
+    this.autoGrowTextarea();
+  }
 
   // Helpers
   get blocks(): FormArray { return this.articleForm.get('blocks') as FormArray; }
@@ -102,6 +113,7 @@ export class AdminArticlesComponent implements OnInit {
         this.filePreviews.set(this.blocks.length - 1, `http://localhost:5000${b.url}`);
       }
     });
+    setTimeout(() => this.autoGrowTextarea(), 50);
   }
 
   cancelEdit() {
@@ -111,6 +123,25 @@ export class AdminArticlesComponent implements OnInit {
     this.filesMap.clear();
     this.filePreviews.clear();
   }
+
+ autoGrow(event: any): void {
+    const textarea = event.target as HTMLTextAreaElement;
+    textarea.style.height = 'auto';
+    textarea.style.height = textarea.scrollHeight + 'px';
+  }
+
+  autoGrowTextarea(): void {
+    if (this.descriptionTextareaRef?.nativeElement) {
+      const textarea = this.descriptionTextareaRef.nativeElement;
+      textarea.style.height = 'auto';
+      textarea.style.height = textarea.scrollHeight + 'px';
+    }
+  }
+
+
+
+
+
 
   submit() {
     if (this.articleForm.invalid) { alert('Please fill title and text blocks.'); return; }

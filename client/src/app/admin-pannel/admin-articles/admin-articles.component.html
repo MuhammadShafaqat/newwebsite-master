@@ -24,7 +24,11 @@
         <div *ngFor="let block of blocks.controls; let i = index" [formGroupName]="i" class="block">
           <div *ngIf="block.get('type')?.value === 'text'">
             <label>Text</label>
-            <textarea formControlName="value" placeholder="Paragraph text"></textarea>
+            <textarea formControlName="value" 
+            placeholder="Paragraph text"
+            (input)="autoGrow($event)"
+            #descriptionTextarea
+            ></textarea>
           </div>
 
           <div *ngIf="block.get('type')?.value === 'image'">
@@ -62,7 +66,7 @@
       <div class="preview-body">
         <ng-container *ngFor="let b of a.body">
           <img *ngIf="b.type === 'image' && b.url" [src]="'http://localhost:5000' + b.url" />
-          <p *ngIf="b.type === 'text'">{{ b.value }}</p>
+          <p *ngIf="b.type === 'text'">{{ b.value | slice: 0:215 }}...</p>
 
         </ng-container>
       </div>

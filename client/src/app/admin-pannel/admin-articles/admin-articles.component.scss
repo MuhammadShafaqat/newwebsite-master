@@ -81,3 +81,21 @@ button {
   margin-top: 0.5rem;
 }
 
+
+textarea {
+    padding: 10px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-top: 0.3rem;
+  width: 100%;
+  outline: none;
+}
+
+textarea{
+   resize: none;
+  overflow: hidden;
+  min-height: 100px;
+  font-size: 1rem;
+  line-height: 1.5;
+}
