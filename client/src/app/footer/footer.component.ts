@@ -11,9 +11,7 @@ export class FooterComponent {
   webseitenTitel: string = 'Büezer und KMU Partei (BKP)';
 
   constructor(private router: Router) {
-
   }
-
   scrollTo(fragment: string) {
     // Navigate to home first if not on home page
     this.router.navigate(['/'], { fragment }).then(() => {
@@ -26,9 +24,6 @@ export class FooterComponent {
       }, 50);
     });
   }
-
-
-  //
 
 
 
