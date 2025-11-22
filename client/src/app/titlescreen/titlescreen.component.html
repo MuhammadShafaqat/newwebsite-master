@@ -9,7 +9,7 @@
         <video
           class="media"
           autoplay
-          muted
+           [muted]="true"
           playsinline
           [src]="item.src"
           (loadedmetadata)="setVideoDuration($event)"

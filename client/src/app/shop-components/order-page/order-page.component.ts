@@ -65,18 +65,18 @@ checkout() {
 
   this.orderService.placeOrder(order).subscribe({
     next: (res: any) => {
-//       alert(`
-// ✅ Order Placed Successfully!
+      alert(`
+✅ Order Placed Successfully!
 
-// 💵 Please make a bank transfer to:
+💵 Please make a bank transfer to:
 
-// IBAN: PK00HABB0000000000000000
-// Account Title: My Shop
-// Amount: CHF ${this.total}
-// Reference: ORDER-${res._id}
+IBAN: PK00HABB0000000000000000
+Account Title: My Shop
+Amount: CHF ${this.total}
+Reference: ORDER-${res._id}
 
-// 🕒 Once we receive your payment, your order will be confirmed.
-//       `);
+🕒 Once we receive your payment, your order will be confirmed.
+      `);
 
       this.cartService.clearCart();
     },
