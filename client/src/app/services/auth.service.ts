@@ -11,7 +11,8 @@ export interface AuthResponse {
   isAdmin: boolean;
   token: string;
   id: string; // ✅ Add this
-  roleLevel: number
+  roleLevel: number,
+  
 }
 
 @Injectable({
@@ -33,6 +34,7 @@ export class AuthService {
  
 getCurrentUser(): Observable<AuthResponse> {
   const token = localStorage.getItem('token');
+  if (!token) throw new Error('No token found');
   return this.http.get<AuthResponse>(`${this.baseUrl}/user`, {
     headers: {
       Authorization: `Bearer ${token}`

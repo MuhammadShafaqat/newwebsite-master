@@ -17,7 +17,7 @@ const eventSchema = new mongoose.Schema(
 
     visibilityLevel: {
       type: Number,
-      enum: [0, 1, 2, 3, 4, 5, 6],
+      enum: [0, 1, 2, 3, 4, 5, 6, 7],
       required: true,
       default: 0,
     },

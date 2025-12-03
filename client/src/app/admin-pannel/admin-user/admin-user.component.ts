@@ -13,15 +13,36 @@ export class AdminUserComponent implements OnInit {
   keyUpdateMessage: string = '';
   keyPreview: string = ''; // ✅ To show current key
 
-  roleOptions = [
-    { label: 'Super Admin', value: 0 },
-    { label: 'Admin', value: 1 },
-    { label: 'Editor', value: 2 },
-    { label: 'Moderator', value: 3 },
-    { label: 'Manager', value: 4 },
-    { label: 'Contributor', value: 5 },
-    { label: 'User', value: 6 }
-  ];
+  // roleOptions = [
+  //   { label: 'Super Admin', value: 0 },
+  //   { label: 'Admin', value: 1 },
+  //   { label: 'Editor', value: 2 },
+  //   { label: 'Moderator', value: 3 },
+  //   { label: 'Manager', value: 4 },
+  //   { label: 'Contributor', value: 5 },
+  //   { label: 'User', value: 6 }
+  // ];
+
+roleOptions = [
+  { label: 'Admin', value: 0 },            // sees all events
+  { label: 'Vorsitzende', value: 1 },             // party leader: sees Vorsitzende + Vorstand events
+  { label: 'Vorstand', value: 2 },                // national leadership: sees only Vorstand events
+  { label: 'Regionalverwaltung', value: 3 },      // regional leadership events
+  { label: 'Lokalverwaltung', value: 4 },         // communal leadership
+  { label: 'Vollmitglied', value: 5 },            // trustworthy members
+  { label: 'Regulaermitglied', value: 6 },        // internal: seen by everyone with account
+  { label: 'Oeffentlich', value: 7 }              // public
+];
+
+
+  locationOptions = [
+  { value: 'ZH', label: 'Zürich' },
+  { value: 'SH', label: 'Schaffhausen' },
+  { value: 'BE', label: 'Bern' },
+  { value: 'LU', label: 'Lucerne' },
+  // add all other branch codes here
+];
+
 
   constructor(private adminuser: AdminuserService) {}
 
@@ -52,15 +73,43 @@ export class AdminUserComponent implements OnInit {
     });
   }
 
-  onRoleChange(event: Event, user: any): void {
-    const selectElement = event.target as HTMLSelectElement;
-    const newRole = Number(selectElement.value);
+onRoleChange(newRole: number, user: any): void {
+  this.adminuser.updateUser(user.id, { roleLevel: Number(newRole) }).subscribe({
+    next: () => this.fetchUsers(),
+    error: (err) => console.error(err)
+  });
+}
 
-    this.adminuser.updateUser(user.id, { roleLevel: newRole }).subscribe({
-      next: () => this.fetchUsers(),
-      error: (err) => console.error(err)
-    });
-  }
+onLocationChange(newLocation: string, user: any): void {
+  this.adminuser.updateUser(user.id, {  userLocation: newLocation }).subscribe({
+    next: () => this.fetchUsers(),
+    error: (err) => console.error(err)
+  });
+}
+
+
+// delete user
+deleteUser(user: any): void {
+  if (!confirm(`Are you sure you want to delete ${user.username}?`)) return;
+
+  this.adminuser.deleteUser(user.id).subscribe({
+    next: () => {
+      alert('User deleted successfully.');
+      this.fetchUsers();
+    },
+    error: (err) => console.error(err)
+  });
+}
+
+  // onRoleChange(event: Event, user: any): void {
+  //   const selectElement = event.target as HTMLSelectElement;
+  //   const newRole = Number(selectElement.value);
+
+  //   this.adminuser.updateUser(user.id, { roleLevel: newRole }).subscribe({
+  //     next: () => this.fetchUsers(),
+  //     error: (err) => console.error(err)
+  //   });
+  // }
 
   submitKey(): void {
     if (!this.registrationKey || this.registrationKey.length !== 4) {

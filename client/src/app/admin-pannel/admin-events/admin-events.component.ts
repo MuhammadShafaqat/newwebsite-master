@@ -24,17 +24,20 @@ export class AdminEventsComponent implements OnInit, AfterViewInit, AfterViewChe
   loading = false;
   selectedFile: File | null = null;
   editingEventId: string | null = null;
-  selectedVisibilityFilter: string = 'all';
+  selectedVisibilityFilter: string = '0';
+
 
   visibilityOptions = [
-    { label: 'Public', value: 0 },
-    { label: 'Internal (Everyone)', value: 1 },
-    { label: 'Regulärmitglied', value: 2 },
-    { label: 'Vollmitglied', value: 3 },
-    { label: 'Lokalverwaltung', value: 4 },
-    { label: 'Regionalverwaltung', value: 5 },
-    { label: 'Vorstand', value: 6 },
-  ];
+      { label: 'Admin', value: 0 },            // sees all events
+  { label: 'Vorsitzende', value: 1 },             // party leader: sees Vorsitzende + Vorstand events
+  { label: 'Vorstand', value: 2 },                // national leadership: sees only Vorstand events
+  { label: 'Regionalverwaltung', value: 3 },      // regional leadership events
+  { label: 'Lokalverwaltung', value: 4 },         // communal leadership
+  { label: 'Vollmitglied', value: 5 },            // trustworthy members
+  { label: 'Regulaermitglied', value: 6 },        // internal: seen by everyone with account
+  { label: 'Oeffentlich', value: 7 }              // public
+
+  ]
 
   repeatOptions = ['none', 'weekly', 'monthly', 'annually'];
 
@@ -78,16 +81,30 @@ export class AdminEventsComponent implements OnInit, AfterViewInit, AfterViewChe
     });
   }
 
-  applyFilter() {
-    if (this.selectedVisibilityFilter === 'all') {
-      this.filteredEvents = [...this.events];
-    } else {
-      const selected = parseInt(this.selectedVisibilityFilter, 10);
-      this.filteredEvents = this.events.filter(
-        (e) => e.visibilityLevel === selected
-      );
-    }
+applyFilter() {
+  const selected = Number(this.selectedVisibilityFilter);
+
+  if (selected === 0) {
+    // Admin sees ALL
+    this.filteredEvents = [...this.events];
+  } else {
+    this.filteredEvents = this.events.filter(
+      e => e.visibilityLevel === selected
+    );
   }
+}
+
+
+  // applyFilter() {
+  //   if (this.selectedVisibilityFilter === 'Admin') {
+  //     this.filteredEvents = [...this.events];
+  //   } else {
+  //     const selected = parseInt(this.selectedVisibilityFilter, 10);
+  //     this.filteredEvents = this.events.filter(
+  //       (e) => e.visibilityLevel === selected
+  //     );
+  //   }
+  // }
 
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];

@@ -6,7 +6,8 @@ const {
   logout,
    getUser,
    getAllUsers,
-   updateUser
+   updateUser,
+   deleteUser
  } = require('../controllers/authController');
  
 const {createOrUpdateKey, getKeyInfo} = require('../controllers/registrationKeyController');
@@ -20,6 +21,8 @@ router.post('/logout', logout);
 router.get('/user', adminMiddleware ,getUser);
 router.get('/users', adminMiddleware, getAllUsers);
 router.patch('/users/:userId', adminMiddleware, updateUser);
+// Delete user
+router.delete('/users/:userId', adminMiddleware, deleteUser); 
 
 // ✅ Registration key route (admin only)
 router.post('/users/registration-key', adminMiddleware , createOrUpdateKey);

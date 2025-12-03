@@ -27,6 +27,16 @@ getAllUsers(): Observable<any[]> {
   });
   }
 
+    /* ✅ delete user */
+  deleteUser(userId: string): Observable<any> {
+    const adminToken = localStorage.getItem('adminToken');
+    return this.http.delete(`${this.apiUrl}/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${adminToken}`
+      }
+    });
+  }
+
    /**
    * Create or update the registration key (4-digit code)
    */

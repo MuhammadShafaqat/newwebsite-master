@@ -5,4 +5,5 @@ export interface User {
   isAdmin: boolean;
   isActive: boolean;
   roleLevel: number;
+  userLocation: string;
 }

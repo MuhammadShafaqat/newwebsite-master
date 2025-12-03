@@ -7,11 +7,13 @@ const userSchema = new mongoose.Schema(
     password: { type: String, required: true, minlength: 6 },
     isActive: { type: Boolean, default: true }, // ✅ User active status
     isAdmin: { type: Boolean, default: false },
+    userLocation: { type: String, default: '' },    
     roleLevel: {
       type: Number,
-      enum: [0, 1, 2, 3, 4, 5, 6], // 0=Public, 1=Internal, ..., 6=Vorstand
+      enum: [0, 1, 2, 3, 4, 5, 6, 7], // 0=Public, 1=Internal, ..., 6=Vorstand
       default: 0,
     },
+
   },
   {
     timestamps: true,

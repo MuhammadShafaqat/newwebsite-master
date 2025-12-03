@@ -17,13 +17,14 @@ export class EventsComponent implements OnInit {
   expandedEventIds = new Set<string>();
 
   visibilityLabels = [
-    'Public',
-    'Internal (Everyone)',
-    'Regulärmitglied',
-    'Vollmitglied',
-    'Lokalverwaltung',
+    'Admin',
+    'Vorsitzende',
+    'Vorstand',
     'Regionalverwaltung',
-    'Vorstand'
+    'Lokalverwaltung',
+    'Vollmitglied',
+    'Regulaermitglied',
+    'Oeffentlich'
   ];
 
   constructor(
