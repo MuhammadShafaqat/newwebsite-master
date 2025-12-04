@@ -39,6 +39,14 @@
         </option>
       </select>
     </label>
+      <label>
+      Event Location:
+      <select formControlName="eventLocation" >
+        <option *ngFor="let location of locationOptions" [value]="location.value">
+          {{ location.label }}
+        </option>
+      </select>
+    </label>
 
     <label class="d-flex align-items-center">
       <input type="checkbox" formControlName="isMandatory" /> Mandatory
@@ -55,13 +63,21 @@
   <div class="events-table" *ngIf="events.length > 0">
   <h3><mat-icon>folder</mat-icon> Existing Events ({{ filteredEvents.length }})</h3>
 
-  <!-- 🔽 Filter dropdown -->
+  <!-- 🔽 Filter dropdown by user Level -->
   <div class="filter-controls">
     <label for="filter">Filter by Visibility Level:</label>
    <select id="filter" name="filter" [(ngModel)]="selectedVisibilityFilter" (change)="applyFilter()">
-      <!-- <option value="0">Admin</option> -->
+     
       <option *ngFor="let option of visibilityOptions" [value]="option.value.toString()">
         {{ option.label }}
+      </option>
+    </select>
+    <!-- Filter by event Location -->
+       <label for="filter">Filter by Event Location:</label>
+   <select id="filter" name="filter" [(ngModel)]="selectedLocationFilter" (change)="applyFilterByLocation()">
+      <!-- <option value="0">Admin</option> -->
+      <option *ngFor="let location of locationOptions" [value]="location.value.toString()">
+        {{ location.label }}
       </option>
     </select>
   </div>
@@ -73,8 +89,9 @@
           <th>Title</th>
           <th>Date</th>
           <th>Attendees</th>
-          <th>Mandatory</th>
+          <!-- <th>Mandatory</th> -->
           <th>Visibility</th>
+          <th>Event Location</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -83,8 +100,9 @@
           <td>{{ event.title }}</td>
           <td>{{ event.eventDate | date: 'longDate' }}</td>
           <td>{{ event.attendees.length || 0 }}</td>
-          <td>{{ event.isMandatory ? 'Yes' : 'No' }}</td>
+          <!-- <td>{{ event.isMandatory ? 'Yes' : 'No' }}</td> -->
           <td>{{ getVisibilityLabel(event.visibilityLevel) }}</td>
+          <td>{{event.eventLocation}}</td>
           <td>
             <mat-icon class="text-primary" (click)="editEvent(event)">edit</mat-icon>
             <mat-icon class="text-danger" (click)="deleteEvent(event.id!)">delete</mat-icon>

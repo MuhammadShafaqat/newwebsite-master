@@ -3,6 +3,27 @@
   margin: auto;
   padding: 1rem;
 }
+.event-dot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 2px 4px;
+  border-radius: 4px;
+  cursor: pointer;
+  background: #e8f0fe;
+
+  .repeat-icon {
+    font-size: 18px;
+    color: #1976d2;
+  }
+
+  .one-time-icon {
+    font-size: 18px;
+    color: #ff9800; // Orange color for one-time events
+  }
+}
+
 
 .calendar-header {
   display: flex;
@@ -10,11 +31,7 @@
   align-items: center;
   margin-bottom: 1rem;
 
-  h3 {
-    margin: 0;
-    font-size: 1.25rem;
-    font-weight: bold;
-  }
+  h3 { margin: 0; font-size: 1.25rem; font-weight: bold; }
 
   button {
     background: none;
@@ -22,11 +39,7 @@
     font-size: 1.5rem;
     cursor: pointer;
     color: #2a5b9e;
-    transition: color 0.2s ease-in-out;
-
-    &:hover {
-      color: #1a3b70;
-    }
+    &:hover { color: #1a3b70; }
   }
 }
 
@@ -35,13 +48,7 @@
   grid-template-columns: repeat(7, 1fr);
   gap: 5px;
 
-  .calendar-day {
-    text-align: center;
-    font-weight: 600;
-    color: #555;
-    font-size: 0.9rem;
-    padding: 0.25rem 0;
-  }
+  .calendar-day { text-align: center; font-weight: 600; color: #555; font-size: 0.9rem; padding: 0.25rem 0; }
 
   .calendar-cell {
     border: 1px solid #ddd;
@@ -52,15 +59,9 @@
     background: #fdfdfd;
     border-radius: 4px;
 
-    &.other-month {
-      background-color: #f1f1f1;
-      color: #aaa;
-    }
+    &.other-month { background-color: #f1f1f1; color: #aaa; }
 
-    .date-label {
-      font-size: 12px;
-      font-weight: 600;
-    }
+    .date-label { font-size: 12px; font-weight: 600; }
 
     .event-dot {
       position: absolute;
@@ -73,29 +74,21 @@
       color: #0a0909;
       cursor: pointer;
       font-weight: 500;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 4px;
 
-      &.desktop-view {
-        display: block;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
+      .repeat-icon { font-size: 18px; color: #1976d2; }
 
-      &.mobile-view {
-        white-space: normal;
-        overflow: visible;
-        text-overflow: initial;
-      }
+      span { font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     }
   }
 }
 
-// Angular Material Tooltip Custom Styling
+/* Tooltip styling */
 ::ng-deep .mat-tooltip.custom-tooltip {
-  background-color: #ffffff !important;
+  background-color: #fff !important;
   color: black !important;
   font-size: 13px;
   border: 1px solid #ccc;
@@ -103,57 +96,14 @@
   padding: 8px 12px;
   border-radius: 6px;
   max-width: 300px !important;
-  white-space: pre-line !important; // Allows line breaks
+  white-space: pre-line !important;
   word-break: break-word;
-
-  &::first-line {
-    font-weight: bold;
-  }
 }
 
-// MOBILE VIEW
+/* Mobile view */
 @media (max-width: 768px) {
-  .calendar-container {
-    padding: 0.2rem;
-  }
-
-  .calendar-grid {
-    display: block;
-
-    .calendar-day {
-      display: none; // Hide week headers
-    }
-
-    .calendar-cell {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid #ddd;
-      margin-bottom: 5px;
-      min-height: 70px;
-      text-align: center;
-      padding: 0.75rem;
-      border-radius: 8px;
-
-      .date-label {
-        font-weight: bold;
-        font-size: 1.1rem;
-        color: #2a5b9e;
-        margin-bottom: 5px;
-      }
-
-      .event-dot {
-        position: static;
-        width: 100%;
-        color: #111;
-        background-color: transparent;
-        font-weight: 500;
-        font-size: 0.95rem;
-        white-space: normal;
-        overflow: visible;
-        text-overflow: initial;
-      }
-    }
-  }
+  .calendar-grid { display: block; }
+  .calendar-day { display: none; }
+  .calendar-cell { display: flex; flex-direction: column; align-items: center; min-height: 70px; padding: 0.75rem; }
+  .event-dot { position: static; white-space: normal; }
 }

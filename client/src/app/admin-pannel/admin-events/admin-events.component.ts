@@ -25,6 +25,7 @@ export class AdminEventsComponent implements OnInit, AfterViewInit, AfterViewChe
   selectedFile: File | null = null;
   editingEventId: string | null = null;
   selectedVisibilityFilter: string = '0';
+  selectedLocationFilter : string = 'BE';
 
 
   visibilityOptions = [
@@ -38,6 +39,13 @@ export class AdminEventsComponent implements OnInit, AfterViewInit, AfterViewChe
   { label: 'Oeffentlich', value: 7 }              // public
 
   ]
+  locationOptions = [
+  { value: 'ZH', label: 'Zürich' },
+  { value: 'SH', label: 'Schaffhausen' },
+  { value: 'BE', label: 'Bern' },
+  { value: 'LU', label: 'Lucerne' },
+  // add all other branch codes here
+];
 
   repeatOptions = ['none', 'weekly', 'bi-weekly', 'monthly', 'annually'];
 
@@ -54,6 +62,8 @@ export class AdminEventsComponent implements OnInit, AfterViewInit, AfterViewChe
       eventDate: ['', Validators.required],
       repeat: ['none'],
       visibilityLevel: [0, Validators.required],
+      eventLocation: [this.locationOptions[0].value, Validators.required]
+
     });
 
     this.getEvents();
@@ -94,6 +104,19 @@ applyFilter() {
   }
 }
 
+applyFilterByLocation() {
+  const selected = this.selectedLocationFilter;
+
+  if (!selected) {
+    this.filteredEvents = [...this.events];
+  } else {
+    this.filteredEvents = this.events.filter(
+      (e) => e.eventLocation === selected
+    );
+  }
+}
+
+
 
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];
@@ -117,6 +140,7 @@ applyFilter() {
     formData.append('eventDate', formValues.eventDate);
     formData.append('repeat', formValues.repeat);
     formData.append('visibilityLevel', formValues.visibilityLevel.toString());
+    formData.append('eventLocation', formValues.eventLocation.toString());
     formData.append('date', formValues.eventDate);
     formData.append('image', this.selectedFile);
 
@@ -140,6 +164,7 @@ applyFilter() {
       eventDate: event.eventDate,
       repeat: event.repeat,
       visibilityLevel: event.visibilityLevel,
+      eventLocation: event.eventLocation 
     });
 
     setTimeout(() => this.autoGrowTextarea(), 50);

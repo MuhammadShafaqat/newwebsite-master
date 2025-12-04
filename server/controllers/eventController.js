@@ -43,7 +43,8 @@ const createEvent = async (req, res) => {
       isMandatory,
       eventDate,
       repeat,
-      visibilityLevel
+      visibilityLevel,
+      eventLocation
     } = req.body;
 
     if (!req.file) {
@@ -59,6 +60,7 @@ const createEvent = async (req, res) => {
       eventDate,
       repeat,
       visibilityLevel,
+      eventLocation,
       image: imageUrl,
       date: eventDate, // for backwards compatibility if needed
     });
@@ -81,6 +83,7 @@ const updateEvent = async (req, res) => {
       isMandatory,
       eventDate,
       repeat,
+      eventLocation,
       visibilityLevel
     } = req.body;
 
@@ -90,6 +93,7 @@ const updateEvent = async (req, res) => {
       isMandatory,
       eventDate,
       repeat,
+      eventLocation,
       visibilityLevel,
       date: eventDate // Optional: keep old compatibility
     };

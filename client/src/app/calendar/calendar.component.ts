@@ -7,20 +7,17 @@ import { Event } from '../_models/event';
   styleUrls: ['./calendar.component.scss']
 })
 export class CalendarComponent implements OnInit, OnChanges {
-
   @Input() events: Event[] = [];
 
   currentMonth = new Date();
   calendarDates: { date: Date; inCurrentMonth: boolean; event?: Event }[] = [];
   weekDays = ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU'];
-
   isMobile = false;
 
   ngOnInit() {
     this.isMobile = window.innerWidth <= 768;
   }
 
-  // 🔥 This ensures calendar updates when events arrive
   ngOnChanges(changes: SimpleChanges) {
     if (changes['events']) {
       this.generateCalendar();
@@ -46,66 +43,52 @@ export class CalendarComponent implements OnInit, OnChanges {
     const year = this.currentMonth.getFullYear();
     const month = this.currentMonth.getMonth();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
-
     const startDate = new Date(year, month, 1);
     const endDate = new Date(year, month, daysInMonth);
 
-    // BUILD CALENDAR CELLS
+    // Build calendar cells
     const calendar: { date: Date; inCurrentMonth: boolean; event?: Event }[] = [];
     for (let day = 1; day <= daysInMonth; day++) {
       calendar.push({ date: new Date(year, month, day), inCurrentMonth: true });
     }
 
-    // STORE REPEATING EVENTS
-    const repeatedDatesMap = new Map<string, Event>();
+    // Map for events on dates
+    const eventDatesMap = new Map<string, Event>();
 
-    for (const event of this.events) {
-      const originalDate = new Date(event.eventDate);
-      let current = new Date(originalDate);
+    this.events.forEach(event => {
+      const eventDate = new Date(event.eventDate);
+      let current = new Date(eventDate);
 
-      // Non-repeating & not in current month → skip
-      if (event.repeat === 'none' && (originalDate < startDate || originalDate > endDate)) {
-        continue;
-      }
+      // Skip non-repeating events outside current month
+      if (event.repeat === 'none' && (eventDate < startDate || eventDate > endDate)) return;
 
+      // Loop to add repeated events
       while (current <= endDate) {
-        const key = current.toDateString();
-
-        if (current >= startDate && current <= endDate) {
-          repeatedDatesMap.set(key, event);
+        if (current >= startDate) {
+          eventDatesMap.set(current.toDateString(), event);
         }
 
-        // Move based on repeat type
-        if (event.repeat === 'weekly') {
-          current.setDate(current.getDate() + 7);
-
-        } else if (event.repeat === 'bi-weekly') {
-          current.setDate(current.getDate() + 14);
-
-        } else if (event.repeat === 'monthly') {
-          current.setMonth(current.getMonth() + 1);
-
-        } else if (event.repeat === 'annually') {
-          current.setFullYear(current.getFullYear() + 1);
-
-        } else {
-          break;
+        switch (event.repeat) {
+          case 'weekly': current.setDate(current.getDate() + 7); break;
+          case 'bi-weekly': current.setDate(current.getDate() + 14); break;
+          case 'monthly': current.setMonth(current.getMonth() + 1); break;
+          case 'annually': current.setFullYear(current.getFullYear() + 1); break;
+          default: break;
         }
-      }
 
-      // Add one-time events
-      if (event.repeat === 'none') {
-        repeatedDatesMap.set(originalDate.toDateString(), event);
+        if (!event.repeat || event.repeat === 'none') break;
       }
-    }
-
-    this.calendarDates = calendar.map(day => {
-      const event = repeatedDatesMap.get(day.date.toDateString());
-      return { ...day, event };
     });
+
+    this.calendarDates = calendar.map(day => ({
+      ...day,
+      event: eventDatesMap.get(day.date.toDateString())
+    }));
   }
 
-  getTooltipText(event: { title: string; description?: string }): string {
-    return `${event.title}\n${event.description || ''}`;
+  getTooltipText(event: Event): string {
+    return `Title: ${event.title}
+Repeat: ${event.repeat || 'One-time'}
+Date: ${new Date(event.eventDate).toDateString()}`;
   }
 }

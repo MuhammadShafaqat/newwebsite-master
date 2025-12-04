@@ -21,6 +21,7 @@ const eventSchema = new mongoose.Schema(
       required: true,
       default: 0,
     },
+  eventLocation: { type: String, default: '' }, 
 
     attendees: [
       {

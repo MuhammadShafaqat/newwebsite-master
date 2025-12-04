@@ -13,6 +13,7 @@ export interface Event {
   date: string;                   // Legacy or optional use
   repeat: 'none' | 'weekly' | 'bi-weekly' | 'monthly' | 'annually';
   visibilityLevel: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
+  eventLocation: string;
   attendees: Attendee[];
   isActive?: boolean;
   createdAt?: string;

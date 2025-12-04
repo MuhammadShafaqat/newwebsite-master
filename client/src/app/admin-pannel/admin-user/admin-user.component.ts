@@ -13,15 +13,7 @@ export class AdminUserComponent implements OnInit {
   keyUpdateMessage: string = '';
   keyPreview: string = ''; // ✅ To show current key
 
-  // roleOptions = [
-  //   { label: 'Super Admin', value: 0 },
-  //   { label: 'Admin', value: 1 },
-  //   { label: 'Editor', value: 2 },
-  //   { label: 'Moderator', value: 3 },
-  //   { label: 'Manager', value: 4 },
-  //   { label: 'Contributor', value: 5 },
-  //   { label: 'User', value: 6 }
-  // ];
+
 
 roleOptions = [
   { label: 'Admin', value: 0 },            // sees all events
@@ -101,15 +93,7 @@ deleteUser(user: any): void {
   });
 }
 
-  // onRoleChange(event: Event, user: any): void {
-  //   const selectElement = event.target as HTMLSelectElement;
-  //   const newRole = Number(selectElement.value);
-
-  //   this.adminuser.updateUser(user.id, { roleLevel: newRole }).subscribe({
-  //     next: () => this.fetchUsers(),
-  //     error: (err) => console.error(err)
-  //   });
-  // }
+ 
 
   submitKey(): void {
     if (!this.registrationKey || this.registrationKey.length !== 4) {
