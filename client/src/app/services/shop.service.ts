@@ -20,6 +20,9 @@ export class ShopService {
   return this.http.get<Product>(`http://localhost:5000/api/products/${id}`);
 }
 
+reduceStock(productId: string, quantity: number) {
+  return this.http.post<Product>(`http://localhost:5000/api/products/${productId}/reduce-stock`, { quantity });
+}
 
 
 }

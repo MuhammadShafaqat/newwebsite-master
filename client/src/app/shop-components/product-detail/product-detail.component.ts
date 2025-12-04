@@ -11,7 +11,7 @@ import { ShopService } from '../../services/shop.service';
 })
 export class ProductDetailComponent implements OnInit {
   product!: Product;
-  quantity = 1;
+  quantity = 0;
 
   constructor(
     private cart: CartService,
@@ -33,7 +33,7 @@ export class ProductDetailComponent implements OnInit {
         // If product already in cart, load its quantity
         const existingItem = this.cart.getCartItems().find(item => item.id === this.product.id);
         if (existingItem) {
-          this.quantity = existingItem.quantity;
+          this.quantity = existingItem.quantity; ;
         }
       },
       error: (err) => console.error('Error loading product:', err),
@@ -75,7 +75,8 @@ addToCart() {
   }
 
   // Adjust quantity if user entered more than allowed
-  const qtyToAdd = Math.min(this.quantity, maxAddable);
+  const qtyToAdd = Math.min(this.quantity > 0 ? this.quantity : 1, maxAddable);
+
 
   this.product.stockWarning = false; // reset warning
 
@@ -86,28 +87,11 @@ addToCart() {
   }
 
   // Sync quantity in UI to actual added quantity
-  this.quantity = qtyToAdd;
+  this.quantity = currentQuantity + qtyToAdd;
 }
 
 
-//  addToCart() {
-//   const existingItem = this.cart.getCartItems().find(item => item.id === this.product.id);
-//   const currentQuantity = existingItem?.quantity || 0;
 
-//   // Check if adding would exceed stock
-//   if (currentQuantity + this.quantity > (this.product.stock || 0)) {
-//     this.product.stockWarning = true; // show warning
-//     return;
-//   }
-
-//   this.product.stockWarning = false; // reset warning
-
-//   if (existingItem) {
-//     this.cart.updateQuantity(this.product.id!, currentQuantity + this.quantity);
-//   } else {
-//     this.cart.addToCart({ ...this.product, quantity: this.quantity });
-//   }
-// }
 
 
   private syncCart() {
