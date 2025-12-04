@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { Event } from '../_models/event';
 
 @Component({
@@ -6,7 +6,8 @@ import { Event } from '../_models/event';
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss']
 })
-export class CalendarComponent implements OnInit {
+export class CalendarComponent implements OnInit, OnChanges {
+
   @Input() events: Event[] = [];
 
   currentMonth = new Date();
@@ -17,14 +18,19 @@ export class CalendarComponent implements OnInit {
 
   ngOnInit() {
     this.isMobile = window.innerWidth <= 768;
-    this.generateCalendar();
+  }
+
+  // 🔥 This ensures calendar updates when events arrive
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['events']) {
+      this.generateCalendar();
+    }
   }
 
   truncateTitle(title: string): string {
     const limit = this.isMobile ? 25 : 12;
     return title.length > limit ? title.slice(0, limit) + '...' : title;
   }
-
 
   prevMonth() {
     this.currentMonth = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth() - 1);
@@ -36,74 +42,70 @@ export class CalendarComponent implements OnInit {
     this.generateCalendar();
   }
 
+  generateCalendar() {
+    const year = this.currentMonth.getFullYear();
+    const month = this.currentMonth.getMonth();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-generateCalendar() {
-  const year = this.currentMonth.getFullYear();
-  const month = this.currentMonth.getMonth();
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const startDate = new Date(year, month, 1);
+    const endDate = new Date(year, month, daysInMonth);
 
-  const startDate = new Date(year, month, 1);
-  const endDate = new Date(year, month, daysInMonth);
+    // BUILD CALENDAR CELLS
+    const calendar: { date: Date; inCurrentMonth: boolean; event?: Event }[] = [];
+    for (let day = 1; day <= daysInMonth; day++) {
+      calendar.push({ date: new Date(year, month, day), inCurrentMonth: true });
+    }
 
-  const calendar: { date: Date; inCurrentMonth: boolean; event?: Event }[] = [];
+    // STORE REPEATING EVENTS
+    const repeatedDatesMap = new Map<string, Event>();
 
-  for (let day = 1; day <= daysInMonth; day++) {
-    const date = new Date(year, month, day);
-    calendar.push({ date, inCurrentMonth: true });
-  }
+    for (const event of this.events) {
+      const originalDate = new Date(event.eventDate);
+      let current = new Date(originalDate);
 
-  const repeatedDatesMap = new Map<string, Event>();
-
-  for (const event of this.events) {
-    const originalDate = new Date(event.eventDate);
-
-    // If event is outside current month and not repeating, skip
-    if (
-      event.repeat === 'none' &&
-      (originalDate < startDate || originalDate > endDate)
-    ) continue;
-
-    let current = new Date(originalDate);
-
-    while (current <= endDate) {
-      const dateStr = current.toDateString();
-
-      if (current >= startDate && current <= endDate) {
-        // ✅ Store for that day
-        repeatedDatesMap.set(dateStr, event);
+      // Non-repeating & not in current month → skip
+      if (event.repeat === 'none' && (originalDate < startDate || originalDate > endDate)) {
+        continue;
       }
 
-      // Move to next occurrence
-      if (event.repeat === 'weekly') {
-        current.setDate(current.getDate() + 7);
-      } else if (event.repeat === 'monthly') {
-        current.setMonth(current.getMonth() + 1);
-      } else if (event.repeat === 'annually') {
-        current.setFullYear(current.getFullYear() + 1);
-      } else {
-        break; // not repeating
+      while (current <= endDate) {
+        const key = current.toDateString();
+
+        if (current >= startDate && current <= endDate) {
+          repeatedDatesMap.set(key, event);
+        }
+
+        // Move based on repeat type
+        if (event.repeat === 'weekly') {
+          current.setDate(current.getDate() + 7);
+
+        } else if (event.repeat === 'bi-weekly') {
+          current.setDate(current.getDate() + 14);
+
+        } else if (event.repeat === 'monthly') {
+          current.setMonth(current.getMonth() + 1);
+
+        } else if (event.repeat === 'annually') {
+          current.setFullYear(current.getFullYear() + 1);
+
+        } else {
+          break;
+        }
+      }
+
+      // Add one-time events
+      if (event.repeat === 'none') {
+        repeatedDatesMap.set(originalDate.toDateString(), event);
       }
     }
 
-    // If it’s not a repeating event, map it to its original date
-    if (event.repeat === 'none') {
-      repeatedDatesMap.set(originalDate.toDateString(), event);
-    }
+    this.calendarDates = calendar.map(day => {
+      const event = repeatedDatesMap.get(day.date.toDateString());
+      return { ...day, event };
+    });
   }
 
-  // Add events to calendar
-  this.calendarDates = calendar.map(day => {
-    const event = repeatedDatesMap.get(day.date.toDateString());
-    return { ...day, event };
-  });
-}
-
-
-
-
-getTooltipText(event: { title: string; description?: string }): string {
-  return `${event.title}\n${event.description || ''}`;
-}
-
-
+  getTooltipText(event: { title: string; description?: string }): string {
+    return `${event.title}\n${event.description || ''}`;
+  }
 }

@@ -39,7 +39,7 @@ export class AdminEventsComponent implements OnInit, AfterViewInit, AfterViewChe
 
   ]
 
-  repeatOptions = ['none', 'weekly', 'monthly', 'annually'];
+  repeatOptions = ['none', 'weekly', 'bi-weekly', 'monthly', 'annually'];
 
   constructor(
     private fb: FormBuilder,
@@ -94,17 +94,6 @@ applyFilter() {
   }
 }
 
-
-  // applyFilter() {
-  //   if (this.selectedVisibilityFilter === 'Admin') {
-  //     this.filteredEvents = [...this.events];
-  //   } else {
-  //     const selected = parseInt(this.selectedVisibilityFilter, 10);
-  //     this.filteredEvents = this.events.filter(
-  //       (e) => e.visibilityLevel === selected
-  //     );
-  //   }
-  // }
 
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];

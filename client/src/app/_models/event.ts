@@ -11,7 +11,7 @@ export interface Event {
   isMandatory: boolean;
   eventDate: string;              // ISO format from backend
   date: string;                   // Legacy or optional use
-  repeat: 'none' | 'weekly' | 'monthly' | 'annually';
+  repeat: 'none' | 'weekly' | 'bi-weekly' | 'monthly' | 'annually';
   visibilityLevel: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
   attendees: Attendee[];
   isActive?: boolean;

@@ -11,7 +11,7 @@ const eventSchema = new mongoose.Schema(
 
     repeat: {
       type: String,
-      enum: ['none', 'weekly', 'monthly', 'annually'],
+      enum: ['none', 'weekly', 'bi-weekly', 'monthly', 'annually'],
       default: 'none',
     },
 
