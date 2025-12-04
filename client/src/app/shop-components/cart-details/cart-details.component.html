@@ -22,6 +22,9 @@
         <span>{{ item.quantity }}</span>
         <button (click)="increase(item)">+</button>
       </div>
+      <div class="stock-warning" *ngIf="item.quantity >= item.stock">
+  Only {{ item.stock }} units available
+</div>
 
       <div>CHF {{ (item.price * item.quantity).toFixed(2) }}</div>
     </div>

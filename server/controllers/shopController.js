@@ -90,21 +90,5 @@ const toggleActive = async (req, res) => {
   }
 };
 
-const reduceStock =  async (req, res) => {
-  const { id } = req.params;
-  const { quantity } = req.body;
 
-  const product = await Product.findById(id);
-  if (!product) return res.status(404).send('Product not found');
-
-  if (product.stock < quantity) {
-    return res.status(400).send('Not enough stock');
-  }
-
-  product.stock -= quantity;
-  await product.save();
-
-  res.send(product);
-}
-
-module.exports = {reduceStock, createProduct, getAllProducts, updateProduct, deleteProduct, toggleActive, toggleFeatured, getProductById}
+module.exports = { createProduct, getAllProducts, updateProduct, deleteProduct, toggleActive, toggleFeatured, getProductById}

@@ -28,17 +28,26 @@ export class CartService {
     this.cartSubject.next([...this.cart]);
   }
 
-  updateQuantity(productId: string, quantity: number) {
-    const index = this.cart.findIndex(item => item.id === productId);
-    if (index > -1) {
-         if (quantity <= 0) {
-      this.cart.splice(index, 1); // remove item completely
-    } else {
-      this.cart[index].quantity = quantity;
-    }
-      this.saveCart(this.cart);
-    }
+  // updateQuantity(productId: string, quantity: number) {
+  //   const index = this.cart.findIndex(item => item.id === productId);
+  //   if (index > -1) {
+  //        if (quantity <= 0) {
+  //     this.cart.splice(index, 1); // remove item completely
+  //   } else {
+  //     this.cart[index].quantity = quantity;
+  //   }
+  //     this.saveCart(this.cart);
+  //   }
+  // }
+  updateQuantity(id: string, qty: number) {
+  const cart = this.getCartItems();
+  const item = cart.find(p => p.id === id);
+  if (item) {
+    item.quantity = qty;
+    this.saveCart(cart);
   }
+}
+
 
   removeItem(id: string) {
     this.cart = this.cart.filter(p => p.id !== id);

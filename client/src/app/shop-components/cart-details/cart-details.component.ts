@@ -14,14 +14,20 @@ export class CartDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.cartService.cart$.subscribe(items => {
-      this.cartItems = items.filter(i => i.quantity >0);
+      this.cartItems = items.filter(i => i.quantity >0).map(i => ({
+    ...i,
+    stock: i.stock ?? 0 // fallback if undefined
+  }));
       this.calculateTotal();
     });
   }
 
-  increase(item: CartItem) {
+increase(item: CartItem) {
+  if (item.quantity < item.stock) {
     this.cartService.updateQuantity(item.id!, item.quantity + 1);
   }
+}
+
 
   decrease(item: CartItem) {
     if (item.quantity >= 1) {

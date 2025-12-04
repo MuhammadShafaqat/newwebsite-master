@@ -51,68 +51,36 @@ export class OrderPageComponent implements OnInit {
 
 
 checkout() {
-  // Step 0: Validate customer details
-  if (
-    !this.customer.name ||
-    !this.customer.email ||
-    !this.customer.address.street ||
-    !this.customer.address.city ||
-    !this.customer.address.postalCode ||
-    !this.customer.address.country
-  ) {
+  if (!this.customer.name || !this.customer.email || !this.customer.address.street ||
+      !this.customer.address.city || !this.customer.address.postalCode ||
+      !this.customer.address.country) {
     alert('❗ Please fill out all customer details before placing your order.');
     return;
   }
 
-  // Step 1: Prepare stock reduction requests (filter invalid IDs)
-  const stockRequests = this.cartItems
-    .filter(item => item.id) 
-    .map(item => this.productService.reduceStock(item.id!, item.quantity));
+  const order: Order = {
+    items: this.cartItems
+      .filter(item => item.id)
+      .map(item => ({ product: item.id!, quantity: item.quantity })),
+    customerName: this.customer.name,
+    customerEmail: this.customer.email,
+    customerAddress: this.customer.address,
+    paymentMethod: 'vorkasse',
+    totalAmount: this.total
+  };
 
-  // Step 2: Reduce stock for all items before placing order
-  forkJoin(stockRequests).subscribe({
-    next: (updatedProducts) => {
-      console.log('Stock reduced successfully:', updatedProducts);
-
-      // Step 3: Place the order after stock update
-      const order: Order = { // <-- Correct type
-        items: this.cartItems
-          .filter(item => item.id) // ensure valid product IDs
-          .map(item => ({
-            product: item.id!, // non-null assertion
-            quantity: item.quantity
-          })),
-        customerName: this.customer.name,
-        customerEmail: this.customer.email,
-        customerAddress: this.customer.address,
-        paymentMethod: 'vorkasse',
-        totalAmount: this.total
-      };
-
-      this.orderService.placeOrder(order).subscribe({
-        next: (res: any) => {
-          alert(`
-✅ Order Placed Successfully!
-💵 Please make a bank transfer to:
-IBAN: PK00HABB0000000000000000
-Amount: CHF ${this.total}
-Reference: ORDER-${res._id}
-          `);
-
-          this.cartService.clearCart();
-        },
-        error: (err) => {
-          console.error('Order failed', err);
-          alert('❌ Failed to place order. Please try again.');
-        }
-      });
+  this.orderService.placeOrder(order).subscribe({
+    next: (res: any) => {
+      alert(`✅ Order placed! Reference: ORDER-${res._id}`);
+      this.cartService.clearCart();
     },
     error: (err) => {
-      console.error('Stock reduction failed', err);
-      alert('❌ Cannot place order: not enough stock or invalid request.');
+      console.error('Order failed', err);
+      alert('❌ Failed to place order.');
     }
   });
 }
+
 
 
 

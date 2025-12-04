@@ -63,32 +63,25 @@ export class ProductDetailComponent implements OnInit {
 addToCart() {
   if (!this.product.id) return;
 
-  const existingItem = this.cart.getCartItems().find(item => item.id === this.product.id);
+  const stock = this.product.stock || 0;
+  const existingItem = this.cart.getCartItems().find(i => i.id === this.product.id);
   const currentQuantity = existingItem?.quantity || 0;
 
-  const maxAddable = (this.product.stock || 0) - currentQuantity;
-
-  if (maxAddable <= 0) {
-    // Cannot add more
-    this.product.stockWarning = true;
+  if (currentQuantity >= stock) {
+    this.product.stockWarning = true; // cannot add more
     return;
   }
 
-  // Adjust quantity if user entered more than allowed
-  const qtyToAdd = Math.min(this.quantity > 0 ? this.quantity : 1, maxAddable);
+  // Always add exactly 1
+  this.cart.addToCart({
+    ...this.product,
+    quantity: 1
+  });
 
-
-  this.product.stockWarning = false; // reset warning
-
-  if (existingItem) {
-    this.cart.updateQuantity(this.product.id!, currentQuantity + qtyToAdd);
-  } else {
-    this.cart.addToCart({ ...this.product, quantity: qtyToAdd });
-  }
-
-  // Sync quantity in UI to actual added quantity
-  this.quantity = currentQuantity + qtyToAdd;
+  this.product.stockWarning = false;
+  this.quantity = currentQuantity + 1;
 }
+
 
 
 
