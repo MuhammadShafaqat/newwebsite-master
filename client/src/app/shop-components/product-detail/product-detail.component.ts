@@ -19,49 +19,95 @@ export class ProductDetailComponent implements OnInit {
     private productService: ShopService
   ) {}
 
-  ngOnInit(): void {
-    const productId = this.route.snapshot.paramMap.get('id');
-    if (productId) {
-      this.productService.getProductById(productId).subscribe({
-        next: (data) => {
-          this.product = data;
+ ngOnInit(): void {
+  const productId = this.route.snapshot.paramMap.get('id');
+  if (productId) {
+    this.productService.getProductById(productId).subscribe({
+      next: (data) => {
+        // Add a custom property to the product
+        this.product = {
+          ...data,
+          stockWarning: false, // new property
+        };
 
-          // ✅ If product already in cart, load its quantity
-          const existingItem = this.cart.getCartItems().find(item => item.id === this.product.id);
-          if (existingItem) {
-            this.quantity = existingItem.quantity;
-          }
-        },
-        error: (err) => console.error('Error loading product:', err),
-      });
-    }
+        // If product already in cart, load its quantity
+        const existingItem = this.cart.getCartItems().find(item => item.id === this.product.id);
+        if (existingItem) {
+          this.quantity = existingItem.quantity;
+        }
+      },
+      error: (err) => console.error('Error loading product:', err),
+    });
   }
+}
 
-  increaseQty() {
+
+ increaseQty() {
+  if (this.quantity < (this.product.stock || 0)) {
     this.quantity++;
     this.syncCart();
+  } else {
+    // Show stock warning if trying to exceed
+    this.product.stockWarning = true;
+  }
+}
+
+ decreaseQty() {
+  if (this.quantity > 0) {
+    this.quantity--;
+    this.product.stockWarning = false; // hide warning when decreasing
+    this.syncCart();
+  }
+}
+
+addToCart() {
+  if (!this.product.id) return;
+
+  const existingItem = this.cart.getCartItems().find(item => item.id === this.product.id);
+  const currentQuantity = existingItem?.quantity || 0;
+
+  const maxAddable = (this.product.stock || 0) - currentQuantity;
+
+  if (maxAddable <= 0) {
+    // Cannot add more
+    this.product.stockWarning = true;
+    return;
   }
 
-  decreaseQty() {
-    if (this.quantity > 0) {
-      this.quantity--;
-      this.syncCart();
-    }
+  // Adjust quantity if user entered more than allowed
+  const qtyToAdd = Math.min(this.quantity, maxAddable);
+
+  this.product.stockWarning = false; // reset warning
+
+  if (existingItem) {
+    this.cart.updateQuantity(this.product.id!, currentQuantity + qtyToAdd);
+  } else {
+    this.cart.addToCart({ ...this.product, quantity: qtyToAdd });
   }
 
-  addToCart() {
-    const existingItem = this.cart.getCartItems().find(item => item.id === this.product.id);
+  // Sync quantity in UI to actual added quantity
+  this.quantity = qtyToAdd;
+}
 
-    if (existingItem) {
-      // ✅ Just increase quantity by 1 if already in cart
-      const newQuantity = existingItem.quantity + 1;
-      this.quantity = newQuantity;
-      this.cart.updateQuantity(this.product.id!, newQuantity);
-    } else {
-      // ✅ Not in cart? Add it
-      this.cart.addToCart({ ...this.product, quantity: this.quantity });
-    }
-  }
+
+//  addToCart() {
+//   const existingItem = this.cart.getCartItems().find(item => item.id === this.product.id);
+//   const currentQuantity = existingItem?.quantity || 0;
+
+//   // Check if adding would exceed stock
+//   if (currentQuantity + this.quantity > (this.product.stock || 0)) {
+//     this.product.stockWarning = true; // show warning
+//     return;
+//   }
+
+//   this.product.stockWarning = false; // reset warning
+
+//   if (existingItem) {
+//     this.cart.updateQuantity(this.product.id!, currentQuantity + this.quantity);
+//   } else {
+//     this.cart.addToCart({ ...this.product, quantity: this.quantity });
+//   }
+// }
 
 
   private syncCart() {

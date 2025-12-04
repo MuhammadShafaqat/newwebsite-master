@@ -49,7 +49,7 @@
 
     p {
       color: #444;
-      margin-bottom: 1rem;
+      margin-bottom: 0.3rem;
     }
 
     .btn {
@@ -69,3 +69,11 @@
     }
   }
 }
+
+.stock-warning {
+  color: red !important;
+  font-size: 12px;
+  margin-top: 1px;
+}
+
+

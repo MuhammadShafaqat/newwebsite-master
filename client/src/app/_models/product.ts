@@ -1,4 +1,5 @@
 export interface Product {
+stockWarning: any;
   id?: string;
   name: string;
   category: string;

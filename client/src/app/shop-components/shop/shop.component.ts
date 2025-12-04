@@ -11,41 +11,47 @@ import { CartService } from '../../services/cart.service';
 export class ShopComponent implements OnInit {
   products: Product[] = [];
 
-  constructor(private product: ShopService, private cart:CartService) {}
+  constructor(private productService: ShopService, private cart: CartService) {}
 
   ngOnInit(): void {
-    this.product.getAllProducts().subscribe({
+    this.productService.getAllProducts().subscribe({
       next: (data) => {
-        this.products = data;
-        console.log('Fetched products:', data);
+        // Initialize stockWarning property for each product
+        this.products = data.map(p => ({
+          ...p,
+          stockWarning: false
+        }));
       },
-      error: (err) => {
-        console.error('Error fetching products:', err);
-      }
+      error: (err) => console.error('Error fetching products:', err)
     });
   }
 
   get featuredProducts() {
-    return this.products.filter((p) => p.isFeatured && p.isActive);
+    return this.products.filter(p => p.isFeatured && p.isActive);
   }
 
   get regularProducts() {
-    return this.products.filter((p) => p.isActive); // includes both featured and non-featured
+    return this.products.filter(p => p.isActive);
   }
 
-addToCart(product: Product) {
- 
-    const isInCart = this.cart.isInCart(product.id!);
+  addToCart(product: Product) {
+    const cartItem = this.cart.getCartItems().find(item => item.id === product.id);
+    const currentQuantity = cartItem?.quantity || 0;
 
-  if (isInCart) {
-    // Get current quantity of the item
-    const existingItem = this.cart.getCartItems().find(item => item.id === product.id);
-    const newQuantity = (existingItem?.quantity || 0) + 1;
-    this.cart.updateQuantity(product.id!, newQuantity);
-  } else {
-    this.cart.addToCart({ ...product, quantity: 1 });
+    // Check if adding would exceed stock
+    if (currentQuantity + 1 > (product.stock || 0)) {
+      product.stockWarning = true; // Show warning
+      return;
+    }
+
+    // Reset warning if addition is allowed
+    product.stockWarning = false;
+
+    // Add to cart or increase quantity
+    if (cartItem) {
+      this.cart.updateQuantity(product.id!, currentQuantity + 1);
+    } else {
+      this.cart.addToCart({ ...product, quantity: 1 });
+    }
   }
-}
-
-
 }
