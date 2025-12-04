@@ -14,6 +14,9 @@ export class EventsService {
   getPublicEvents(): Observable<Event[]> {
     return this.http.get<Event[]>(`${this.baseUrl}/public`);
   }
+   getEvents(): Observable<Event[]> {
+    return this.http.get<Event[]>(`${this.baseUrl}/events`);
+  }
 
   getProtectedEvents(): Observable<Event[]> {
     const token = localStorage.getItem('token');

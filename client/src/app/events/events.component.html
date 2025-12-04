@@ -51,13 +51,13 @@
   </mat-icon>
 
   <!-- ✅ Group icon and count, without 'attending' for admins -->
-  <span class="attendance-text" *ngIf="isAdmin">
+  <span class="attendance-text" *ngIf="roleLevel == 0">
     <mat-icon class="group-icon">group</mat-icon>
     {{ event.attendeesCount || 0 }}
   </span>
 
   <!-- ✅ Group icon and count + "attending" for normal users -->
-  <span class="attendance-text" *ngIf="!isAdmin">
+  <span class="attendance-text" *ngIf="roleLevel != 0">
         attending
   </span>
 

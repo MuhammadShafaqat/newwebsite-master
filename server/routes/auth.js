@@ -18,7 +18,7 @@ const { authMiddleware,  adminMiddleware} = require('../middlewares/authMiddlewa
 router.post('/signup', signup);
 router.post('/signin', signin);
 router.post('/logout', logout);
-router.get('/user', adminMiddleware ,getUser);
+router.get('/user', authMiddleware ,getUser);
 router.get('/users', adminMiddleware, getAllUsers);
 router.patch('/users/:userId', adminMiddleware, updateUser);
 // Delete user

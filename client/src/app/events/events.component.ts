@@ -1,3 +1,4 @@
+import { filter } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { Event } from '../_models/event';
 import { AuthService } from '../services/auth.service';
@@ -13,74 +14,50 @@ export class EventsComponent implements OnInit {
   loading = false;
   userId: string = '';
   isLoggedIn = false;
-  isAdmin: boolean = false;
+  roleLevel !: number;
   expandedEventIds = new Set<string>();
 
-  visibilityLabels = [
-    'Admin',
-    'Vorsitzende',
-    'Vorstand',
-    'Regionalverwaltung',
-    'Lokalverwaltung',
-    'Vollmitglied',
-    'Regulaermitglied',
-    'Oeffentlich'
-  ];
 
   constructor(
     private auth: AuthService,
     private eventService: EventsService
   ) {}
 
-  ngOnInit(): void {
-    this.loading = true;
-    this.auth.getCurrentUser().subscribe((res:any)=>{
-      console.log(res.user.isAdmin)
-      this.isAdmin = res.user.isAdmin;
-    })
-    this.isLoggedIn = this.auth.isLoggedIn();
+ngOnInit(): void {
+  this.loading = true;
+  this.isLoggedIn = this.auth.isLoggedIn();
 
-    if (this.isLoggedIn) {
-      this.auth.getCurrentUser().subscribe({
-        next: (user) => {
-          this.userId = user.id;
-          this.fetchEvents(true);
-        },
-        error: () => {
-          this.fetchEvents(false); // fallback
-        }
-      });
-    } else {
-      this.fetchEvents(false);
-    }
-  }
+  if (this.isLoggedIn) {
+    this.auth.getCurrentUser().subscribe({
+      next: (res:any) => {
+        this.roleLevel = res.user.roleLevel;
+        console.log('role level:', this.roleLevel);
 
-  fetchEvents(useProtected: boolean): void {
-    const fetch$ = useProtected
-      ? this.eventService.getProtectedEvents()
-      : this.eventService.getPublicEvents();
-
-    fetch$.subscribe({
-      next: (events) => {
-        this.events = events.map(event => ({
-          ...event,
-          isAttending: this.isLoggedIn
-            ? event.attendees?.some(a => a.user === this.userId)
-            : false,
-          attendeesCount: event.attendees?.length || 0
-        }));
-        this.loading = false;
+        // Now fetch events after roleLevel is known
+        this.eventService.getEvents().subscribe((events: any[]) => {
+          this.events = events.filter(e => e.visibilityLevel == this.roleLevel);
+          this.loading = false;
+        });
       },
       error: (err) => {
-        console.error('❌ Error fetching events:', err);
-        if (err.status === 401) {
-          this.fetchEvents(false);
-        } else {
+        console.error('Error fetching user:', err);
+        // fallback: fetch only public events
+        this.eventService.getEvents().subscribe((events: any[]) => {
+          this.events = events.filter(e => e.visibilityLevel === 7);
           this.loading = false;
-        }
+        });
       }
     });
+  } else {
+    // Not logged in → only show public events
+    this.eventService.getEvents().subscribe((events: any[]) => {
+      this.events = events.filter(e => e.visibilityLevel === 7);
+      this.loading = false;
+    });
   }
+}
+
+
 
   toggleReadMore(eventId: string): void {
     this.expandedEventIds.has(eventId)
@@ -115,9 +92,7 @@ export class EventsComponent implements OnInit {
     });
   }
 
-  getVisibilityLabel(level: number): string {
-    return this.visibilityLabels[level] ?? 'Unknown';
-  }
+ 
 
 convertToParagraphs(text: string): string {
   if (!text) return '';

@@ -12,29 +12,6 @@ const getPublicEvents = async (req, res) => {
 };
 
 
-
-// Get visible events
-const getProtectedEvents  = async (req, res) => {
-  try {
-    const roleLevel = req.user?.roleLevel ?? 0;
-    const filter = {
-      isActive: true,
-      $or: [
-        { visibilityLevel: 0 }, // public
-        ...(roleLevel > 0 ? [{ visibilityLevel: roleLevel }] : [])
-      ]
-    };
-
-    const events = await Event.find(filter).populate('attendees.user', 'username roleLevel');
-    return res.status(200).json(events);
-  } catch (error) {
-    console.error('Error fetching events:', error);
-    return res.status(500).json({ message: 'Error fetching events' });
-  }
-};
-
-
-
 // Admin-only: Get all events regardless of role
 const getAllEventsForAdmin = async (req, res) => {
   try {
@@ -45,6 +22,17 @@ const getAllEventsForAdmin = async (req, res) => {
     res.status(500).json({ message: 'Failed to fetch all events for admin' });
   }
 };
+// get evetns
+const getEvents = async (req, res) => {
+  try {
+    const events = await Event.find();
+    res.json(events);
+  } catch (err) {
+    console.error('Admin fetch error:', err);
+    res.status(500).json({ message: 'Failed to fetch all events for admin' });
+  }
+};
+
 
 // Create Event
 const createEvent = async (req, res) => {
@@ -167,5 +155,5 @@ const  toggleAttendance = async (req, res) => {
 };
 
 
-module.exports = {getPublicEvents,
-  getProtectedEvents, getAllEventsForAdmin, createEvent, updateEvent, deleteEvent, toggleAttendance}
+module.exports = {getEvents,
+  getPublicEvents,   getAllEventsForAdmin, createEvent, updateEvent, deleteEvent, toggleAttendance}

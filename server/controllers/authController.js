@@ -6,7 +6,7 @@ const argon2 = require('argon2');
 
 
 const signup = async (req, res) => {
-  const { username, password, isAdmin, registrationKey, userLocation } = req.body;
+  const { username, password, registrationKey, userLocation } = req.body;
   try {
 // ✅ Validate registration key
     const keyDoc = await RegistrationKey.findOne();
@@ -30,7 +30,7 @@ const signup = async (req, res) => {
       });
 
     const token = jwt.sign(
-      { id: newUser._id, username: newUser.username, role: newUser.isAdmin ? 'admin' : 'user' },
+      { id: newUser._id, username: newUser.username },
       process.env.JWT_SECRET,
       { expiresIn: '5d' }
     );
@@ -42,7 +42,7 @@ const signup = async (req, res) => {
       maxAge: 86400000, // 1 day
     });
 
-res.status(201).json({ message: 'Signup successful', isAdmin: newUser.isAdmin, userLocation: newUser.userLocation });
+res.status(201).json({ message: 'Signup successful',  userLocation: newUser.userLocation });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Server error' });
@@ -60,7 +60,7 @@ const signin = async (req, res) => {
     if (!valid) return res.status(401).json({ message: 'Invalid credentials' });
 
     const token = jwt.sign(
-      { id: user._id, username: user.username, role: user.isAdmin ? 'admin' : 'user' },
+      { id: user._id, username: user.username },
       process.env.JWT_SECRET,
       { expiresIn: '15d' }
     );
@@ -72,7 +72,7 @@ const signin = async (req, res) => {
       maxAge: 86400000,
     });
 return  res.status(200).json({message: 'Login successful', 
-  isAdmin: user.isAdmin, token, id: user._id,
+  token, id: user._id,
     roleLevel: user.roleLevel, userLocation: user.userLocation,
     username:username  });
 
@@ -138,7 +138,7 @@ const updateUser = async (req, res) => {
   const { userId } = req.params;
   const updates = req.body;
 
-  const forbidden = ['_id', 'createdAt', 'updatedAt', 'password', 'username', 'isAdmin'];
+  const forbidden = ['_id', 'createdAt', 'updatedAt', 'password', 'username' ];
 
   try {
     const user = await User.findById(userId);
