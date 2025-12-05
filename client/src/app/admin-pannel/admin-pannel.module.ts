@@ -19,6 +19,7 @@ import { AdminOrdersComponent } from './admin-orders/admin-orders.component';
 import { AdminContactsComponent } from './admin-contacts/admin-contacts.component';
 import { AdminSignupComponent } from './admin-signup/admin-signup.component';
 import { AdminSigninComponent } from './admin-signin/admin-signin.component';
+import { AdminEmailComponent } from './admin-email/admin-email.component';
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import { AdminSigninComponent } from './admin-signin/admin-signin.component';
     AdminContactsComponent,
     AdminSignupComponent,
     AdminSigninComponent,
+    AdminEmailComponent,
      SafePipe
   ],
   imports: [

@@ -50,15 +50,59 @@
     <h3><i class="fas fa-paper-plane"></i> Send Press Release</h3>
     <p class="subtext">Enter recipient Gmail address to send the press release as PDF.</p>
 
-    <input
+    <!-- <input
       type="email"
       [(ngModel)]="email"
       placeholder="Recipient Gmail"
       required
-    />
+    /> -->
+
+
+<!-- <select multiple [(ngModel)]="selectedRecipients">
+
+  <ng-container *ngFor="let list of lists">
+    <optgroup [label]="list">
+      <ng-container *ngFor="let e of emails">
+        <option *ngIf="e.lists.includes(list)" [value]="e.email">
+          {{ e.name }} — {{ e.email }}
+        </option>
+      </ng-container>
+    </optgroup>
+  </ng-container>
+
+  <optgroup label="Individual Emails">
+    <option *ngFor="let e of emails" [value]="e.email">
+      {{ e.name }} — {{ e.email }}
+    </option>
+  </optgroup>
+</select> -->
+
+<select multiple (change)="onSelectChange($event)">
+  <!-- Lists -->
+  <optgroup label="Lists">
+    <option *ngFor="let list of lists" [value]="'list:' + list">{{ list }}</option>
+  </optgroup>
+
+  <!-- Individual Emails -->
+  <optgroup label="Individual Emails">
+    <ng-container *ngFor="let e of emails">
+      <ng-container *ngIf="!e.lists || e.lists.length === 0">
+        <option [value]="'email:' + e.email">{{ e.name }} ({{ e.email }})</option>
+      </ng-container>
+    </ng-container>
+  </optgroup>
+</select>
+
+
+
+
+
+
 
     <div class="modal-actions">
-      <button (click)="confirmSend()" [disabled]="!email">
+      <!-- <button (click)="confirmSend()" [disabled]="!email"> -->
+        <button (click)="confirmSend()" [disabled]="selectedRecipients.length === 0">
+
         <i class="fas fa-envelope-open-text"></i> Send
       </button>
       <button class="cancel" (click)="cancelSend()">Cancel</button>

@@ -12,6 +12,7 @@ import { AdminUserComponent } from './admin-user/admin-user.component';
 import { AdminActionComponent } from './admin-action/admin-action.component';
 import { AdminOrdersComponent } from './admin-orders/admin-orders.component';
 import { AdminContactsComponent } from './admin-contacts/admin-contacts.component';
+import { AdminEmailComponent } from './admin-email/admin-email.component';
 
 
 const routes: Routes = [
@@ -39,6 +40,7 @@ const routes: Routes = [
       { path: 'admin-action', component: AdminActionComponent },
       { path: 'admin-orders', component: AdminOrdersComponent },
       { path: 'admin-contacts', component: AdminContactsComponent },
+      {path:'admin-emails', component:AdminEmailComponent}
     ]
   }
 ];
