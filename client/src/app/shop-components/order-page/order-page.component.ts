@@ -4,6 +4,7 @@ import { OrderService } from '../../services/order.service';
 import { ShopService } from '../../services/shop.service';
 import { forkJoin } from 'rxjs';
 import { Order, OrderItem } from 'src/app/_models/order';
+import { SweetAlertService } from '../../services/sweet-alert.service';
 
 @Component({
   selector: 'app-order-page',
@@ -35,7 +36,8 @@ export class OrderPageComponent implements OnInit {
   constructor(
     private cartService: CartService,
     private orderService: OrderService,
-    private productService: ShopService
+    private productService: ShopService,
+    private sweetAlert:SweetAlertService
   ) {}
 
   ngOnInit() {
@@ -54,7 +56,7 @@ checkout() {
   if (!this.customer.name || !this.customer.email || !this.customer.address.street ||
       !this.customer.address.city || !this.customer.address.postalCode ||
       !this.customer.address.country) {
-    alert('❗ Please fill out all customer details before placing your order.');
+    this.sweetAlert.warning('Please fill out all customer details before placing your order.');
     return;
   }
 
@@ -71,12 +73,20 @@ checkout() {
 
   this.orderService.placeOrder(order).subscribe({
     next: (res: any) => {
-      alert(`✅ Order placed! Reference: ORDER-${res._id}`);
+      // alert(`✅ Order placed! Reference: ORDER-${res._id}`);
+        // Normal alert
+    this.sweetAlert.success('Order placed successfully!');
+      // ✅ TRACKING ALERT AFTER 20 SECONDS
+        // Start tracking order status
+  this.sweetAlert.startOrderTracking(
+    res._id,
+    this.orderService  // <-- calling endpoint from order.service.ts
+  );
       this.cartService.clearCart();
     },
     error: (err) => {
       console.error('Order failed', err);
-      alert('❌ Failed to place order.');
+      this.sweetAlert.error('Failed to place order.');
     }
   });
 }

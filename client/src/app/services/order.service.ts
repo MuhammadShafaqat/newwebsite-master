@@ -14,4 +14,9 @@ export class OrderService {
   placeOrder(orderData: Order): Observable<Order> {
     return this.http.post<Order>(this.apiUrl, orderData);
   }
+
+  getOrderStatus(orderId: string) {
+  return this.http.get<{ status: string }>(`${this.apiUrl}/${orderId}/status`);
+}
+
 }

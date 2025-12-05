@@ -92,10 +92,22 @@ const markAsShipped = async (req, res) => {
   }
 };
 
+const getOrderStatus = async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
+    if (!order) return res.status(404).json({ error: 'Not found' });
+    res.json({ status: order.status });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+
 module.exports = {
   createOrder,
   getOrders,
   getOrdersByStatus,
   markAsPaid,
-  markAsShipped
+  markAsShipped,
+  getOrderStatus
 };
