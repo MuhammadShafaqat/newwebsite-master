@@ -20,7 +20,7 @@ const getRelease = async (_req, res) => {
 
 const sendReleaseEmail = async (req, res) => {
   try {
-    const { email, pdfBase64 } = req.body;
+    const { email, pdfBase64, imageBase64 } = req.body;
     const press = await PressRelease.findById(req.params.id);
 
     if (!press) return res.status(404).json({ error: 'Press release not found.' });
@@ -52,13 +52,23 @@ const sendReleaseEmail = async (req, res) => {
       subject: `📢 ${press.title}`,
       text: press.content.replace(/<[^>]+>/g, ''), // plain version
       html: press.content, // styled version
-      attachments: [
-        {
-          filename: 'press-release.pdf',
-          path: filePath,
-          contentType: 'application/pdf'
-        }
-      ],
+    attachments: [
+  {
+    filename: 'press-release.pdf',
+    path: filePath,
+    contentType: 'application/pdf'
+  },
+  ...(imageBase64
+    ? [{
+        filename: 'imageAttachment.jpg',
+        content: imageBase64.split(',')[1],  // decode base64
+        encoding: 'base64',
+        contentType: 'image/jpeg'
+      }]
+    : []
+  )
+],
+
     };
 
     // ✅ Send email

@@ -20,7 +20,7 @@ export class AdminpressService {
     return this.http.post<PressRelease>(this.baseUrl, data);
   }
 
-  sendRelease(id: string, payload: { email: string; pdfBase64: string }): Observable<any> {
+  sendRelease(id: string, payload: { email: string; pdfBase64: string;  imageBase64?: string | null  }): Observable<any> {
     return this.http.post(`${this.baseUrl}/send/${id}`, payload);
   }
 }

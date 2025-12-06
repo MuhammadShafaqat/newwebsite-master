@@ -19,6 +19,9 @@ export class AdminPressComponent implements OnInit {
   selectedRecipients: string[] = [];
 emails: any[] = [];
 lists: string[] = [];
+sendImage: File | null = null;
+
+
 
 
   @ViewChild('pdfContent', { static: false }) pdfContent!: ElementRef;
@@ -52,10 +55,7 @@ lists: string[] = [];
     this.pressService.getAllReleases().subscribe(data => this.pressReleases = data);
   }
 
-  // openEmailDialog(release: PressRelease) {
-  //   this.selectedRelease = release;
-  //   this.email = '';
-  // }
+
 
 openEmailDialog(release: PressRelease) {
   this.selectedRelease = release;
@@ -64,17 +64,11 @@ openEmailDialog(release: PressRelease) {
   this.emailService.getLists().subscribe((lists: any) => this.lists = lists);
 }
 
-// selectList(listName: string) {
-//   // Clear previously selected recipients
-//   this.selectedRecipients = [];
 
-//   // Select all emails belonging to that list
-//   const listEmails = this.emails
-//     .filter(e => e.lists?.includes(listName))
-//     .map(e => e.email);
+onSendImageSelected(event: any) {
+  this.sendImage = event.target.files[0];
+}
 
-//   this.selectedRecipients = listEmails;
-// }
 
 onSelectChange(event: Event) {
   const select = event.target as HTMLSelectElement;
@@ -114,6 +108,16 @@ selectList(listName: string) {
   cancelSend() {
     this.selectedRelease = null;
   }
+
+convertImageToBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result!.toString());
+    reader.onerror = error => reject(error);
+  });
+}
+
 
 async confirmSend() {
   if (!this.selectedRelease) return;
@@ -181,6 +185,14 @@ async confirmSend() {
         return;
       }
 
+let imageBase64 = null;
+
+if (this.sendImage) {
+  imageBase64 = await this.convertImageToBase64(this.sendImage);
+}
+
+
+
       console.log('Sending emails to recipients...');
 
       for (const email of this.selectedRecipients) {
@@ -188,6 +200,7 @@ async confirmSend() {
           await this.pressService.sendRelease(release._id!, {
             email,
             pdfBase64: base64,
+            imageBase64: imageBase64,   
           }).toPromise();
           console.log(`✅ Email sent to: ${email}`);
         } catch (err) {
@@ -207,124 +220,6 @@ async confirmSend() {
 }
 
 
-//   async confirmSend() {
-//     if (!this.email || !this.selectedRelease) return;
-
-//     const release = this.selectedRelease;
-
-//     const leftFlag = '../../../assets/logo/starlinelessbiggertransparent.png';
-//     const rightFlag = '../../../assets/logo/starlinelessbiggertransparent.png';
-//     const releaseDate = new Date(release.date).toLocaleDateString('en-US', {
-//       year: 'numeric', month: 'long', day: 'numeric'
-//     });
-
-//     const calendarIconSVG = `
-//       <svg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 0 24 24" width="18" fill="#666" style="margin-right: 6px;">
-//         <path d="M0 0h24v24H0z" fill="none"/>
-//         <path d="M19 4h-1V2h-2v2H8V2H6v2H5
-//                  c-1.1 0-2 .9-2 2v14a2 2 0 002 2h14
-//                  a2 2 0 002-2V6c0-1.1-.9-2-2-2zm0
-//                  16H5V9h14v11zm0-13H5V6h14v1z"/>
-//       </svg>
-//     `;
-
-//  const contentHtml = `
-//   <div style="
-//     max-width: 900px;
-//     margin: auto;
-//     padding: 40px;
-//     font-family: 'Georgia', serif;
-//     background: #ffffff;
-//     border-radius: 12px;
-//     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-//     line-height: 1.8;
-//     color: #222;
-//     text-align: justify;
-//   ">
-//     <div style="
-//       display: flex;
-//       align-items: center;
-//       justify-content: center;
-//       gap: 30px;
-//       margin-bottom: 30px;
-//     ">
-//       <img src="${leftFlag}" style="height: 50px;" crossOrigin="anonymous"/>
-//       <h1 style="
-//         margin: 0;
-//         font-size: 1.5rem;
-//         font-weight: 500;
-//         text-align: center;
-//         color: #2c3e50;
-//       ">${release.title}</h1>
-//       <img src="${rightFlag}" style="height: 50px;" crossOrigin="anonymous"/>
-//     </div>
-
-//     <hr style="border: none; border-top: 2px solid #aaa; margin: 20px 0;" />
-
-//     <div style="font-size: 1rem; margin-bottom: 30px;">
-//       ${release.content}
-//     </div>
-
-//     <div style="
-//       display: flex;
-//       align-items: center;
-//       font-size: 0.95rem;
-//       color: #555;
-//       font-style: italic;
-//       border-left: 4px solid #ccc;
-//       padding-left: 8px;
-//       max-width: 300px;
-//     ">
-//       ${calendarIconSVG}<span>${releaseDate}</span>
-//     </div>
-//   </div>
-// `;
-
-
-//     const container = document.createElement('div');
-//     container.innerHTML = contentHtml;
-//     document.body.appendChild(container);
-
-//     const opt = {
-//       margin: 0,
-//       filename: 'press-release.pdf',
-//       image: { type: 'jpeg', quality: 0.98 },
-//       html2canvas: {
-//         scale: 2,
-//         useCORS: true,
-//         allowTaint: true
-//       },
-//       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-//     };
-
-//     const pdfBlob: Blob = await html2pdf().set(opt).from(container).outputPdf('blob');
-//     document.body.removeChild(container);
-
-//     const reader = new FileReader();
-//     reader.readAsDataURL(pdfBlob);
-
-//     reader.onloadend = async () => {
-//   const base64 = reader.result?.toString().split(',')[1];
-
-//   if (!base64) {
-//     alert('❌ Failed to generate PDF content.');
-//     return;
-//   }
-
-//   // SEND TO MULTIPLE RECIPIENTS
-//   for (const email of this.selectedRecipients) {
-//     await this.pressService.sendRelease(release._id!, {
-//       email,
-//       pdfBase64: base64,
-//     }).toPromise();
-//   }
-
-//   alert('✅ Email sent with PDF.');
-//   this.selectedRelease = null;
-// };
-
-
-//   }
 
 autoGrowTextArea(element: HTMLTextAreaElement) {
   element.style.height = 'auto';

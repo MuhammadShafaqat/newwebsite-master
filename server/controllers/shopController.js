@@ -20,7 +20,7 @@ const createProduct = async (req, res) => {
 const getAllProducts = async (req, res) => {
   const filter = req.query.category ? { category: req.query.category } : {};
   try {
-    const products = await Product.find(filter);
+    const products = await Product.find(filter).sort({ createdAt: -1 }); ;
     res.json(products);
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch products' });
