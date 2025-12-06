@@ -44,6 +44,12 @@
   <span class="cart-badge" >{{ cartCount }}</span>
 </a>
 
+<!-- special member page -->
+ <a *ngIf="userName != null">
+  <a [routerLink]="['/special-member-page']">Member Page</a>
+ </a>
+
+
   <button class="dark-toggle" (click)="toggleDarkMode()"> 🌓
   </button>
 </nav>

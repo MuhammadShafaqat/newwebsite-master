@@ -11,6 +11,7 @@ import { ArticleComponent } from './article/article.component';
 import { SignupComponent } from './auth-components/signup/signup.component';
 import { SigninComponent } from './auth-components/signin/signin.component';
 import { AdminGuard } from './guards/admin.guard';
+import { authGuard } from './guards/auth.guard';
 import { PressComponent } from './press/press.component';
 import { ShopComponent } from './shop-components/shop/shop.component';
 import { ProductDetailComponent } from './shop-components/product-detail/product-detail.component';
@@ -21,6 +22,7 @@ import { ContactFormComponent } from './contact-form/contact-form.component';
 import { ShortsVideoPlayer } from './shorts-videoplayer/shorts-videoplayer.component';
 import { AdminSignupComponent } from './admin-pannel/admin-signup/admin-signup.component';
 import { AdminSigninComponent } from './admin-pannel/admin-signin/admin-signin.component';
+import { SpecialMemberPageComponent } from './special-member-page/special-member-page.component';
 
 
 
@@ -43,6 +45,10 @@ const routes: Routes = [
   { path: 'product/:id', component: ProductDetailComponent },
   { path: 'order', component: OrderPageComponent },
   { path: 'cart-details', component: CartDetailsComponent },
+
+ { path: 'special-member-page', component: SpecialMemberPageComponent,
+  canActivate: [authGuard] 
+  },
 
  // ✅ Public admin routes — no layout, no guard
     { path: 'admin/admin-signup', component: AdminSignupComponent },

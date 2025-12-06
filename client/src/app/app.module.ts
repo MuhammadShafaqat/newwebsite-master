@@ -37,6 +37,7 @@ import { ShopComponent } from './shop-components/shop/shop.component';
 import { OrderPageComponent } from './shop-components/order-page/order-page.component';
 import { ProductDetailComponent } from './shop-components/product-detail/product-detail.component';
 import { CartDetailsComponent } from './shop-components/cart-details/cart-details.component';
+import { SpecialMemberPageComponent } from './special-member-page/special-member-page.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -63,7 +64,8 @@ import { CartDetailsComponent } from './shop-components/cart-details/cart-detail
     PressComponent,
     OrderPageComponent,
     ProductDetailComponent,
-    CartDetailsComponent
+    CartDetailsComponent,
+    SpecialMemberPageComponent
   
   ],
   imports: [

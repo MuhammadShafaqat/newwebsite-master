@@ -5,6 +5,7 @@ import { User } from '../_models/user';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+
 export interface AuthResponse {
   message: string;
   username: string;
@@ -12,6 +13,7 @@ export interface AuthResponse {
   token: string;
   id: string; // ✅ Add this
   roleLevel: number,
+  userLocation: string;
   
 }
 
@@ -32,10 +34,10 @@ export class AuthService {
     return this.http.post<AuthResponse>(`${this.baseUrl}/signin`, data);
   }
  
-getCurrentUser(): Observable<AuthResponse> {
+getCurrentUser(): Observable<User> {
   const token = localStorage.getItem('token');
   if (!token) throw new Error('No token found');
-  return this.http.get<AuthResponse>(`${this.baseUrl}/user`, {
+  return this.http.get<User>(`${this.baseUrl}/user`, {
     headers: {
       Authorization: `Bearer ${token}`
     }

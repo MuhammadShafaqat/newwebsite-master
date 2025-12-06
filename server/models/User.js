@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema(
   {
     username: { type: String, required: true, trim: true },
     password: { type: String, required: true, minlength: 6 },
-    isActive: { type: Boolean, default: true }, // ✅ User active status
+    isActive: { type: Boolean, default: false }, // ✅ User active status
     // isAdmin: { type: Boolean, default: false },
     userLocation: { type: String, default: '' },    
     roleLevel: {
